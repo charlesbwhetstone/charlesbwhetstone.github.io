@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header"></div>
+
+    <main>
+        <h1>My Resume</h1>
+        <p>Welcome to my resume page. Here you can find a summary of my professional experience and education.</p>
+        <h2>Professional Experience</h2>
+        <ul>
+            <li><strong>Job Title 1</strong> - Company Name (Year - Year)</li>
+            <li><strong>Job Title 2</strong> - Company Name (Year - Year)</li>
+            <li><strong>Job Title 3</strong> - Company Name (Year - Year)</li>
+        </ul>
+        
+        <h2>Education</h2>
+        <ul>
+            <li><strong>Degree</strong> - University Name (Year)</li>
+            <li><strong>Degree</strong> - University Name (Year)</li>
+        </ul>
+
+        <h2>Download Resume</h2>
+        <p>You can download my resume in PDF format <a href="../assets/resume.pdf" download>here</a>.</p>
+    </main>
+
+    <!-- Footer Component -->
+    <div id="footer"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load header and footer components
+        fetch('components/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
+
+        fetch('components/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+</body>
+</html>
