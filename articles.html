@@ -1,28 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <header>
-        <!-- Include header component here -->
-    </header>
-    
-    <main>
-        <h1>My Medium Articles</h1>
-        <div id="articles-container">
-            <!-- Articles will be dynamically loaded here -->
-        </div>
-    </main>
-    
-    <footer>
-        <!-- Include footer component here -->
-    </footer>
+---
+permalink: /articles/
+title: "Articles"
+layout: single
+author_profile: true
+---
 
-    <script src="js/rss-feed.js"></script>
-    <script src="js/main.js"></script>
-</body>
-</html>
+# Medium Articles
+
+<div id="medium-feed" class="articles-grid">
+    <!-- RSS feed articles will be loaded here -->
+</div>
+
+<script>
+async function loadMediumArticles() {
+    try {
+        // Replace 'yourusername' with your actual Medium username
+        const rssUrl = 'https://medium.com/feed/@yourusername';
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const data = await response.json();
+        
+        const articlesGrid = document.getElementById('medium-feed');
+        
+        if (!articlesGrid) return;
+        
+        if (data.items && data.items.length > 0) {
+            articlesGrid.innerHTML = data.items.slice(0, 6).map(article => `
+                <div class="article-card" style="margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                    <h3><a href="${article.link}" target="_blank" style="color: #007acc;">${article.title}</a></h3>
+                    <p><strong>Published:</strong> ${new Date(article.pubDate).toLocaleDateString()}</p>
+                    <p>${article.description.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
+                    <a href="${article.link}" target="_blank" style="color: #007acc;">Read More</a>
+                </div>
+            `).join('');
+        } else {
+            articlesGrid.innerHTML = `
+                <div class="article-card">
+                    <h3>Articles Coming Soon</h3>
+                    <p>Medium articles will be displayed here once the RSS feed is configured.</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading Medium articles:', error);
+        const articlesGrid = document.getElementById('medium-feed');
+        if (articlesGrid) {
+            articlesGrid.innerHTML = `
+                <div class="article-card">
+                    <h3>Articles Coming Soon</h3>
+                    <p>Medium articles will be displayed here once the RSS feed is configured.</p>
+                </div>
+            `;
+        }
+    }
+}
+
+// Load articles when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(loadMediumArticles, 1000);
+});
+</script>

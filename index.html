@@ -1,93 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>Your Name</h2>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#resume" class="nav-link">Resume</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#articles" class="nav-link">Articles</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#game" class="nav-link">Game</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+---
+layout: home
+author_profile: true
+header:
+  overlay_color: "#667eea"
+  overlay_filter: "0.5"
+  actions:
+    - label: "View My Work"
+      url: "/projects/"
+excerpt: "Data Scientist & Developer passionate about turning data into insights"
+feature_row:
+  - image_path: /assets/images/projects-thumb.jpg
+    title: "Data Projects"
+    excerpt: "Explore my data science and analytics projects"
+    url: "/projects/"
+    btn_label: "View Projects"
+    btn_class: "btn--primary"
+  - image_path: /assets/images/articles-thumb.jpg
+    title: "Articles"
+    excerpt: "Read my latest thoughts on data science and technology"
+    url: "/articles/"
+    btn_label: "Read Articles"
+    btn_class: "btn--primary"
+  - image_path: /assets/images/resume-thumb.jpg
+    title: "Resume"
+    excerpt: "View my professional background and experience"
+    url: "/resume/"
+    btn_label: "View Resume"
+    btn_class: "btn--primary"
+---
 
-    <main>
-        <section id="home" class="section active">
-            <div class="hero">
-                <h1>Welcome to My Portfolio</h1>
-                <p>Data Scientist & Developer</p>
-                <button class="cta-button">View My Work</button>
-            </div>
-        </section>
-
-        <section id="about" class="section">
-            <div class="container">
-                <h2>About Me</h2>
-                <p>Your bio and background information here...</p>
-            </div>
-        </section>
-
-        <section id="resume" class="section">
-            <div class="container">
-                <h2>Resume</h2>
-                <a href="assets/resume.pdf" target="_blank" class="download-btn">Download PDF</a>
-                <div class="resume-content">
-                    <!-- Embedded resume content or iframe -->
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="section">
-            <div class="container">
-                <h2>Data Projects</h2>
-                <div class="projects-grid">
-                    <!-- Project cards will be populated here -->
-                </div>
-            </div>
-        </section>
-
-        <section id="articles" class="section">
-            <div class="container">
-                <h2>Medium Articles</h2>
-                <div id="medium-feed" class="articles-grid">
-                    <!-- RSS feed articles will be loaded here -->
-                </div>
-            </div>
-        </section>
-
-        <section id="game" class="section">
-            <div class="container">
-                <h2>Arcade Game</h2>
-                <p>Coming Soon: Galaga-style Shooter</p>
-            </div>
-        </section>
-    </main>
-
-    <script src="js/main.js"></script>
-    <script src="js/rss-feed.js"></script>
-</body>
-</html>
+{% include feature_row %}

@@ -1,52 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <!-- Header Component -->
-    <div id="header"></div>
+---
+permalink: /resume/
+title: "Resume"
+layout: single
+author_profile: true
+---
 
-    <main>
-        <h1>My Resume</h1>
-        <p>Welcome to my resume page. Here you can find a summary of my professional experience and education.</p>
-        <h2>Professional Experience</h2>
-        <ul>
-            <li><strong>Job Title 1</strong> - Company Name (Year - Year)</li>
-            <li><strong>Job Title 2</strong> - Company Name (Year - Year)</li>
-            <li><strong>Job Title 3</strong> - Company Name (Year - Year)</li>
-        </ul>
-        
-        <h2>Education</h2>
-        <ul>
-            <li><strong>Degree</strong> - University Name (Year)</li>
-            <li><strong>Degree</strong> - University Name (Year)</li>
-        </ul>
+# Resume
 
-        <h2>Download Resume</h2>
-        <p>You can download my resume in PDF format <a href="../assets/resume.pdf" download>here</a>.</p>
-    </main>
+[Download PDF](/assets/resume.pdf){: .btn .btn--primary}
 
-    <!-- Footer Component -->
-    <div id="footer"></div>
+## Experience
 
-    <script src="js/main.js"></script>
-    <script>
-        // Load header and footer components
-        fetch('components/header.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('header').innerHTML = data;
-            });
+### Data Scientist
+**Your Company** | *2022 - Present*
+- Led data science initiatives and machine learning projects
+- Developed predictive models and analytics solutions
+- Collaborated with cross-functional teams to deliver insights
 
-        fetch('components/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer').innerHTML = data;
-            });
-    </script>
-</body>
-</html>
+### Software Developer
+**Previous Company** | *2020 - 2022*
+- Built and maintained web applications
+- Implemented data pipelines and automation tools
+- Contributed to open source projects
+
+## Education
+
+### Master of Science in Data Science
+**University Name** | *2020*
+
+### Bachelor of Science in Computer Science
+**University Name** | *2018*
+
+## Skills
+- **Programming:** Python, R, SQL, JavaScript
+- **Data Science:** Machine Learning, Statistical Analysis, Data Visualization
+- **Tools:** Pandas, NumPy, Scikit-learn, TensorFlow, Tableau
+- **Cloud:** AWS, Google Cloud Platform, Azure
