@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build outputs
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+/tmp/
