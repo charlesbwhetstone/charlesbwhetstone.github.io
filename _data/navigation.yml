@@ -1,0 +1,16 @@
+# Main navigation
+main:
+  - title: "Home"
+    url: /
+  - title: "About"
+    url: /about/
+  - title: "Projects"
+    url: /projects/
+  - title: "Resume"
+    url: /resume/
+  - title: "Publications"
+    url: /publications/
+  - title: "Music"
+    url: /music/
+  - title: "Blog"
+    url: /blog/
