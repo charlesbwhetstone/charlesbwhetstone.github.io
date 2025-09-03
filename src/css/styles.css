@@ -187,6 +187,47 @@ body {
     min-height: 400px;
 }
 
+/* Game Section Styles */
+.game-section {
+    margin-top: 50px;
+    padding: 40px 0;
+    border-top: 2px solid #e0e0e0;
+}
+
+.game-section h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#sidescroller-canvas {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #007acc;
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+}
+
+.game-instructions {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 15px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
@@ -215,5 +256,31 @@ body {
     .projects-grid,
     .articles-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Game responsive styles */
+    .game-section {
+        margin-top: 30px;
+        padding: 20px 0;
+    }
+    
+    .game-section h3 {
+        font-size: 1.5rem;
+    }
+    
+    .game-container {
+        padding: 15px;
+        margin: 20px 0;
+    }
+    
+    .game-instructions {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablet specific styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .game-container {
+        padding: 25px;
     }
 }
