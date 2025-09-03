@@ -187,6 +187,52 @@ body {
     min-height: 400px;
 }
 
+/* Game Styles */
+.game-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 40px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.game-container {
+    display: inline-block;
+    border: 3px solid #007acc;
+    border-radius: 8px;
+    background: #87CEEB;
+    position: relative;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.game-container canvas {
+    display: block;
+    border-radius: 5px;
+}
+
+.game-instructions {
+    margin-top: 20px;
+    color: #555;
+}
+
+.game-instructions h3 {
+    color: #007acc;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.game-instructions p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+.game-instructions strong {
+    color: #333;
+    font-weight: 600;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
@@ -215,5 +261,29 @@ body {
     .projects-grid,
     .articles-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Game responsive styles */
+    .game-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .game-container canvas {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .game-section {
+        padding: 20px;
+        margin: 20px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container canvas {
+        width: 100%;
+        max-width: 350px;
+        height: 175px;
     }
 }
