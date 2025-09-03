@@ -1,7 +1,7 @@
 async function loadMediumArticles() {
     try {
-        // Replace 'yourusername' with your actual Medium username
-        const rssUrl = 'https://medium.com/feed/@yourusername';
+        // Replace with Charles Whetstone's Medium username or a demo Medium user
+        const rssUrl = 'https://medium.com/feed/@charlesbwhetstone';
         const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
         

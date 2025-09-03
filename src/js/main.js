@@ -4,6 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // Check if this is a link to another page (contains .html)
+            const href = this.getAttribute('href');
+            if (href.includes('.html')) {
+                // Allow normal navigation to other pages
+                return;
+            }
+            
             e.preventDefault();
             
             // Remove active class from all links and sections
@@ -14,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
             
             // Show corresponding section
-            const targetSection = document.querySelector(this.getAttribute('href'));
+            const targetSection = document.querySelector(href);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
