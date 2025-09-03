@@ -1,6 +1,7 @@
 ---
-title: "AI Safety Evaluation"
-excerpt: "Comprehensive analysis of AI safety findings and rankings with data visualization and statistical analysis."
+title: "AI Safety Red-Teaming Evaluation of GPT-OSS-20B"
+excerpt: "AI Safety Red-Teaming Evaluation of GPT-OSS-20B"
+date: 2024-01-15
 header:
   teaser: /assets/images/ai-safety-thumb.jpg
 sidebar:

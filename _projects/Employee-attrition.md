@@ -1,6 +1,7 @@
 ---
-title: "Employee Attrition Analysis"
-excerpt: "Statistical analysis of employee attrition patterns using R and machine learning to identify key retention factors."
+title: "Electric Crust — Employee Attrition Prediction (R)"
+excerpt: "Reproducible, end-to-end workflow using the CRISP-DM methodology to predict employee attrition for Electric Crust, a vertically integrated, farm-to-table pizza company. Helps HR identify employees at risk of leaving, understand attrition drivers, and implement targeted retention strategies."
+date: 2024-01-10
 header:
   teaser: /assets/images/employee-attrition-thumb.jpg
 sidebar:
@@ -9,6 +10,10 @@ sidebar:
   - title: "Type"
     text: "Data Science, HR Analytics"
 ---
+
+## Live Report
+
+🔗 **[View Live Report](https://charlesbwhetstone.github.io/Employee-Attrition/report.html)** - Interactive analysis and findings
 
 ## Project Overview
 

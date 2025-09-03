@@ -1,6 +1,7 @@
 ---
-title: "AI Voice Coach"
-excerpt: "Multimodal AI voice coaching application with emotion detection and speech analysis capabilities."
+title: "AI Voice Coach with Multimodal Journaling"
+excerpt: "This project is a privacy-first, on-device journaling assistant. It combines Speech-to-Text transcription (Whisper, Faster-Whisper, or Vosk), text analysis with Gemma 3n via Unsloth, emotion-aware journaling (voice, text, and images), and an offline-first design so no data leaves the device."
+date: 2024-01-05
 header:
   teaser: /assets/images/ai-voice-coach-thumb.jpg
 sidebar:
