@@ -221,6 +221,16 @@ body {
     display: block;
 }
 
+#pizza-runner-canvas {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #007acc;
+    border-radius: 8px;
+    background: #87CEEB;
+    display: block;
+    cursor: pointer;
+}
+
 .game-instructions {
     text-align: center;
     font-style: italic;
