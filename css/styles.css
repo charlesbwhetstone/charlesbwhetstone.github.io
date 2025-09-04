@@ -57,6 +57,20 @@ body {
     color: #007acc;
 }
 
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.nav-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
 .section {
     display: none;
     min-height: 100vh;
@@ -190,14 +204,35 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 60px;
         flex-direction: column;
-        gap: 10px;
+        background-color: white;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        z-index: 999;
+        gap: 0;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-item {
+        margin: 10px 0;
+    }
+
+    .nav-toggle {
+        display: flex;
     }
     
     .nav-container {
-        flex-direction: column;
-        height: auto;
-        padding: 15px 20px;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 20px;
     }
     
     .hero h1 {
