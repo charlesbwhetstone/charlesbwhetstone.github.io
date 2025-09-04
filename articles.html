@@ -15,7 +15,7 @@ author_profile: true
 async function loadMediumArticles() {
     try {
         // Replace 'yourusername' with your actual Medium username
-        const rssUrl = 'https://medium.com/feed/@yourusername';
+        const rssUrl = 'https://medium.com/feed/@groundcontrolcharles';
         const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
         
