@@ -3,11 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>Your Name - Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Welcome to my website!</h1>
-    <script src="scripts/main.js"></script>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Your Name</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#resume" class="nav-link">Resume</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#articles" class="nav-link">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#game" class="nav-link">Game</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Welcome to My Portfolio</h1>
+                <p>Data Scientist & Developer</p>
+                <button class="cta-button">View My Work</button>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container">
+                <h2>About Me</h2>
+                <p>Welcome to my portfolio! I am Charles Whetstone, a Data Scientist & Developer passionate about turning complex data into actionable insights.</p>
+                <p>My background includes expertise in data science, machine learning, and software development. I enjoy exploring new technologies, contributing to open source projects, and developing innovative solutions to complex problems.</p>
+                
+                <!-- Embedded Side Scroller Game -->
+                <div class="game-section">
+                    <h3>Interactive Demo: Side Scroller Game</h3>
+                    <p>Here's a fun side-scrolling game I built to demonstrate my JavaScript and game development skills!</p>
+                    <div class="game-container">
+                        <canvas id="sidescroller-canvas" width="800" height="450"></canvas>
+                    </div>
+                    <p class="game-instructions">Use Space bar, click, or tap to jump over obstacles. Try to beat your high score!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume" class="section">
+            <div class="container">
+                <h2>Resume</h2>
+                <a href="assets/resume.pdf" target="_blank" class="download-btn">Download PDF</a>
+                <div class="resume-content">
+                    <!-- Embedded resume content or iframe -->
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <h2>Data Projects</h2>
+                <div class="projects-grid">
+                    <!-- Project cards will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="articles" class="section">
+            <div class="container">
+                <h2>Medium Articles</h2>
+                <div id="medium-feed" class="articles-grid">
+                    <!-- RSS feed articles will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="game" class="section">
+            <div class="container">
+                <h2>Arcade Game</h2>
+                <p>Coming Soon: Galaga-style Shooter</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/rss-feed.js"></script>
+    <script src="js/sidescroller-game.js"></script>
 </body>
 </html>
