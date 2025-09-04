@@ -1,10 +1,78 @@
----
-permalink: /projects/
-title: "Projects"
-layout: collection
-collection: projects
-entries_layout: grid
-classes: wide
----
-
-Here are my data science and development projects:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <style>
+        /* Hamburger menu styles */
+        .menu {
+            display: none;
+            flex-direction: column;
+            background-color: #333;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 200px;
+            z-index: 1000;
+        }
+        .menu a {
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+        }
+        .hamburger {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+        }
+        @media (min-width: 768px) {
+            .menu {
+                display: flex;
+                position: static;
+                flex-direction: row;
+            }
+            .hamburger {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger">☰ Menu</button>
+    <div class="menu">
+        <a href="#section1">Section 1</a>
+        <a href="#section2">Section 2</a>
+        <a href="#section3">Section 3</a>
+    </div>
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const menu = document.querySelector('.menu');
+        hamburger.addEventListener('click', () => {
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+    <header>
+        <!-- Include header content here -->
+    </header>
+    <main>
+        <h1>My Projects</h1>
+        <section>
+            <h2>Project 1</h2>
+            <p>Description of Project 1. This project involves...</p>
+            <a href="../projects/project1/index.html">View Project 1</a>
+        </section>
+        <section>
+            <h2>Project 2</h2>
+            <p>Description of Project 2. This project focuses on...</p>
+            <a href="../projects/project2/index.html">View Project 2</a>
+        </section>
+    </main>
+    <footer>
+        <!-- Include footer content here -->
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
