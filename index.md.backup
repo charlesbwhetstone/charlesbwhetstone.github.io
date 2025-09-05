@@ -1581,28 +1581,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     outline: 3px solid #00ff00;
     outline-offset: 3px;
 }
-
-/* Better Canvas Sizing Override */
-#gameCanvas {
-    width: min(750px, 85vw) !important;
-    height: min(500px, 56.7vw) !important;
-    max-width: 750px;
-    max-height: 500px;
-}
-
-@media (max-width: 767px) {
-    #gameCanvas {
-        width: calc(100vw - 40px) !important;
-        height: calc((100vw - 40px) * 0.6) !important;
-        min-height: 200px;
-        max-height: 300px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    #gameCanvas {
-        width: min(650px, 85vw) !important;
-        height: min(433px, 56.7vw) !important;
-    }
-}
 </style>
