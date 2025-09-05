@@ -412,12 +412,41 @@ class RocketPizzaGame {
     });
   }
   
-  isColliding(obj1, obj2) {
-    return obj1.x < obj2.x + obj2.width &&
-           obj1.x + obj1.width > obj2.x &&
-           obj1.y < obj2.y + obj2.height &&
-           obj1.y + obj1.height > obj2.y;
+  checkCollision(rect1, rect2, margin = 0) {
+    const buffer = margin;
+    return !(rect1.x + rect1.width - buffer < rect2.x + buffer ||
+             rect2.x + rect2.width - buffer < rect1.x + buffer ||
+             rect1.y + rect1.height - buffer < rect2.y + buffer ||
+             rect2.y + rect2.height - buffer < rect1.y + buffer);
   }
+
+  checkCircularCollision(obj1, obj2) {
+    const centerX1 = obj1.x + obj1.width / 2;
+    const centerY1 = obj1.y + obj1.height / 2;
+    const centerX2 = obj2.x + obj2.width / 2;
+    const centerY2 = obj2.y + obj2.height / 2;
+    
+    const distance = Math.sqrt(
+      Math.pow(centerX2 - centerX1, 2) + Math.pow(centerY2 - centerY1, 2)
+    );
+    
+    const combinedRadius = (obj1.width + obj1.height + obj2.width + obj2.height) / 8;
+    return distance < combinedRadius;
+  }
+
+  detectCollision(objA, objB, type = "rectangle") {
+    switch (type) {
+      case "circle":
+        return this.checkCircularCollision(objA, objB);
+      case "loose":
+        return this.checkCollision(objA, objB, -5);
+      case "tight":
+        return this.checkCollision(objA, objB, 5);
+      default:
+        return this.checkCollision(objA, objB);
+    }
+  }
+  
   
   handlePowerup(powerup) {
     switch (powerup.type) {
