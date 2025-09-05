@@ -8,14 +8,36 @@ header:
     - label: "Get to Know Me"
       url: "/about/"
       btn_class: "btn--primary"
-    - label: "Play Pizza Game 🍕"
+    - label: "Rocket Pizza"
       url: "/pizza-game/"
       btn_class: "btn--info"
 excerpt: "Data Scientist & Forensics Engineer passionate about turning data into insights and building meaningful connections"
 feature_row:
   - title: "About Me"
     excerpt: "Discover my j        // Spawn enemies with increasing difficulty - UFO back in lineup
-        c        // Rocket ship body (custom drawn) - larger
+        c        // Rocket ship body        // UFO body (custom drawn) - larger
+        this.ctx.fillStyle = '#e74c3c';
+        this.ctx.fillRect(-35, -30, 60, 60);
+        this.ctx.fillStyle = '#c0392b';
+        this.ctx.fillRect(-30, -25, 50, 50);
+        
+        // Rocket nose cone
+        this.ctx.fillStyle = '#f39c12';
+        this.ctx.fillRect(-20, -35, 30, 15);
+        
+        // Rocket fins
+        this.ctx.fillStyle = '#34495e';
+        this.ctx.fillRect(-40, 15, 15, 20);
+        this.ctx.fillRect(35, 15, 15, 20);
+        
+        // Rocket thruster
+        this.ctx.fillStyle = '#3498db';
+        this.ctx.fillRect(-15, 25, 20, 10);
+        
+        // Draw rocket with text symbols that work better
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = 'bold 30px Arial';
+        this.ctx.fillText('▲', -12, -10);  // Triangle for rocket tiparger
         this.ctx.fillStyle = '#e74c3c';
         this.ctx.fillRect(-35, -30, 60, 60);
         this.ctx.fillStyle = '#c0392b';
@@ -39,12 +61,12 @@ feature_row:
         this.ctx.fillText('🚀', -25, 10);Math.min(0.4 + (this.level * 0.1), 0.8);
         if (Math.random() < enemyChance) {
             const enemyTypes = [
-                { emoji: '👾', size: 40, health: 1, speed: 1 },
-                { emoji: '🛸', size: 45, health: 2, speed: 1.5 },
-                { emoji: '🕷️', size: 35, health: 1, speed: 2.5 },
-                { emoji: '🦂', size: 45, health: 2, speed: 1.2 },
-                { emoji: '👽', size: 35, health: 1, speed: 2 },
-                { emoji: '🤖', size: 50, health: 3, speed: 0.8 }
+                { emoji: '●', size: 40, health: 1, speed: 1, color: '#8e44ad' },        // Space invader (circle)
+                { emoji: '◉', size: 45, health: 2, speed: 1.5, color: '#3498db' },      // UFO (double circle)
+                { emoji: '✦', size: 35, health: 1, speed: 2.5, color: '#e74c3c' },     // Spider (star)
+                { emoji: '🦂', size: 45, health: 2, speed: 1.2, color: '#f39c12' },    // Scorpion (should work)
+                { emoji: '👽', size: 35, health: 1, speed: 2, color: '#2ecc71' },      // Alien (should work)
+                { emoji: '🤖', size: 50, health: 3, speed: 0.8, color: '#34495e' }     // Robot (should work)
             ];
             const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];sions, hobbies, and what makes me tick beyond just the professional realm."
     url: "/about/"
@@ -120,7 +142,7 @@ Experience my pizza delivery game right here, or **[play fullscreen](/pizza-game
   <canvas id="pizzaGame" class="game-canvas" width="800" height="400"></canvas>
   <div class="game-controls">
     <strong>Controls:</strong> WASD or Arrow Keys to move • Spacebar to shoot • Collect pizzas to deliver! 🍕<br>
-    <small>💡 Click on the game to focus it and prevent page scrolling</small>
+    <small>Click on the game to focus it and prevent page scrolling</small>
   </div>
   <div class="play-fullscreen">
     <a href="/pizza-game/">🍕 Play Fullscreen Experience 🍕</a>
@@ -429,7 +451,7 @@ class PizzaGame {
                 this.powerUps.splice(i, 1);
                 
                 // Apply power-up effect
-                if (powerUp.type === '💊' && this.player.health < this.player.maxHealth) {
+                if (powerUp.type === '●' && this.player.health < this.player.maxHealth) {
                     this.player.health++;
                 } else if (powerUp.type === '⚡') {
                     this.player.speed = Math.min(this.player.speed + 1, 8);
@@ -514,6 +536,7 @@ class PizzaGame {
                 width: enemyType.size,
                 height: enemyType.size,
                 emoji: enemyType.emoji,
+                color: enemyType.color,
                 health: enemyType.health,
                 maxHealth: enemyType.health,
                 speed: enemyType.speed
@@ -533,7 +556,7 @@ class PizzaGame {
         
         // Spawn power-ups occasionally
         if (Math.random() < 0.05) {
-            const powerUpTypes = ['💊', '⚡', '🛡️', '🔋'];
+            const powerUpTypes = ['●', '⚡', '♦', '★'];  // Using more reliable symbols
             this.powerUps.push({
                 x: this.canvas.width,
                 y: Math.random() * (this.canvas.height - 25),
@@ -616,12 +639,19 @@ class PizzaGame {
             this.ctx.save();
             this.ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
             
-            // Enemy glow effect
-            this.ctx.shadowColor = '#8e44ad';
+            // Enemy glow effect using enemy color
+            this.ctx.shadowColor = enemy.color || '#8e44ad';
             this.ctx.shadowBlur = 8;
             
-            // Draw enemy emoji
+            // Draw enemy with fallback - try emoji first, then colored shape
             this.ctx.font = `bold ${enemy.width - 5}px Arial`;
+            this.ctx.fillStyle = enemy.color || '#8e44ad';
+            
+            // Draw background shape first
+            this.ctx.fillRect(-enemy.width/2 + 5, -enemy.height/2 + 5, enemy.width - 10, enemy.height - 10);
+            
+            // Try to draw emoji on top
+            this.ctx.fillStyle = '#000000';
             this.ctx.fillText(enemy.emoji, -enemy.width/2 + 2, enemy.height/2 - 5);
             
             this.ctx.shadowBlur = 0;
@@ -655,10 +685,15 @@ class PizzaGame {
             this.ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
             this.ctx.rotate(powerUp.rotation);
             
+            // Draw background circle first
+            this.ctx.fillStyle = '#2ecc71';
+            this.ctx.fillRect(-10, -10, 20, 20);
+            
             this.ctx.shadowColor = '#2ecc71';
             this.ctx.shadowBlur = 8;
             this.ctx.font = 'bold 22px Arial';
-            this.ctx.fillText(powerUp.type, -11, 7);
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.fillText(powerUp.type, -8, 7);
             
             this.ctx.restore();
         });
