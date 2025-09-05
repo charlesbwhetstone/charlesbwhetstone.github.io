@@ -58,9 +58,47 @@ Test your piloting skills in this retro-style space adventure! Navigate your roc
   <div class="game-wrapper">
     <canvas id="gameCanvas" width="900" height="600"></canvas>
     <div class="game-instructions">
-      <p><strong>Controls:</strong></p>
-      <p>↑↓ Arrow keys: Move rocket up/down | SPACE: Shoot energy blasts | Click canvas to focus</p>
-      <p><strong>Mission:</strong> Collect 🍕 pizzas, avoid/destroy red enemies, collect power-ups!</p>
+      <div class="game-objective">
+        <h4>🎯 Game Objective</h4>
+        <p>You're a space pizza delivery pilot on a dangerous mission! Navigate through enemy territory to deliver delicious pizzas across the galaxy while defending yourself from hostile forces.</p>
+      </div>
+      
+      <div class="game-controls">
+        <h4>🎮 Controls</h4>
+        <p><strong>Arrow Keys (↑↓)</strong> or <strong>W/S</strong>: Move rocket up/down</p>
+        <p><strong>Arrow Keys (←→)</strong> or <strong>A/D</strong>: Move rocket left/right</p>
+        <p><strong>SPACE</strong>: Fire energy blasts at enemies</p>
+        <p><strong>Click canvas</strong>: Focus game for keyboard input</p>
+      </div>
+      
+      <div class="game-good-bad">
+        <div class="good-things">
+          <h4>✅ Good Things (Collect These!)</h4>
+          <p><strong>🍕 Pizza Slices</strong> - Your main objective! Each pizza = +20 points</p>
+          <p><strong>💖 Health Power-ups</strong> - Restore 1 health point (pink hearts)</p>
+          <p><strong>⚡ Speed Boosts</strong> - Temporary speed increase (yellow lightning)</p>
+          <p><strong>⭐ Bonus Points</strong> - Extra +50 points (green stars)</p>
+        </div>
+        
+        <div class="bad-things">
+          <h4>❌ Bad Things (Avoid or Destroy!)</h4>
+          <p><strong>🔴 Red Enemies</strong> - Various hostile ships that damage you on contact</p>
+          <p><strong>Enemy Types:</strong></p>
+          <p>• <strong>Invaders</strong> - Basic enemies (1 hit to destroy, +10 points)</p>
+          <p>• <strong>UFOs</strong> - Tougher enemies (2 hits, +10 points)</p>
+          <p>• <strong>Scouts</strong> - Fast moving (1 hit, +10 points)</p>
+          <p>• <strong>Tanks</strong> - Heavy armor (3 hits, +10 points)</p>
+        </div>
+      </div>
+      
+      <div class="game-tips">
+        <h4>💡 Pro Tips</h4>
+        <p>• <strong>Health Management:</strong> You start with 3 health points - don't let it reach zero!</p>
+        <p>• <strong>Level Progression:</strong> Every 10 enemies destroyed increases the difficulty level</p>
+        <p>• <strong>Strategy:</strong> Balance collecting pizzas with destroying enemies for maximum points</p>
+        <p>• <strong>Power-ups:</strong> Prioritize health power-ups when your health is low</p>
+        <p>• <strong>Shooting:</strong> Aim carefully - your energy blasts have a firing rate limit</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1137,6 +1175,71 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 .game-instructions strong {
     color: #ffff00;
+}
+
+.game-objective {
+    margin-bottom: 20px;
+}
+
+.game-objective h4 {
+    color: #00ff00;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.game-controls {
+    margin-bottom: 20px;
+}
+
+.game-controls h4 {
+    color: #64b5f6;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.game-good-bad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.good-things h4 {
+    color: #4caf50;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.bad-things h4 {
+    color: #f44336;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.game-tips {
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 15px;
+}
+
+.game-tips h4 {
+    color: #ff9800;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+@media (max-width: 767px) {
+    .game-good-bad {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .game-instructions p {
+        font-size: 0.9em;
+    }
+    
+    .game-instructions h4 {
+        font-size: 1em;
+    }
 }
 
 /* Feature row adjustments for better spacing */
