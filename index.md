@@ -156,6 +156,7 @@ class PizzaGame {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.gameRunning = false;
+        this.showGameOverScreen = false;
         this.keys = {};
         this.score = 0;
         this.gameSpeed = 2;
@@ -251,9 +252,11 @@ class PizzaGame {
     }
     
     gameLoop() {
-        if (!this.gameRunning) return;
+        if (!this.gameRunning && !this.showGameOverScreen) return;
         
-        this.update();
+        if (!this.showGameOverScreen) {
+            this.update();
+        }
         this.draw();
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -474,9 +477,7 @@ class PizzaGame {
                 
                 if (this.player.health <= 0) {
                     this.createSoundEffect(this.canvas.width / 2, this.canvas.height / 2, '💀', 'GAME OVER!');
-                    // Reset for embedded version
-                    this.player.health = this.player.maxHealth;
-                    this.score = Math.max(0, this.score - 50);
+                    this.gameOver();
                 }
             }
         }
@@ -487,6 +488,44 @@ class PizzaGame {
                obj1.x + obj1.width > obj2.x &&
                obj1.y < obj2.y + obj2.height &&
                obj1.y + obj1.height > obj2.y;
+    }
+    
+    gameOver() {
+        this.gameRunning = false;
+        this.showGameOverScreen = true;
+        
+        // Stop the game loop and show restart option
+        setTimeout(() => {
+            this.showGameOverScreen = false;
+            this.restart();
+        }, 3000); // Show game over screen for 3 seconds
+    }
+    
+    restart() {
+        // Reset all game state
+        this.score = 0;
+        this.level = 1;
+        this.enemiesDestroyed = 0;
+        this.gameSpeed = 2;
+        
+        // Reset player
+        this.player.health = this.player.maxHealth;
+        this.player.speed = 5;
+        this.player.x = 50;
+        this.player.y = this.canvas.height / 2 - 50;
+        
+        // Clear all game objects
+        this.enemies = [];
+        this.bullets = [];
+        this.pizzas = [];
+        this.particles = [];
+        this.powerUps = [];
+        this.soundEffects = [];
+        
+        // Restart the game
+        this.gameRunning = true;
+        this.gameLoop();
+        this.spawnTimer();
     }
     
     createExplosion(x, y) {
@@ -741,6 +780,11 @@ class PizzaGame {
         
         // Enhanced UI
         this.drawUI();
+        
+        // Draw game over screen if needed
+        if (this.showGameOverScreen) {
+            this.drawGameOverScreen();
+        }
     }
     
     drawHealthBar() {
@@ -816,6 +860,49 @@ class PizzaGame {
             this.ctx.font = 'bold 14px Arial';
             this.ctx.fillText('⚡ SPEED BOOST!', this.canvas.width - 150, this.canvas.height - 10);
         }
+    }
+    
+    drawGameOverScreen() {
+        // Draw semi-transparent overlay
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Game Over title
+        this.ctx.fillStyle = '#ff0000';
+        this.ctx.strokeStyle = '#000000';
+        this.ctx.lineWidth = 4;
+        this.ctx.font = 'bold 48px Arial';
+        this.ctx.textAlign = 'center';
+        
+        const gameOverText = 'GAME OVER!';
+        this.ctx.strokeText(gameOverText, this.canvas.width/2, this.canvas.height/2 - 60);
+        this.ctx.fillText(gameOverText, this.canvas.width/2, this.canvas.height/2 - 60);
+        
+        // Final score
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.font = 'bold 32px Arial';
+        const finalScoreText = `Final Score: ${this.score}`;
+        this.ctx.strokeText(finalScoreText, this.canvas.width/2, this.canvas.height/2 - 10);
+        this.ctx.fillText(finalScoreText, this.canvas.width/2, this.canvas.height/2 - 10);
+        
+        // Level reached
+        this.ctx.font = 'bold 24px Arial';
+        const levelText = `Level Reached: ${this.level}`;
+        this.ctx.strokeText(levelText, this.canvas.width/2, this.canvas.height/2 + 30);
+        this.ctx.fillText(levelText, this.canvas.width/2, this.canvas.height/2 + 30);
+        
+        // Restart message
+        this.ctx.fillStyle = '#ffdd59';
+        this.ctx.font = 'bold 20px Arial';
+        const restartText = 'Restarting in 3 seconds...';
+        this.ctx.strokeText(restartText, this.canvas.width/2, this.canvas.height/2 + 80);
+        this.ctx.fillText(restartText, this.canvas.width/2, this.canvas.height/2 + 80);
+        
+        // Rocket emoji
+        this.ctx.font = 'bold 40px Arial';
+        this.ctx.fillText('💀', this.canvas.width/2, this.canvas.height/2 + 120);
+        
+        this.ctx.textAlign = 'left'; // Reset text alignment
     }
 }
 
