@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Game Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a0a;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #pizzaGame {
+            border: 2px solid #333;
+            background: linear-gradient(to bottom, #000428 0%, #004e92 100%);
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .controls {
+            margin: 15px 0;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pizza Delivery Space Adventure 🚀</h1>
+    <p>Test your skills in this fast-paced space shooter game!</p>
+    
+    <canvas id="pizzaGame" width="900" height="600"></canvas>
+    
+    <div class="controls">
+        Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to move • <strong>Space</strong> to shoot • <strong>Click</strong> to restart
+    </div>
+
+    <script>
+class PizzaGame {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) {
+            console.error(`Canvas with id "${canvasId}" not found!`);
+            return;
+        }
+        
+        this.ctx = this.canvas.getContext('2d');
+        if (!this.ctx) {
+            console.error('Failed to get 2D context from canvas!');
+            return;
+        }
+        
+        console.log('Game initializing...');
+        
+        // Game state
+        this.player = {
+            x: 50,
+            y: this.canvas.height / 2 - 25,
+            width: 50,
+            height: 50,
+            speed: 5,
+            health: 3
+        };
+        
+        this.bullets = [];
+        this.enemies = [];
+        this.powerUps = [];
+        this.particles = [];
+        this.effects = [];
+        this.stars = [];
+        
+        this.score = 0;
+        this.level = 1;
+        this.gameRunning = true;
+        this.gameOver = false;
+        this.keys = {};
+        
+        this.speedBoost = false;
+        this.speedBoostTimer = 0;
+        
+        this.initStars();
+        this.setupEventListeners();
+        this.gameLoop();
+        
+        console.log('Game initialized successfully!');
+    }
+    
+    initStars() {
+        for (let i = 0; i < 100; i++) {
+            this.stars.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 2 + 1,
+                speed: Math.random() * 2 + 1
+            });
+        }
+    }
+    
+    setupEventListeners() {
+        document.addEventListener('keydown', (e) => {
+            this.keys[e.code] = true;
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (this.gameRunning && !this.gameOver) {
+                    this.shoot();
+                }
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            this.keys[e.code] = false;
+        });
+        
+        this.canvas.addEventListener('click', (e) => {
+            if (this.gameOver) {
+                this.restartGame();
+            }
+        });
+    }
+    
+    restartGame() {
+        this.player = {
+            x: 50,
+            y: this.canvas.height / 2 - 25,
+            width: 50,
+            height: 50,
+            speed: 5,
+            health: 3
+        };
+        
+        this.bullets = [];
+        this.enemies = [];
+        this.powerUps = [];
+        this.particles = [];
+        this.effects = [];
+        
+        this.score = 0;
+        this.level = 1;
+        this.gameRunning = true;
+        this.gameOver = false;
+        this.speedBoost = false;
+        this.speedBoostTimer = 0;
+        
+        this.initStars();
+    }
+    
+    shoot() {
+        this.bullets.push({
+            x: this.player.x + this.player.width,
+            y: this.player.y + this.player.height / 2 - 5,
+            width: 15,
+            height: 10,
+            speed: 8
+        });
+        
+        this.effects.push({
+            x: this.player.x + this.player.width,
+            y: this.player.y + this.player.height / 2,
+            text: 'PEW!',
+            timer: 15,
+            maxTimer: 15
+        });
+    }
+    
+    update() {
+        if (this.gameOver || !this.gameRunning) return;
+        
+        const currentSpeed = this.speedBoost ? this.player.speed * 2 : this.player.speed;
+        
+        if (this.keys['ArrowUp'] || this.keys['KeyW']) {
+            this.player.y = Math.max(0, this.player.y - currentSpeed);
+        }
+        if (this.keys['ArrowDown'] || this.keys['KeyS']) {
+            this.player.y = Math.min(this.canvas.height - this.player.height, this.player.y + currentSpeed);
+        }
+        if (this.keys['ArrowLeft'] || this.keys['KeyA']) {
+            this.player.x = Math.max(0, this.player.x - currentSpeed);
+        }
+        if (this.keys['ArrowRight'] || this.keys['KeyD']) {
+            this.player.x = Math.min(this.canvas.width - this.player.width, this.player.x + currentSpeed);
+        }
+        
+        if (this.speedBoost) {
+            this.speedBoostTimer--;
+            if (this.speedBoostTimer <= 0) {
+                this.speedBoost = false;
+            }
+        }
+        
+        this.stars.forEach(star => {
+            star.x -= star.speed;
+            if (star.x < 0) {
+                star.x = this.canvas.width;
+                star.y = Math.random() * this.canvas.height;
+            }
+        });
+        
+        this.bullets = this.bullets.filter(bullet => {
+            bullet.x += bullet.speed;
+            return bullet.x < this.canvas.width;
+        });
+        
+        if (Math.random() < 0.02 + (this.level * 0.005)) {
+            this.enemies.push({
+                x: this.canvas.width,
+                y: Math.random() * (this.canvas.height - 40),
+                width: 40,
+                height: 40,
+                speed: 2 + Math.random() * 2 + (this.level * 0.5),
+                health: 1
+            });
+        }
+        
+        this.enemies = this.enemies.filter(enemy => {
+            enemy.x -= enemy.speed;
+            return enemy.x > -enemy.width && enemy.health > 0;
+        });
+        
+        if (Math.random() < 0.005) {
+            const powerUpTypes = ['⚡', '💖', '🍕'];
+            this.powerUps.push({
+                x: this.canvas.width,
+                y: Math.random() * (this.canvas.height - 30),
+                width: 30,
+                height: 30,
+                speed: 3,
+                type: powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)]
+            });
+        }
+        
+        this.powerUps = this.powerUps.filter(powerUp => {
+            powerUp.x -= powerUp.speed;
+            return powerUp.x > -powerUp.width;
+        });
+        
+        this.checkCollisions();
+        
+        this.particles = this.particles.filter(particle => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.life--;
+            return particle.life > 0;
+        });
+        
+        this.effects = this.effects.filter(effect => {
+            effect.timer--;
+            return effect.timer > 0;
+        });
+        
+        if (this.score > this.level * 100) {
+            this.level++;
+            this.effects.push({
+                x: this.canvas.width / 2,
+                y: this.canvas.height / 2,
+                text: `LEVEL ${this.level}!`,
+                timer: 60,
+                maxTimer: 60
+            });
+        }
+    }
+    
+    checkCollisions() {
+        this.bullets.forEach((bullet, bulletIndex) => {
+            this.enemies.forEach((enemy, enemyIndex) => {
+                if (this.isColliding(bullet, enemy)) {
+                    this.createExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
+                    enemy.health--;
+                    this.bullets.splice(bulletIndex, 1);
+                    
+                    if (enemy.health <= 0) {
+                        this.enemies.splice(enemyIndex, 1);
+                        this.score += 10;
+                    }
+                }
+            });
+        });
+        
+        this.enemies.forEach((enemy, enemyIndex) => {
+            if (this.isColliding(this.player, enemy)) {
+                this.player.health--;
+                this.enemies.splice(enemyIndex, 1);
+                this.createExplosion(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
+                
+                if (this.player.health <= 0) {
+                    this.gameOver = true;
+                }
+            }
+        });
+        
+        this.powerUps.forEach((powerUp, powerUpIndex) => {
+            if (this.isColliding(this.player, powerUp)) {
+                this.powerUps.splice(powerUpIndex, 1);
+                
+                switch (powerUp.type) {
+                    case '⚡':
+                        this.speedBoost = true;
+                        this.speedBoostTimer = 300;
+                        break;
+                    case '💖':
+                        this.player.health = Math.min(3, this.player.health + 1);
+                        break;
+                    case '🍕':
+                        this.score += 50;
+                        break;
+                }
+                
+                this.effects.push({
+                    x: powerUp.x,
+                    y: powerUp.y,
+                    text: 'POWER UP!',
+                    timer: 30,
+                    maxTimer: 30
+                });
+            }
+        });
+    }
+    
+    isColliding(rect1, rect2) {
+        return rect1.x < rect2.x + rect2.width &&
+               rect1.x + rect1.width > rect2.x &&
+               rect1.y < rect2.y + rect2.height &&
+               rect1.y + rect1.height > rect2.y;
+    }
+    
+    createExplosion(x, y) {
+        const chars = ['*', '+', '○', '●'];
+        for (let i = 0; i < 6; i++) {
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 6,
+                vy: (Math.random() - 0.5) * 6,
+                char: chars[Math.floor(Math.random() * chars.length)],
+                life: 30 + Math.random() * 20,
+                color: `hsl(${Math.random() * 360}, 70%, 60%)`
+            });
+        }
+    }
+    
+    draw() {
+        this.ctx.fillStyle = 'rgba(0, 4, 40, 0.1)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        this.stars.forEach(star => {
+            this.ctx.fillRect(star.x, star.y, star.size, star.size);
+        });
+        
+        this.ctx.save();
+        this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
+        
+        // Rocket ship (facing right)
+        this.ctx.fillStyle = '#e74c3c';
+        this.ctx.fillRect(-25, -20, 50, 40);
+        
+        // Nose cone pointing right
+        this.ctx.fillStyle = '#c0392b';
+        this.ctx.beginPath();
+        this.ctx.moveTo(35, 0);
+        this.ctx.lineTo(25, -12);
+        this.ctx.lineTo(25, 12);
+        this.ctx.closePath();
+        this.ctx.fill();
+        
+        // Fins
+        this.ctx.fillStyle = '#2c3e50';
+        this.ctx.fillRect(-25, -25, 12, 15);
+        this.ctx.fillRect(-25, 10, 12, 15);
+        
+        // Window
+        this.ctx.fillStyle = '#3498db';
+        this.ctx.fillRect(-8, -8, 16, 16);
+        
+        // Engine flames when moving
+        if (this.keys['ArrowUp'] || this.keys['KeyW'] || this.keys['ArrowDown'] || this.keys['KeyS'] || 
+            this.keys['ArrowLeft'] || this.keys['KeyA'] || this.keys['ArrowRight'] || this.keys['KeyD']) {
+            this.ctx.fillStyle = '#f39c12';
+            this.ctx.fillRect(-35, -6, 12, 6);
+            this.ctx.fillRect(-35, 0, 12, 6);
+        }
+        
+        this.ctx.restore();
+        
+        // Draw bullets
+        this.ctx.fillStyle = '#f39c12';
+        this.bullets.forEach(bullet => {
+            this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        });
+        
+        // Draw enemies (red/dangerous)
+        this.enemies.forEach(enemy => {
+            this.ctx.fillStyle = '#c0392b';
+            this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            // Spiky edges
+            this.ctx.fillRect(enemy.x - 5, enemy.y + 10, 5, 20);
+            this.ctx.fillRect(enemy.x + enemy.width, enemy.y + 10, 5, 20);
+        });
+        
+        // Draw power-ups (bright/helpful)
+        this.powerUps.forEach(powerUp => {
+            this.ctx.save();
+            this.ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
+            
+            if (powerUp.type === '⚡') {
+                this.ctx.fillStyle = '#f1c40f';
+                this.ctx.fillRect(-12, -12, 24, 24);
+            } else if (powerUp.type === '💖') {
+                this.ctx.fillStyle = '#e91e63';
+                this.ctx.fillRect(-12, -8, 24, 16);
+                this.ctx.fillRect(-8, -12, 8, 8);
+                this.ctx.fillRect(0, -12, 8, 8);
+            } else {
+                this.ctx.fillStyle = '#f39c12';
+                this.ctx.fillRect(-12, -12, 24, 24);
+            }
+            
+            this.ctx.restore();
+        });
+        
+        // Draw particles
+        this.particles.forEach(particle => {
+            this.ctx.save();
+            this.ctx.fillStyle = particle.color;
+            this.ctx.font = '12px Arial';
+            this.ctx.fillText(particle.char, particle.x, particle.y);
+            this.ctx.restore();
+        });
+        
+        // Draw effects
+        this.effects.forEach(effect => {
+            this.ctx.save();
+            this.ctx.translate(effect.x, effect.y);
+            this.ctx.globalAlpha = effect.timer / effect.maxTimer;
+            this.ctx.fillStyle = '#f1c40f';
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText(effect.text, 0, 0);
+            this.ctx.restore();
+        });
+        
+        this.drawHealthBar();
+        this.drawUI();
+        
+        if (this.gameOver) {
+            this.drawGameOverScreen();
+        }
+    }
+    
+    drawHealthBar() {
+        const x = 10;
+        const y = this.canvas.height - 70;
+        
+        this.ctx.fillStyle = '#34495e';
+        this.ctx.fillRect(x, y, 200, 30);
+        
+        this.ctx.fillStyle = this.player.health > 1 ? '#27ae60' : '#e74c3c';
+        this.ctx.fillRect(x + 3, y + 3, (194 * this.player.health) / 3, 24);
+        
+        this.ctx.fillStyle = '#ecf0f1';
+        this.ctx.font = 'bold 16px Arial';
+        this.ctx.fillText('Health', x, y - 8);
+        
+        this.ctx.font = 'bold 14px Arial';
+        this.ctx.fillText(`${this.player.health}/3`, x + 150, y + 20);
+    }
+    
+    drawUI() {
+        this.ctx.fillStyle = '#ecf0f1';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillText(`Score: ${this.score}`, 10, 30);
+        
+        this.ctx.fillStyle = '#f39c12';
+        this.ctx.font = 'bold 16px Arial';
+        this.ctx.fillText(`Level ${this.level}`, this.canvas.width - 120, 30);
+        
+        if (this.speedBoost) {
+            this.ctx.fillStyle = '#f1c40f';
+            this.ctx.font = 'bold 14px Arial';
+            this.ctx.fillText('SPEED BOOST!', this.canvas.width - 150, this.canvas.height - 10);
+        }
+    }
+    
+    drawGameOverScreen() {
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.ctx.fillStyle = '#e74c3c';
+        this.ctx.font = 'bold 48px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('GAME OVER', this.canvas.width/2, this.canvas.height/2 - 60);
+        
+        this.ctx.fillStyle = '#f39c12';
+        this.ctx.font = 'bold 24px Arial';
+        this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2 - 10);
+        
+        this.ctx.fillStyle = '#3498db';
+        this.ctx.font = 'bold 20px Arial';
+        this.ctx.fillText(`Level Reached: ${this.level}`, this.canvas.width/2, this.canvas.height/2 + 30);
+        
+        this.ctx.fillStyle = '#95a5a6';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.fillText('Click to Play Again', this.canvas.width/2, this.canvas.height/2 + 80);
+        
+        this.ctx.textAlign = 'left';
+    }
+    
+    gameLoop() {
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.gameLoop());
+    }
+}
+
+// Initialize the game
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing game...');
+    try {
+        const game = new PizzaGame('pizzaGame');
+    } catch (error) {
+        console.error('Error initializing game:', error);
+    }
+});
+    </script>
+</body>
+</html>
