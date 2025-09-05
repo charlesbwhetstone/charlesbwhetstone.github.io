@@ -1,790 +1,1096 @@
 ---
-title: "Charles Whetstone - Data Scientist & AI Engineer"
-layout: single
+layout: home
 author_profile: true
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
-  overlay_image: /assets/images/header-bg.jpg
   actions:
-    - label: "View My Work"
-      url: "/projects/"
-    - label: "Read Articles"
-      url: "/articles/"
-excerpt: "Transforming data into actionable insights through machine learning, AI, and advanced analytics"
+    - label: "Get to Know Me"
+      url: "/about/"
+      btn_class: "btn--primary"
+    - label: "Play Pizza Game 🍕"
+      url: "/pizza-game/"
+      btn_class: "btn--info"
+excerpt: "Data Scientist & Forensics Engineer passionate about turning data into insights and building meaningful connections"
 feature_row:
-  - image_path: /assets/images/ai-safety-thumb.jpg
-    alt: "AI Safety Evaluation"
-    title: "AI Safety Research"
-    excerpt: "Advanced evaluation frameworks for AI system safety and alignment"
-    url: "/projects/ai-safety-evaluation/"
+  - title: "About Me"
+    excerpt: "Discover my journey, passions, hobbies, and what makes me tick beyond just the professional realm."
+    url: "/about/"
     btn_label: "Learn More"
     btn_class: "btn--primary"
-  - image_path: /assets/images/voice-coach-thumb.jpg
-    alt: "AI Voice Coach"
-    title: "AI Voice Coach"
-    excerpt: "Multimodal AI system for personalized voice and presentation coaching"
-    url: "/projects/ai-voice-coach/"
-    btn_label: "Learn More"
+  - title: "Data Projects"
+    excerpt: "Explore my data science and analytics projects including AI safety evaluation, voice coaching systems, and predictive modeling."
+    url: "/projects/"
+    btn_label: "View Projects"
     btn_class: "btn--primary"
-  - image_path: /assets/images/location-discovery-thumb.jpg
-    alt: "Location Discovery"
-    title: "Amazon Location Discovery"
-    excerpt: "Geospatial analytics and location-based insights using AWS services"
-    url: "/projects/amazon-location-discovery/"
-    btn_label: "Learn More"
-    btn_class: "btn--primary"
+  - title: "Pizza Game 🍕"
+    excerpt: "Try my retro-style pizza delivery side-scroller game! A fun creative project showcasing interactive development skills."
+    url: "/pizza-game/"
+    btn_label: "Play Game"
+    btn_class: "btn--success"
+  - title: "Technical Articles"
+    excerpt: "Read my latest insights on data science, machine learning, and technology trends on Medium."
+    url: "/articles/"
+    btn_label: "Read Articles"
+    btn_class: "btn--info"
 ---
-
-## Welcome to My Portfolio
-
-I'm a Forensics Engineer with expertise in data analytics, eDiscovery, machine learning, deep learning, and AI. My work focuses on solving real-world problems and drive innovation. I am an AI enthusist and will often use it as a coding buddy to help me innovate and complete projects quicker. 
 
 {% include feature_row %}
 
-## Pizza Delivery Space Adventure 🚀
+## Welcome to My Digital Playground! 🎮
 
-Test your skills in this fast-paced space shooter game! Deliver pizzas while avoiding obstacles and enemies.
+I'm Charles Whetstone, a Data Scientist and Forensics Engineer who believes in the power of data to tell stories and create positive change. This portfolio showcases both my professional work and creative projects - like the space pizza delivery game below!
 
-<div class="game-container" style="text-align: center; margin: 30px auto; max-width: 1200px;">
-  <canvas id="pizzaGame" width="900" height="600" style="border: 2px solid #333; background: linear-gradient(to bottom, #000428 0%, #004e92 100%); display: block; margin: 0 auto; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"></canvas>
+## Featured Project: 🚀 Rocket Pizza Delivery 🍕
+
+Test your piloting skills in this retro-style space adventure! Navigate your rocket ship through enemy territory while collecting delicious pizzas. Built with HTML5 Canvas and pure JavaScript.
+
+<div class="game-container">
+  <div class="game-header">
+    <h3>🚀 Rocket Pizza Delivery 🍕</h3>
+    <div class="game-controls">
+      <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
+      <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
+      <a href="/pizza-game/" class="game-btn fullscreen-btn" target="_blank">🖥️ Play Full Screen</a>
+    </div>
+  </div>
   
-  <div style="margin: 15px 0; color: #666; font-size: 14px;">
-    Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to move • <strong>Space</strong> to shoot
+  <div class="game-wrapper">
+    <canvas id="gameCanvas" width="900" height="600"></canvas>
+    <div class="game-instructions">
+      <p><strong>Controls:</strong></p>
+      <p>↑↓ Arrow keys: Move rocket up/down | SPACE: Shoot energy blasts | Click canvas to focus</p>
+      <p><strong>Mission:</strong> Collect 🍕 pizzas, avoid/destroy red enemies, collect power-ups!</p>
+    </div>
   </div>
 </div>
 
-<style>
-@media (min-width: 1200px) {
-  .game-container {
-    max-width: 1000px;
-  }
-  #pizzaGame {
-    width: 900px;
-    height: 600px;
-  }
-}
-
-@media (max-width: 900px) {
-  #pizzaGame {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-  }
-}
-
-@media (max-width: 600px) {
-  #pizzaGame {
-    max-height: 300px;
-  }
-}
-</style>
-<strong>Controls:</strong> Arrow Keys or WASD to move • Space to shoot • Mouse click to restart
-</div>
-
 <script>
-class PizzaGame {
-    constructor(canvasId) {
-        this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) {
-            console.error(`Canvas with id "${canvasId}" not found!`);
-            return;
-        }
-        
-        this.ctx = this.canvas.getContext('2d');
-        if (!this.ctx) {
-            console.error('Failed to get 2D context from canvas!');
-            return;
-        }
-        
-        // Set canvas dimensions explicitly
-        this.canvas.width = 900;
-        this.canvas.height = 600;
-        
-        console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
-        
-        // Game state
-        this.player = {
-            x: 50,
-            y: this.canvas.height / 2 - 25,
-            width: 50,
-            height: 50,
-            speed: 5,
-            health: 3
-        };
-        
-        this.bullets = [];
-        this.enemies = [];
-        this.powerUps = [];
-        this.particles = [];
-        this.effects = [];
-        this.stars = [];
-        
-        this.score = 0;
-        this.level = 1;
-        this.gameRunning = true;
-        this.gameOver = false;
-        this.keys = {};
-        
-        // Speed boost
-        this.speedBoost = false;
-        this.speedBoostTimer = 0;
-        
-        // Initialize stars
-        this.initStars();
-        
-        // Event listeners
-        this.setupEventListeners();
-        
-        // Start game loop
-        this.gameLoop();
+// Rocket Pizza Delivery Game - Enhanced Version
+class RocketPizzaGame {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) {
+      console.error('Canvas element not found!');
+      return;
     }
     
-    initStars() {
-        for (let i = 0; i < 100; i++) {
-            this.stars.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                size: Math.random() * 2 + 1,
-                speed: Math.random() * 2 + 1
-            });
-        }
+    this.ctx = this.canvas.getContext('2d');
+    if (!this.ctx) {
+      console.error('Could not get 2D context!');
+      return;
     }
     
-    setupEventListeners() {
-        document.addEventListener('keydown', (e) => {
-            this.keys[e.code] = true;
-            if (e.code === 'Space') {
-                e.preventDefault();
-                if (this.gameRunning && !this.gameOver) {
-                    this.shoot();
-                }
-            }
-        });
-        
-        document.addEventListener('keyup', (e) => {
-            this.keys[e.code] = false;
-        });
-        
-        this.canvas.addEventListener('click', (e) => {
-            if (this.gameOver) {
-                this.restartGame();
-            }
-        });
+    // Set canvas dimensions explicitly
+    this.canvas.width = 900;
+    this.canvas.height = 600;
+    
+    console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
+    
+    // Game state
+    this.gameRunning = false;
+    this.paused = false;
+    this.showGameOverScreen = false;
+    this.gameOverTimer = 0;
+    this.score = 0;
+    this.level = 1;
+    this.speed = 2;
+    this.enemiesDestroyed = 0;
+    
+    // Player (rocket ship)
+    this.player = {
+      x: 80,
+      y: 300,
+      width: 100,
+      height: 100,
+      health: 3,
+      maxHealth: 3,
+      speed: 5,
+      moving: false
+    };
+    
+    // Game objects arrays
+    this.bullets = [];
+    this.enemies = [];
+    this.pizzas = [];
+    this.powerups = [];
+    this.particles = [];
+    this.soundEffects = [];
+    this.stars = [];
+    
+    // Input handling
+    this.keys = {};
+    
+    // Initialize stars for background
+    this.initStars();
+    this.setupEventListeners();
+    this.startGame();
+  }
+  
+  initStars() {
+    for (let i = 0; i < 50; i++) {
+      this.stars.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        size: Math.random() * 2 + 1,
+        speed: Math.random() * 0.5 + 0.1
+      });
+    }
+  }
+  
+  setupEventListeners() {
+    // Keyboard events
+    window.addEventListener('keydown', (e) => {
+      this.keys[e.code] = true;
+      // Prevent default behavior for game control keys
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)) {
+        e.preventDefault();
+      }
+    });
+    
+    window.addEventListener('keyup', (e) => {
+      this.keys[e.code] = false;
+    });
+    
+    // Canvas click to focus (prevents page scrolling)
+    this.canvas.addEventListener('click', () => {
+      this.canvas.focus();
+    });
+    
+    // Make canvas focusable
+    this.canvas.setAttribute('tabindex', '0');
+  }
+  
+  startGame() {
+    console.log('Starting Rocket Pizza Delivery game...');
+    this.gameRunning = true;
+    this.gameLoop();
+  }
+  
+  update() {
+    if (this.paused || this.showGameOverScreen) {
+      if (this.showGameOverScreen) {
+        this.gameOverTimer--;
+        if (this.gameOverTimer <= 0) {
+          this.restart();
+        }
+      }
+      return;
     }
     
-    restartGame() {
-        // Reset all game state
-        this.player = {
-            x: 50,
-            y: this.canvas.height / 2 - 25,
-            width: 50,
-            height: 50,
-            speed: 5,
-            health: 3
-        };
-        
-        this.bullets = [];
-        this.enemies = [];
-        this.powerUps = [];
-        this.particles = [];
-        this.effects = [];
-        
-        this.score = 0;
-        this.level = 1;
-        this.gameRunning = true;
-        this.gameOver = false;
-        this.speedBoost = false;
-        this.speedBoostTimer = 0;
-        
-        // Reinitialize stars
-        this.initStars();
+    // Player movement
+    this.player.moving = false;
+    if ((this.keys['ArrowUp'] || this.keys['KeyW']) && this.player.y > 0) {
+      this.player.y -= this.player.speed;
+      this.player.moving = true;
+    }
+    if ((this.keys['ArrowDown'] || this.keys['KeyS']) && this.player.y < this.canvas.height - this.player.height) {
+      this.player.y += this.player.speed;
+      this.player.moving = true;
+    }
+    if ((this.keys['ArrowLeft'] || this.keys['KeyA']) && this.player.x > 0) {
+      this.player.x -= this.player.speed;
+      this.player.moving = true;
+    }
+    if ((this.keys['ArrowRight'] || this.keys['KeyD']) && this.player.x < this.canvas.width - this.player.width) {
+      this.player.x += this.player.speed;
+      this.player.moving = true;
     }
     
-    shoot() {
-        this.bullets.push({
-            x: this.player.x + this.player.width,
-            y: this.player.y + this.player.height / 2 - 5,
-            width: 15,
-            height: 10,
-            speed: 8
-        });
-        
-        // Add muzzle flash effect
-        this.effects.push({
-            x: this.player.x + this.player.width,
-            y: this.player.y + this.player.height / 2,
-            text: 'PEW!',
-            emoji: '💥',
-            timer: 15,
-            maxTimer: 15
-        });
+    // Shooting
+    if (this.keys['Space']) {
+      this.shoot();
     }
     
-    update() {
-        if (this.gameOver || !this.gameRunning) return;
-        
-        // Handle input
-        const currentSpeed = this.speedBoost ? this.player.speed * 2 : this.player.speed;
-        
-        if (this.keys['ArrowUp'] || this.keys['KeyW']) {
-            this.player.y = Math.max(0, this.player.y - currentSpeed);
-        }
-        if (this.keys['ArrowDown'] || this.keys['KeyS']) {
-            this.player.y = Math.min(this.canvas.height - this.player.height, this.player.y + currentSpeed);
-        }
-        if (this.keys['ArrowLeft'] || this.keys['KeyA']) {
-            this.player.x = Math.max(0, this.player.x - currentSpeed);
-        }
-        if (this.keys['ArrowRight'] || this.keys['KeyD']) {
-            this.player.x = Math.min(this.canvas.width - this.player.width, this.player.x + currentSpeed);
-        }
-        
-        // Update speed boost
-        if (this.speedBoost) {
-            this.speedBoostTimer--;
-            if (this.speedBoostTimer <= 0) {
-                this.speedBoost = false;
-            }
-        }
-        
-        // Update stars
-        this.stars.forEach(star => {
-            star.x -= star.speed;
-            if (star.x < 0) {
-                star.x = this.canvas.width;
-                star.y = Math.random() * this.canvas.height;
-            }
-        });
-        
-        // Update bullets
-        this.bullets = this.bullets.filter(bullet => {
-            bullet.x += bullet.speed;
-            return bullet.x < this.canvas.width;
-        });
-        
-        // Spawn enemies
-        if (Math.random() < 0.02 + (this.level * 0.005)) {
-            const enemyTypes = ['👾', '🛸', '💀', '👻', '🦇'];
-            this.enemies.push({
-                x: this.canvas.width,
-                y: Math.random() * (this.canvas.height - 40),
-                width: 40,
-                height: 40,
-                speed: 2 + Math.random() * 2 + (this.level * 0.5),
-                emoji: enemyTypes[Math.floor(Math.random() * enemyTypes.length)],
-                health: 1 + Math.floor(this.level / 3)
-            });
-        }
-        
-        // Update enemies
-        this.enemies = this.enemies.filter(enemy => {
-            enemy.x -= enemy.speed;
-            return enemy.x > -enemy.width && enemy.health > 0;
-        });
-        
-        // Spawn power-ups occasionally
-        if (Math.random() < 0.005) {
-            const powerUpTypes = ['⚡', '💖', '🍕'];
-            this.powerUps.push({
-                x: this.canvas.width,
-                y: Math.random() * (this.canvas.height - 30),
-                width: 30,
-                height: 30,
-                speed: 3,
-                type: powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)]
-            });
-        }
-        
-        // Update power-ups
-        this.powerUps = this.powerUps.filter(powerUp => {
-            powerUp.x -= powerUp.speed;
-            return powerUp.x > -powerUp.width;
-        });
-        
-        // Check collisions
-        this.checkCollisions();
-        
-        // Update particles
-        this.particles = this.particles.filter(particle => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            particle.life--;
-            return particle.life > 0;
-        });
-        
-        // Update effects
-        this.effects = this.effects.filter(effect => {
-            effect.timer--;
-            return effect.timer > 0;
-        });
-        
-        // Level progression
-        if (this.score > this.level * 100) {
-            this.level++;
-            this.effects.push({
-                x: this.canvas.width / 2,
-                y: this.canvas.height / 2,
-                text: `LEVEL ${this.level}!`,
-                emoji: '🎉',
-                timer: 60,
-                maxTimer: 60
-            });
-        }
+    // Update game speed based on level
+    this.speed = 2 + (this.level * 0.5);
+    
+    // Spawn enemies with increasing difficulty
+    const enemyChance = Math.min(0.02 + (this.level * 0.005), 0.04);
+    if (Math.random() < enemyChance) {
+      this.spawnEnemy();
     }
     
-    checkCollisions() {
-        // Bullet-enemy collisions
-        this.bullets.forEach((bullet, bulletIndex) => {
-            this.enemies.forEach((enemy, enemyIndex) => {
-                if (this.isColliding(bullet, enemy)) {
-                    // Create explosion particles
-                    this.createExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2, '💥');
-                    
-                    enemy.health--;
-                    this.bullets.splice(bulletIndex, 1);
-                    
-                    if (enemy.health <= 0) {
-                        this.enemies.splice(enemyIndex, 1);
-                        this.score += 10;
-                    }
-                }
-            });
-        });
-        
-        // Player-enemy collisions
-        this.enemies.forEach((enemy, enemyIndex) => {
-            if (this.isColliding(this.player, enemy)) {
-                this.player.health--;
-                this.enemies.splice(enemyIndex, 1);
-                this.createExplosion(this.player.x + this.player.width/2, this.player.y + this.player.height/2, '💥');
-                
-                if (this.player.health <= 0) {
-                    this.gameOver = true;
-                }
-            }
-        });
-        
-        // Player-powerup collisions
-        this.powerUps.forEach((powerUp, powerUpIndex) => {
-            if (this.isColliding(this.player, powerUp)) {
-                this.powerUps.splice(powerUpIndex, 1);
-                
-                switch (powerUp.type) {
-                    case '⚡':
-                        this.speedBoost = true;
-                        this.speedBoostTimer = 300;
-                        break;
-                    case '💖':
-                        this.player.health = Math.min(3, this.player.health + 1);
-                        break;
-                    case '🍕':
-                        this.score += 50;
-                        break;
-                }
-                
-                this.effects.push({
-                    x: powerUp.x,
-                    y: powerUp.y,
-                    text: 'POWER UP!',
-                    emoji: powerUp.type,
-                    timer: 30,
-                    maxTimer: 30
-                });
-            }
-        });
+    // Spawn pizzas
+    if (Math.random() < 0.015) {
+      this.spawnPizza();
     }
     
-    isColliding(rect1, rect2) {
-        return rect1.x < rect2.x + rect2.width &&
-               rect1.x + rect1.width > rect2.x &&
-               rect1.y < rect2.y + rect2.height &&
-               rect1.y + rect1.height > rect2.y;
+    // Spawn power-ups
+    if (Math.random() < 0.008) {
+      this.spawnPowerup();
     }
     
-    createExplosion(x, y, emoji) {
-        const chars = ['*', '+', '○', '●', '◇', '◆'];
-        for (let i = 0; i < 8; i++) {
-            this.particles.push({
-                x: x,
-                y: y,
-                vx: (Math.random() - 0.5) * 6,
-                vy: (Math.random() - 0.5) * 6,
-                char: chars[Math.floor(Math.random() * chars.length)],
-                life: 30 + Math.random() * 20,
-                color: `hsl(${Math.random() * 360}, 70%, 60%)`
-            });
+    // Update all game objects
+    this.updateBullets();
+    this.updateEnemies();
+    this.updatePizzas();
+    this.updatePowerups();
+    this.updateParticles();
+    this.updateSoundEffects();
+    this.updateStars();
+    
+    // Check collisions
+    this.checkCollisions();
+    
+    // Level progression
+    if (this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0) {
+      this.levelUp();
+    }
+  }
+  
+  shoot() {
+    // Limit shooting rate
+    const now = Date.now();
+    if (!this.lastShot || now - this.lastShot > 200) {
+      this.bullets.push({
+        x: this.player.x + this.player.width,
+        y: this.player.y + this.player.height / 2,
+        width: 20,
+        height: 8,
+        speed: 8
+      });
+      this.addSoundEffect(this.player.x + this.player.width, this.player.y + this.player.height / 2, 'PEW!', '#ffff00');
+      this.lastShot = now;
+    }
+  }
+  
+  spawnEnemy() {
+    const enemyTypes = [
+      { name: 'invader', size: 40, health: 1, speed: 1, color: '#8b0000' },
+      { name: 'ufo', size: 45, health: 2, speed: 1.5, color: '#c0392b' },
+      { name: 'scout', size: 35, health: 1, speed: 2.5, color: '#8b0000' },
+      { name: 'tank', size: 50, health: 3, speed: 0.8, color: '#8b0000' }
+    ];
+    
+    const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+    this.enemies.push({
+      ...enemyType,
+      x: this.canvas.width,
+      y: Math.random() * (this.canvas.height - enemyType.size - 40) + 20,
+      width: enemyType.size,
+      height: enemyType.size,
+      maxHealth: enemyType.health
+    });
+  }
+  
+  spawnPizza() {
+    this.pizzas.push({
+      x: this.canvas.width,
+      y: Math.random() * (this.canvas.height - 60) + 30,
+      width: 60,
+      height: 60,
+      rotation: 0
+    });
+  }
+  
+  spawnPowerup() {
+    const powerupTypes = ['speed', 'health', 'bonus'];
+    const type = powerupTypes[Math.floor(Math.random() * powerupTypes.length)];
+    
+    this.powerups.push({
+      type: type,
+      x: this.canvas.width,
+      y: Math.random() * (this.canvas.height - 40) + 20,
+      width: 35,
+      height: 35,
+      rotation: 0
+    });
+  }
+  
+  updateBullets() {
+    this.bullets = this.bullets.filter(bullet => {
+      bullet.x += bullet.speed;
+      return bullet.x < this.canvas.width + bullet.width;
+    });
+  }
+  
+  updateEnemies() {
+    this.enemies = this.enemies.filter(enemy => {
+      enemy.x -= this.speed * enemy.speed;
+      return enemy.x + enemy.width > -50;
+    });
+  }
+  
+  updatePizzas() {
+    this.pizzas = this.pizzas.filter(pizza => {
+      pizza.x -= this.speed;
+      pizza.rotation += 0.1;
+      return pizza.x + pizza.width > -50;
+    });
+  }
+  
+  updatePowerups() {
+    this.powerups = this.powerups.filter(powerup => {
+      powerup.x -= this.speed;
+      powerup.rotation += 0.08;
+      return powerup.x + powerup.width > -50;
+    });
+  }
+  
+  updateParticles() {
+    this.particles = this.particles.filter(particle => {
+      particle.x += particle.dx;
+      particle.y += particle.dy;
+      particle.life--;
+      particle.alpha = particle.life / particle.maxLife;
+      return particle.life > 0;
+    });
+  }
+  
+  updateSoundEffects() {
+    this.soundEffects = this.soundEffects.filter(effect => {
+      effect.life--;
+      effect.y -= 1;
+      effect.alpha = effect.life / effect.maxLife;
+      return effect.life > 0;
+    });
+  }
+  
+  updateStars() {
+    this.stars.forEach(star => {
+      star.x -= star.speed;
+      if (star.x < -5) {
+        star.x = this.canvas.width + 5;
+        star.y = Math.random() * this.canvas.height;
+      }
+    });
+  }
+  
+  checkCollisions() {
+    // Bullets vs Enemies
+    for (let i = this.bullets.length - 1; i >= 0; i--) {
+      const bullet = this.bullets[i];
+      for (let j = this.enemies.length - 1; j >= 0; j--) {
+        const enemy = this.enemies[j];
+        if (this.isColliding(bullet, enemy)) {
+          this.bullets.splice(i, 1);
+          enemy.health--;
+          
+          if (enemy.health <= 0) {
+            this.enemies.splice(j, 1);
+            this.score += 10;
+            this.enemiesDestroyed++;
+            this.addExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
+            this.addSoundEffect(enemy.x, enemy.y, 'BOOM!', '#ff4444');
+          }
+          break;
         }
+      }
     }
     
-    draw() {
-        // Clear canvas
-        this.ctx.fillStyle = 'rgba(0, 4, 40, 0.1)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    // Player vs Enemies
+    this.enemies.forEach((enemy, index) => {
+      if (this.isColliding(this.player, enemy)) {
+        this.player.health--;
+        this.enemies.splice(index, 1);
+        this.addSoundEffect(this.player.x, this.player.y, 'OUCH!', '#ff0000');
         
-        // Draw stars with reduced opacity for less distraction
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        this.stars.forEach(star => {
-            this.ctx.fillRect(star.x, star.y, star.size, star.size);
-        });
-        
-        // Draw player rocket ship with custom graphics
-        this.ctx.save();
-        this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
-        
-        // Rocket ship body - main fuselage (facing right)
-        this.ctx.fillStyle = '#e74c3c';
-        this.ctx.fillRect(-25, -20, 50, 40);
-        
-        // Rocket nose cone (triangle pointing right)
-        this.ctx.fillStyle = '#c0392b';
-        this.ctx.beginPath();
-        this.ctx.moveTo(35, 0);  // Point facing right
-        this.ctx.lineTo(25, -12);
-        this.ctx.lineTo(25, 12);
-        this.ctx.closePath();
-        this.ctx.fill();
-        
-        // Rocket fins (on the back left side)
-        this.ctx.fillStyle = '#2c3e50';
-        this.ctx.fillRect(-25, -25, 12, 15);  // Top fin
-        this.ctx.fillRect(-25, 10, 12, 15);   // Bottom fin
-        
-        // Window (on the side)
-        this.ctx.fillStyle = '#3498db';
-        this.ctx.fillRect(-8, -8, 16, 16);
-        
-        // Flame from engines (coming from the back/left side)
-        if (this.keys['ArrowUp'] || this.keys['KeyW'] || this.keys['ArrowDown'] || this.keys['KeyS'] || 
-            this.keys['ArrowLeft'] || this.keys['KeyA'] || this.keys['ArrowRight'] || this.keys['KeyD']) {
-            this.ctx.fillStyle = '#f39c12';
-            this.ctx.fillRect(-35, -6, 12, 6);   // Top engine flame
-            this.ctx.fillRect(-35, 0, 12, 6);    // Bottom engine flame
-            this.ctx.fillStyle = '#e67e22';
-            this.ctx.fillRect(-30, -4, 8, 3);    // Inner flame top
-            this.ctx.fillRect(-30, 1, 8, 3);     // Inner flame bottom
+        if (this.player.health <= 0) {
+          this.gameOver();
         }
-        
-        this.ctx.restore();
-        
-        // Draw health bar
-        this.drawHealthBar();
-        
-        // Draw bullets with enhanced effects
-        this.bullets.forEach(bullet => {
-            this.ctx.save();
-            this.ctx.translate(bullet.x + bullet.width/2, bullet.y + bullet.height/2);
-            
-            // Energy bullet with glow effect
-            this.ctx.shadowColor = '#f39c12';
-            this.ctx.shadowBlur = 10;
-            this.ctx.fillStyle = '#f39c12';
-            this.ctx.fillRect(-7, -4, 14, 8);
-            
-            this.ctx.shadowBlur = 0;
-            this.ctx.restore();
-        });
-        
-        // Draw enemies with custom graphics (RED/ANGULAR = DANGEROUS!)
-        this.enemies.forEach(enemy => {
-            this.ctx.save();
-            this.ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
-            
-            // All enemies use red/dark threatening colors and angular shapes
-            if (enemy.emoji === '👾') {
-                // Alien invader - spiky red danger
-                this.ctx.fillStyle = '#c0392b';
-                this.ctx.fillRect(-15, -15, 30, 30);
-                this.ctx.fillStyle = '#e74c3c';
-                this.ctx.fillRect(-12, -12, 24, 24);
-                // Spiky edges
-                this.ctx.fillRect(-18, -5, 6, 10);
-                this.ctx.fillRect(12, -5, 6, 10);
-                this.ctx.fillRect(-5, -18, 10, 6);
-                this.ctx.fillRect(-5, 12, 10, 6);
-                // Angry red eyes
-                this.ctx.fillStyle = '#8b0000';
-                this.ctx.fillRect(-8, -8, 4, 4);
-                this.ctx.fillRect(4, -8, 4, 4);
-            } else if (enemy.emoji === '🛸') {
-                // UFO - menacing red saucer
-                this.ctx.fillStyle = '#8b0000';
-                this.ctx.fillRect(-18, -8, 36, 16);
-                this.ctx.fillStyle = '#c0392b';
-                this.ctx.fillRect(-12, -12, 24, 8);
-                // Threatening red lights
-                this.ctx.fillStyle = '#ff0000';
-                this.ctx.fillRect(-8, -4, 4, 4);
-                this.ctx.fillRect(4, -4, 4, 4);
-                // Sharp edges
-                this.ctx.fillRect(-22, -2, 8, 4);
-                this.ctx.fillRect(14, -2, 8, 4);
-            } else {
-                // Generic enemy - dark red angular threat
-                this.ctx.fillStyle = '#8b0000';
-                this.ctx.fillRect(-15, -15, 30, 30);
-                // Spiky appearance
-                this.ctx.fillStyle = '#c0392b';
-                this.ctx.fillRect(-12, -8, 24, 16);
-                this.ctx.fillRect(-8, -12, 16, 24);
-            }
-                this.ctx.fillStyle = '#d35400';
-                this.ctx.fillRect(-8, -8, 16, 16);
-            }
-            
-            this.ctx.restore();
-        });
-        
-        // Draw power-ups with custom graphics (BRIGHT/ROUND = HELPFUL!)
-        this.powerUps.forEach(powerUp => {
-            this.ctx.save();
-            this.ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
-            
-            // All power-ups use bright colors and friendly round shapes
-            if (powerUp.type === '⚡') {
-                // Lightning bolt - bright yellow/gold with glow
-                this.ctx.shadowColor = '#f1c40f';
-                this.ctx.shadowBlur = 10;
-                this.ctx.fillStyle = '#f1c40f';
-                // Circular base
-                this.ctx.fillRect(-12, -12, 24, 24);
-                this.ctx.fillStyle = '#fff';
-                // Lightning shape inside circle
-                this.ctx.fillRect(-6, -10, 4, 6);
-                this.ctx.fillRect(-2, -4, 6, 6);
-                this.ctx.fillRect(-4, 2, 4, 6);
-                this.ctx.shadowBlur = 0;
-            } else if (powerUp.type === '💖') {
-                // Heart - bright pink with white highlights
-                this.ctx.shadowColor = '#e91e63';
-                this.ctx.shadowBlur = 8;
-                this.ctx.fillStyle = '#e91e63';
-                // Heart shape with circles
-                this.ctx.fillRect(-12, -8, 24, 16);
-                this.ctx.fillRect(-8, -12, 8, 8);
-                this.ctx.fillRect(0, -12, 8, 8);
-                // White highlight
-                this.ctx.fillStyle = '#fff';
-                this.ctx.fillRect(-8, -8, 4, 4);
-                this.ctx.shadowBlur = 0;
-            } else {
-                // Pizza slice - warm orange with friendly colors
-                this.ctx.shadowColor = '#f39c12';
-                this.ctx.shadowBlur = 8;
-                this.ctx.fillStyle = '#f39c12';
-                // Circular pizza base
-                this.ctx.fillRect(-12, -12, 24, 24);
-                this.ctx.fillStyle = '#e67e22';
-                this.ctx.fillRect(-10, -10, 20, 20);
-                // Colorful toppings
-                this.ctx.fillStyle = '#c0392b';
-                this.ctx.fillRect(-6, -6, 3, 3);
-                this.ctx.fillRect(3, -3, 3, 3);
-                this.ctx.fillStyle = '#27ae60';
-                this.ctx.fillRect(-3, 2, 3, 3);
-                this.ctx.shadowBlur = 0;
-            }
-                this.ctx.lineTo(10, 8);
-                this.ctx.closePath();
-                this.ctx.fill();
-                this.ctx.fillStyle = '#e74c3c';
-                this.ctx.fillRect(-4, -2, 3, 3);
-                this.ctx.fillRect(1, 2, 3, 3);
-            }
-            
-            this.ctx.restore();
-        });
-        
-        // Draw particles
-        this.particles.forEach(particle => {
-            this.ctx.save();
-            this.ctx.fillStyle = particle.color;
-            this.ctx.font = '12px Arial';
-            this.ctx.fillText(particle.char, particle.x, particle.y);
-            this.ctx.restore();
-        });
-        
-        // Draw effects
-        this.effects.forEach(effect => {
-            this.ctx.save();
-            this.ctx.translate(effect.x, effect.y);
-            
-            const alpha = effect.timer / effect.maxTimer;
-            this.ctx.globalAlpha = alpha;
-            
-            this.ctx.fillStyle = '#f1c40f';
-            this.ctx.font = 'bold 16px Arial';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText(effect.text, -20, 0);
-            
-            this.ctx.restore();
-        });
-        
-        // Draw health bar
-        this.drawHealthBar();
-        
-        // Draw UI
-        this.drawUI();
-        
-        // Draw game over screen
-        if (this.gameOver) {
-            this.drawGameOverScreen();
-        }
+      }
+    });
+    
+    // Player vs Pizzas
+    this.pizzas.forEach((pizza, index) => {
+      if (this.isColliding(this.player, pizza)) {
+        this.pizzas.splice(index, 1);
+        this.score += 20;
+        this.addSoundEffect(pizza.x, pizza.y, 'YUM!', '#ffa500');
+        this.addPickupEffect(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
+      }
+    });
+    
+    // Player vs Power-ups
+    this.powerups.forEach((powerup, index) => {
+      if (this.isColliding(this.player, powerup)) {
+        this.powerups.splice(index, 1);
+        this.handlePowerup(powerup);
+        this.addSoundEffect(powerup.x, powerup.y, 'POWER!', '#00ff00');
+      }
+    });
+  }
+  
+  isColliding(obj1, obj2) {
+    return obj1.x < obj2.x + obj2.width &&
+           obj1.x + obj1.width > obj2.x &&
+           obj1.y < obj2.y + obj2.height &&
+           obj1.y + obj1.height > obj2.y;
+  }
+  
+  handlePowerup(powerup) {
+    switch (powerup.type) {
+      case 'health':
+        this.player.health = Math.min(this.player.health + 1, this.player.maxHealth);
+        break;
+      case 'speed':
+        this.player.speed = Math.min(this.player.speed + 1, 8);
+        setTimeout(() => {
+          this.player.speed = Math.max(this.player.speed - 1, 5);
+        }, 5000);
+        break;
+      case 'bonus':
+        this.score += 50;
+        break;
+    }
+  }
+  
+  levelUp() {
+    this.level++;
+    this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'LEVEL UP!', '#00ff00');
+  }
+  
+  addExplosion(x, y) {
+    const particles = ['💥', '🔥'];
+    for (let i = 0; i < 8; i++) {
+      this.particles.push({
+        x: x,
+        y: y,
+        dx: (Math.random() - 0.5) * 8,
+        dy: (Math.random() - 0.5) * 8,
+        life: 30,
+        maxLife: 30,
+        particle: particles[Math.floor(Math.random() * particles.length)],
+        alpha: 1
+      });
+    }
+  }
+  
+  addPickupEffect(x, y) {
+    const particles = ['✨', '⭐'];
+    for (let i = 0; i < 5; i++) {
+      this.particles.push({
+        x: x,
+        y: y,
+        dx: (Math.random() - 0.5) * 4,
+        dy: (Math.random() - 0.5) * 4,
+        life: 25,
+        maxLife: 25,
+        particle: particles[Math.floor(Math.random() * particles.length)],
+        alpha: 1
+      });
+    }
+  }
+  
+  addSoundEffect(x, y, text, color) {
+    this.soundEffects.push({
+      x: x,
+      y: y,
+      text: text,
+      color: color,
+      life: 60,
+      maxLife: 60,
+      alpha: 1
+    });
+  }
+  
+  gameOver() {
+    this.showGameOverScreen = true;
+    this.gameOverTimer = 180; // 3 seconds at 60 FPS
+    this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'GAME OVER!', '#ff0000');
+  }
+  
+  restart() {
+    this.showGameOverScreen = false;
+    this.gameOverTimer = 0;
+    this.score = 0;
+    this.level = 1;
+    this.speed = 2;
+    this.enemiesDestroyed = 0;
+    this.player.health = this.player.maxHealth;
+    this.player.speed = 5;
+    this.player.x = 80;
+    this.player.y = 300;
+    
+    // Clear all arrays
+    this.bullets = [];
+    this.enemies = [];
+    this.pizzas = [];
+    this.powerups = [];
+    this.particles = [];
+    this.soundEffects = [];
+  }
+  
+  togglePause() {
+    if (!this.showGameOverScreen) {
+      this.paused = !this.paused;
+    }
+  }
+  
+  draw() {
+    // Clear canvas with gradient background
+    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+    gradient.addColorStop(0, '#0f0f23');
+    gradient.addColorStop(0.5, '#1a1a3a');
+    gradient.addColorStop(1, '#2d2d5a');
+    this.ctx.fillStyle = gradient;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Draw stars (reduced opacity for less distraction)
+    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    this.stars.forEach(star => {
+      this.ctx.fillRect(star.x, star.y, star.size, star.size);
+    });
+    
+    // Draw player (rocket ship facing right)
+    this.ctx.save();
+    this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
+    
+    // Rocket body (facing right)
+    this.ctx.fillStyle = '#e74c3c';
+    this.ctx.fillRect(-40, -30, 80, 60);
+    this.ctx.fillStyle = '#c0392b';
+    this.ctx.fillRect(-35, -25, 70, 50);
+    
+    // Rocket nose cone (pointing right)
+    this.ctx.fillStyle = '#f39c12';
+    this.ctx.beginPath();
+    this.ctx.moveTo(40, 0);
+    this.ctx.lineTo(25, -15);
+    this.ctx.lineTo(25, 15);
+    this.ctx.closePath();
+    this.ctx.fill();
+    
+    // Rocket fins
+    this.ctx.fillStyle = '#34495e';
+    this.ctx.fillRect(-45, -35, 15, 20);
+    this.ctx.fillRect(-45, 15, 15, 20);
+    
+    // Engine flames (when moving)
+    if (this.player.moving) {
+      this.ctx.fillStyle = '#ff6b35';
+      this.ctx.fillRect(-55, -8, 15, 16);
+      this.ctx.fillStyle = '#ffff00';
+      this.ctx.fillRect(-65, -5, 10, 10);
     }
     
-    drawHealthBar() {
-        const x = 10;
-        const y = this.canvas.height - 70;  // Move up more for larger bar
-        
-        // Background bar (larger)
-        this.ctx.fillStyle = '#34495e';
-        this.ctx.fillRect(x, y, 200, 30);  // Increased from 150x20 to 200x30
-        
-        // Health fill (larger)
-        this.ctx.fillStyle = this.player.health > 1 ? '#27ae60' : '#e74c3c';
-        this.ctx.fillRect(x + 3, y + 3, (194 * this.player.health) / 3, 24);  // Adjusted for new size
-        
-        // Health text (larger)
-        this.ctx.fillStyle = '#ecf0f1';
-        this.ctx.font = 'bold 16px Arial';  // Increased from 12px
-        this.ctx.fillText('💗 Health', x, y - 8);
-        
-        // Health number indicator
-        this.ctx.font = 'bold 14px Arial';
-        this.ctx.fillText(`${this.player.health}/3`, x + 150, y + 20);
+    this.ctx.restore();
+    
+    // Draw bullets
+    this.bullets.forEach(bullet => {
+      this.ctx.fillStyle = '#ff8c00';
+      this.ctx.shadowColor = '#ffa500';
+      this.ctx.shadowBlur = 10;
+      this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+      this.ctx.shadowBlur = 0;
+    });
+    
+    // Draw enemies (clearly red/threatening)
+    this.enemies.forEach(enemy => {
+      this.ctx.fillStyle = enemy.color;
+      this.ctx.shadowColor = enemy.color;
+      this.ctx.shadowBlur = 8;
+      
+      if (enemy.name === 'ufo') {
+        // UFO shape
+        this.ctx.fillRect(enemy.x, enemy.y + 10, enemy.width, enemy.height - 20);
+        this.ctx.fillStyle = '#666';
+        this.ctx.fillRect(enemy.x + 5, enemy.y, enemy.width - 10, enemy.height / 2);
+      } else {
+        // Regular enemy shape (angular/threatening)
+        this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+        // Add spiky details
+        this.ctx.fillStyle = '#ff0000';
+        this.ctx.fillRect(enemy.x + 5, enemy.y - 5, 5, 5);
+        this.ctx.fillRect(enemy.x + enemy.width - 10, enemy.y - 5, 5, 5);
+      }
+      
+      this.ctx.shadowBlur = 0;
+      
+      // Health bar for tougher enemies
+      if (enemy.maxHealth > 1) {
+        const healthBarWidth = enemy.width;
+        const healthBarHeight = 4;
+        this.ctx.fillStyle = '#ff0000';
+        this.ctx.fillRect(enemy.x, enemy.y - 10, healthBarWidth, healthBarHeight);
+        this.ctx.fillStyle = '#00ff00';
+        this.ctx.fillRect(enemy.x, enemy.y - 10, (enemy.health / enemy.maxHealth) * healthBarWidth, healthBarHeight);
+      }
+    });
+    
+    // Draw pizzas (larger, rotating)
+    this.pizzas.forEach(pizza => {
+      this.ctx.save();
+      this.ctx.translate(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
+      this.ctx.rotate(pizza.rotation);
+      
+      // Pizza base
+      this.ctx.fillStyle = '#ffa500';
+      this.ctx.shadowColor = '#ff8c00';
+      this.ctx.shadowBlur = 8;
+      this.ctx.beginPath();
+      this.ctx.arc(0, 0, pizza.width/2, 0, Math.PI * 2);
+      this.ctx.fill();
+      
+      // Pizza toppings
+      this.ctx.fillStyle = '#ff0000';
+      this.ctx.fillRect(-8, -8, 4, 4);
+      this.ctx.fillRect(8, 8, 4, 4);
+      this.ctx.fillStyle = '#00ff00';
+      this.ctx.fillRect(-8, 8, 4, 4);
+      this.ctx.fillRect(8, -8, 4, 4);
+      
+      this.ctx.shadowBlur = 0;
+      this.ctx.restore();
+    });
+    
+    // Draw power-ups (bright, glowing, friendly)
+    this.powerups.forEach(powerup => {
+      this.ctx.save();
+      this.ctx.translate(powerup.x + powerup.width/2, powerup.y + powerup.height/2);
+      this.ctx.rotate(powerup.rotation);
+      
+      this.ctx.shadowBlur = 10;
+      
+      switch (powerup.type) {
+        case 'speed':
+          // Lightning bolt (bright yellow)
+          this.ctx.fillStyle = '#ffff00';
+          this.ctx.shadowColor = '#ffff00';
+          this.ctx.fillRect(-8, -15, 6, 10);
+          this.ctx.fillRect(-2, -5, 6, 10);
+          this.ctx.fillRect(-8, 5, 6, 10);
+          break;
+        case 'health':
+          // Heart (bright pink)
+          this.ctx.fillStyle = '#ff1493';
+          this.ctx.shadowColor = '#ff1493';
+          this.ctx.beginPath();
+          this.ctx.arc(-5, -5, 8, 0, Math.PI * 2);
+          this.ctx.arc(5, -5, 8, 0, Math.PI * 2);
+          this.ctx.arc(0, 5, 10, 0, Math.PI * 2);
+          this.ctx.fill();
+          break;
+        case 'bonus':
+          // Star (bright green)
+          this.ctx.fillStyle = '#00ff00';
+          this.ctx.shadowColor = '#00ff00';
+          this.ctx.beginPath();
+          for (let i = 0; i < 5; i++) {
+            const angle = (i * Math.PI * 2) / 5 - Math.PI / 2;
+            const x = Math.cos(angle) * 12;
+            const y = Math.sin(angle) * 12;
+            if (i === 0) this.ctx.moveTo(x, y);
+            else this.ctx.lineTo(x, y);
+          }
+          this.ctx.closePath();
+          this.ctx.fill();
+          break;
+      }
+      
+      this.ctx.shadowBlur = 0;
+      this.ctx.restore();
+    });
+    
+    // Draw particles
+    this.particles.forEach(particle => {
+      this.ctx.globalAlpha = particle.alpha;
+      this.ctx.font = '20px Arial';
+      this.ctx.fillText(particle.particle, particle.x, particle.y);
+    });
+    this.ctx.globalAlpha = 1;
+    
+    // Draw sound effects
+    this.soundEffects.forEach(effect => {
+      this.ctx.globalAlpha = effect.alpha;
+      this.ctx.fillStyle = effect.color;
+      this.ctx.font = 'bold 16px Arial';
+      this.ctx.fillText(effect.text, effect.x, effect.y);
+    });
+    this.ctx.globalAlpha = 1;
+    
+    // Enhanced UI
+    this.drawUI();
+    
+    // Game over screen
+    if (this.showGameOverScreen) {
+      this.drawGameOverScreen();
     }
     
-    drawUI() {
-        // Score
-        this.ctx.fillStyle = '#ecf0f1';
-        this.ctx.font = 'bold 18px Arial';
-        const scoreText = `Score: ${this.score}`;
-        this.ctx.fillText(scoreText, 10, 30);
-        
-        // Level
-        this.ctx.fillStyle = '#f39c12';
-        this.ctx.font = 'bold 16px Arial';
-        const levelText = `Level ${this.level}`;
-        this.ctx.fillText(levelText, this.canvas.width - 120, 30);
-        
-        // Title in bottom left
-        this.ctx.fillStyle = '#95a5a6';
-        this.ctx.font = '12px Arial';
-        const titleText = 'Pizza Delivery Space Adventure';
-        this.ctx.fillText(titleText, 10, this.canvas.height - 10);
-        
-        // Speed boost indicator
-        if (this.speedBoost) {
-            this.ctx.fillStyle = '#f1c40f';
-            this.ctx.font = 'bold 14px Arial';
-            this.ctx.fillText('SPEED BOOST!', this.canvas.width - 150, this.canvas.height - 10);
-        }
+    // Pause screen
+    if (this.paused && !this.showGameOverScreen) {
+      this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = 'white';
+      this.ctx.font = 'bold 48px Arial';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('PAUSED', this.canvas.width/2, this.canvas.height/2);
+      this.ctx.font = '24px Arial';
+      this.ctx.fillText('Click Resume to continue', this.canvas.width/2, this.canvas.height/2 + 50);
+      this.ctx.textAlign = 'left';
     }
+  }
+  
+  drawUI() {
+    // Health bar (larger and more visible)
+    const healthBarWidth = 200;
+    const healthBarHeight = 30;
+    const healthBarX = 20;
+    const healthBarY = 20;
     
-    drawGameOverScreen() {
-        // Semi-transparent overlay
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Game Over text
-        this.ctx.fillStyle = '#e74c3c';
-        this.ctx.font = 'bold 48px Arial';
-        this.ctx.textAlign = 'center';
-        const gameOverText = 'GAME OVER';
-        this.ctx.fillText(gameOverText, this.canvas.width/2, this.canvas.height/2 - 60);
-        
-        // Final score
-        this.ctx.fillStyle = '#f39c12';
-        this.ctx.font = 'bold 24px Arial';
-        const finalScoreText = `Final Score: ${this.score}`;
-        this.ctx.fillText(finalScoreText, this.canvas.width/2, this.canvas.height/2 - 10);
-        
-        // Level reached
-        this.ctx.fillStyle = '#3498db';
-        this.ctx.font = 'bold 20px Arial';
-        const levelText = `Level Reached: ${this.level}`;
-        this.ctx.fillText(levelText, this.canvas.width/2, this.canvas.height/2 + 30);
-        
-        // Restart instruction
-        this.ctx.fillStyle = '#95a5a6';
-        this.ctx.font = 'bold 18px Arial';
-        const restartText = 'Click to Play Again';
-        this.ctx.fillText(restartText, this.canvas.width/2, this.canvas.height/2 + 80);
-        
-        // Reset text alignment
-        this.ctx.textAlign = 'left';
-    }
+    // Health bar background
+    this.ctx.fillStyle = '#333';
+    this.ctx.fillRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
     
-    gameLoop() {
-        this.update();
-        this.draw();
-        requestAnimationFrame(() => this.gameLoop());
+    // Health bar fill
+    const healthPercentage = this.player.health / this.player.maxHealth;
+    if (healthPercentage > 0.6) {
+      this.ctx.fillStyle = '#00ff00';
+    } else if (healthPercentage > 0.3) {
+      this.ctx.fillStyle = '#ffff00';
+    } else {
+      this.ctx.fillStyle = '#ff0000';
     }
+    this.ctx.fillRect(healthBarX, healthBarY, healthBarWidth * healthPercentage, healthBarHeight);
+    
+    // Health bar border
+    this.ctx.strokeStyle = '#fff';
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+    
+    // Health text
+    this.ctx.fillStyle = '#fff';
+    this.ctx.font = 'bold 16px Arial';
+    this.ctx.fillText(`Health: ${this.player.health}/${this.player.maxHealth}`, healthBarX + 5, healthBarY + 20);
+    
+    // Score and level
+    this.ctx.fillStyle = '#fff';
+    this.ctx.font = 'bold 24px Arial';
+    this.ctx.strokeStyle = '#000';
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeText(`Score: ${this.score}`, 20, 80);
+    this.ctx.fillText(`Score: ${this.score}`, 20, 80);
+    this.ctx.strokeText(`Level: ${this.level}`, 20, 110);
+    this.ctx.fillText(`Level: ${this.level}`, 20, 110);
+  }
+  
+  drawGameOverScreen() {
+    this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    this.ctx.fillStyle = '#ff0000';
+    this.ctx.font = 'bold 48px Arial';
+    this.ctx.textAlign = 'center';
+    this.ctx.strokeStyle = '#fff';
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeText('GAME OVER!', this.canvas.width/2, this.canvas.height/2 - 50);
+    this.ctx.fillText('GAME OVER!', this.canvas.width/2, this.canvas.height/2 - 50);
+    
+    this.ctx.fillStyle = '#fff';
+    this.ctx.font = '32px Arial';
+    this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2);
+    this.ctx.fillText(`Level Reached: ${this.level}`, this.canvas.width/2, this.canvas.height/2 + 40);
+    
+    const secondsLeft = Math.ceil(this.gameOverTimer / 60);
+    this.ctx.font = '24px Arial';
+    this.ctx.fillText(`Restarting in ${secondsLeft} seconds...`, this.canvas.width/2, this.canvas.height/2 + 80);
+    
+    this.ctx.font = '48px Arial';
+    this.ctx.fillText('💀', this.canvas.width/2, this.canvas.height/2 + 130);
+    
+    this.ctx.textAlign = 'left';
+  }
+  
+  gameLoop() {
+    if (this.gameRunning) {
+      this.update();
+      this.draw();
+      requestAnimationFrame(() => this.gameLoop());
+    }
+  }
 }
 
-// Initialize the game
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, checking for game canvas...');
-    const canvas = document.getElementById('pizzaGame');
-    if (canvas) {
-        console.log('Canvas found, initializing game...');
-        try {
-            const game = new PizzaGame('pizzaGame');
-            console.log('Game initialized successfully!');
-        } catch (error) {
-            console.error('Error initializing game:', error);
-        }
-    } else {
-        console.error('Canvas element with id "pizzaGame" not found!');
+// Initialize game when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, initializing game...');
+  if (document.getElementById('gameCanvas')) {
+    try {
+      window.rocketGame = new RocketPizzaGame('gameCanvas');
+      console.log('Game initialized successfully!');
+    } catch (error) {
+      console.error('Game initialization failed:', error);
     }
+  } else {
+    console.error('gameCanvas element not found!');
+  }
 });
+
+// Game control functions
+function toggleGamePause() {
+  if (window.rocketGame) {
+    window.rocketGame.togglePause();
+    const btn = document.getElementById('pauseBtn');
+    btn.textContent = window.rocketGame.paused ? '▶️ Resume' : '⏸️ Pause';
+  }
+}
+
+function restartGame() {
+  if (window.rocketGame) {
+    window.rocketGame.restart();
+    const btn = document.getElementById('pauseBtn');
+    btn.textContent = '⏸️ Pause';
+  }
+}
 </script>
 
-## Latest Articles from Medium
+## Recent Updates
 
-<div id="medium-articles" style="margin: 40px 0;">
-  <h3>Recent Publications</h3>
-  <div id="articles-container">
-    <p>Loading latest articles...</p>
-  </div>
+Stay tuned for new projects and articles as I continue to explore the intersection of data science, technology, and life's adventures.
+
+<!-- Medium RSS Feed Integration -->
+<div id="medium-articles" class="recent-articles">
+  <h3>Latest Articles</h3>
+  <div id="medium-feed"></div>
 </div>
 
 <script>
-// Fetch Medium articles
 async function fetchMediumArticles() {
     try {
-        const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@charleswhetstone/feed');
+        const rssUrl = 'https://medium.com/feed/@charleswhetstone';
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
         
-        if (data.status === 'ok') {
-            displayArticles(data.items.slice(0, 3)); // Show latest 3 articles
+        if (data.items && data.items.length > 0) {
+            return data.items.slice(0, 3);
         }
     } catch (error) {
-        console.error('Error fetching articles:', error);
-        document.getElementById('articles-container').innerHTML = '<p>Unable to load articles at this time.</p>';
+        console.log('Medium articles will load when available');
+        return [];
     }
+    return [];
 }
 
 function displayArticles(articles) {
-    const container = document.getElementById('articles-container');
+    const feedContainer = document.getElementById('medium-feed');
     
-    const articlesHTML = articles.map(article => {
-        const date = new Date(article.pubDate).toLocaleDateString();
-        const description = article.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
-        
-        return `
-            <div style="border: 1px solid #333; border-radius: 8px; padding: 20px; margin: 15px 0; background: rgba(255,255,255,0.05);">
-                <h4 style="margin-top: 0;"><a href="${article.link}" target="_blank" style="color: #4CAF50; text-decoration: none;">${article.title}</a></h4>
-                <p style="color: #ccc; font-size: 14px; margin: 10px 0;">${date}</p>
-                <p style="color: #aaa; line-height: 1.6;">${description}</p>
-                <a href="${article.link}" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Read More →</a>
+    if (articles.length > 0) {
+        feedContainer.innerHTML = articles.map(article => `
+            <div class="article-preview">
+                <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
+                <p class="article-date">${new Date(article.pubDate).toLocaleDateString()}</p>
+                <p>${article.description.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
             </div>
-        `;
-    }).join('');
-    
-    container.innerHTML = articlesHTML;
+        `).join('');
+    } else {
+        feedContainer.innerHTML = '<p>Articles coming soon...</p>';
+    }
 }
 
-// Load articles when page loads
-document.addEventListener('DOMContentLoaded', fetchMediumArticles);
+document.addEventListener('DOMContentLoaded', async function() {
+    const articles = await fetchMediumArticles();
+    displayArticles(articles);
+});
 </script>
+
+<style>
+/* Enhanced Game Styles */
+.game-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 2em 0;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.game-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.8em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.game-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.game-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.game-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.game-wrapper {
+    text-align: center;
+}
+
+#gameCanvas {
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d2d5a 100%);
+    display: block;
+    margin: 0 auto;
+    cursor: crosshair;
+    transition: all 0.3s ease;
+}
+
+#gameCanvas:hover {
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+#gameCanvas:focus {
+    outline: 2px solid #00ff00;
+    outline-offset: 2px;
+}
+
+.game-instructions {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.game-instructions p {
+    color: white;
+    margin: 8px 0;
+    font-size: 1em;
+}
+
+.game-instructions strong {
+    color: #ffff00;
+}
+
+/* Recent Articles Styles */
+.recent-articles {
+    margin-top: 3em;
+    padding: 2em;
+    background: var(--background-color, rgba(255,255,255,0.1));
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.recent-articles h3 {
+    color: var(--text-color, #ffffff);
+    margin-bottom: 1.5em;
+    font-size: 1.5em;
+}
+
+.article-preview {
+    margin-bottom: 2em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.2));
+}
+
+.article-preview:last-child {
+    border-bottom: none;
+}
+
+.article-preview h4 a {
+    color: var(--link-color, #64b5f6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.article-preview h4 a:hover {
+    color: var(--link-hover-color, #42a5f5);
+}
+
+.article-date {
+    font-size: 0.9em;
+    color: var(--muted-text-color, #cccccc);
+    margin: 0.5em 0;
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+    #gameCanvas {
+        width: 900px;
+        height: 600px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 600px) {
+    #gameCanvas {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        aspect-ratio: 3/2;
+    }
+}
+
+@media (max-width: 599px) {
+    .game-container {
+        padding: 15px;
+        margin: 1em 0;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .game-header h3 {
+        font-size: 1.4em;
+    }
+    
+    .game-controls {
+        justify-content: center;
+    }
+    
+    .game-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+    
+    #gameCanvas {
+        width: 100%;
+        max-width: 100%;
+        height: 300px;
+    }
+    
+    .game-instructions {
+        text-align: center;
+        padding: 12px;
+    }
+    
+    .game-instructions p {
+        font-size: 0.9em;
+    }
+}
+
+/* Focus and interaction improvements */
+.game-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+}
+
+/* Smooth animations */
+* {
+    box-sizing: border-box;
+}
+
+/* Dark theme compatibility */
+@media (prefers-color-scheme: dark) {
+    .recent-articles {
+        background: rgba(30, 30, 30, 0.8);
+        border-color: rgba(255,255,255,0.1);
+    }
+}
+</style>
