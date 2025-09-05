@@ -46,9 +46,39 @@ I'm a passionate Data Scientist and AI Engineer with expertise in machine learni
 
 Test your skills in this fast-paced space shooter game! Deliver pizzas while avoiding obstacles and enemies.
 
-<canvas id="pizzaGame" width="800" height="600" style="border: 2px solid #333; background: linear-gradient(to bottom, #000428 0%, #004e92 100%); display: block; margin: 20px auto; max-width: 100%;"></canvas>
+<div class="game-container" style="text-align: center; margin: 30px auto; max-width: 1200px;">
+  <canvas id="pizzaGame" width="900" height="600" style="border: 2px solid #333; background: linear-gradient(to bottom, #000428 0%, #004e92 100%); display: block; margin: 0 auto; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"></canvas>
+  
+  <div style="margin: 15px 0; color: #666; font-size: 14px;">
+    Use <strong>WASD</strong> or <strong>Arrow Keys</strong> to move • <strong>Space</strong> to shoot
+  </div>
+</div>
 
-<div style="text-align: center; margin: 10px 0; color: #666;">
+<style>
+@media (min-width: 1200px) {
+  .game-container {
+    max-width: 1000px;
+  }
+  #pizzaGame {
+    width: 900px;
+    height: 600px;
+  }
+}
+
+@media (max-width: 900px) {
+  #pizzaGame {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  #pizzaGame {
+    max-height: 300px;
+  }
+}
+</style>
 <strong>Controls:</strong> Arrow Keys or WASD to move • Space to shoot • Mouse click to restart
 </div>
 
@@ -56,7 +86,22 @@ Test your skills in this fast-paced space shooter game! Deliver pizzas while avo
 class PizzaGame {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) {
+            console.error(`Canvas with id "${canvasId}" not found!`);
+            return;
+        }
+        
         this.ctx = this.canvas.getContext('2d');
+        if (!this.ctx) {
+            console.error('Failed to get 2D context from canvas!');
+            return;
+        }
+        
+        // Set canvas dimensions explicitly
+        this.canvas.width = 900;
+        this.canvas.height = 600;
+        
+        console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
         
         // Game state
         this.player = {
@@ -679,8 +724,18 @@ class PizzaGame {
 
 // Initialize the game
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('pizzaGame')) {
-        new PizzaGame('pizzaGame');
+    console.log('DOM loaded, checking for game canvas...');
+    const canvas = document.getElementById('pizzaGame');
+    if (canvas) {
+        console.log('Canvas found, initializing game...');
+        try {
+            const game = new PizzaGame('pizzaGame');
+            console.log('Game initialized successfully!');
+        } catch (error) {
+            console.error('Error initializing game:', error);
+        }
+    } else {
+        console.error('Canvas element with id "pizzaGame" not found!');
     }
 });
 </script>
