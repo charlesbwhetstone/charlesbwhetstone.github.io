@@ -51,7 +51,7 @@ Test your piloting skills in this retro-style space adventure! Navigate your roc
     <div class="game-controls">
       <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
       <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
-      <a href="/pizza-game/" class="game-btn fullscreen-btn" target="_blank">🖥️ Play Full Screen</a>
+      <a href="#" class="game-btn fullscreen-toggle" onclick="toggleFullScreen()" title="Toggle Fullscreen">🖥️ Fullscreen</a>
     </div>
   </div>
   
@@ -888,6 +888,50 @@ function restartGame() {
     btn.textContent = '⏸️ Pause';
   }
 }
+
+function toggleFullScreen() {
+  const wrapper = document.querySelector('.game-wrapper');
+  const canvas = document.getElementById('gameCanvas');
+  
+  if (wrapper.classList.contains('fullscreen')) {
+    // Exit fullscreen
+    wrapper.classList.remove('fullscreen');
+    const exitBtn = wrapper.querySelector('.fullscreen-exit');
+    if (exitBtn) exitBtn.remove();
+    
+    // Restore normal canvas size by removing inline styles
+    canvas.style.width = '';
+    canvas.style.height = '';
+    
+    // Update button text
+    const toggleBtn = document.querySelector('.fullscreen-toggle');
+    if (toggleBtn) toggleBtn.innerHTML = '🖥️ Fullscreen';
+    
+  } else {
+    // Enter fullscreen
+    wrapper.classList.add('fullscreen');
+    
+    // Add exit button
+    const exitBtn = document.createElement('button');
+    exitBtn.className = 'fullscreen-exit';
+    exitBtn.innerHTML = '✖ Exit Fullscreen';
+    exitBtn.onclick = toggleFullScreen;
+    wrapper.appendChild(exitBtn);
+    
+    // Update button text
+    const toggleBtn = document.querySelector('.fullscreen-toggle');
+    if (toggleBtn) toggleBtn.innerHTML = '📱 Exit Fullscreen';
+    
+    // Allow ESC key to exit
+    const escHandler = (e) => {
+      if (e.key === 'Escape' && wrapper.classList.contains('fullscreen')) {
+        toggleFullScreen();
+        document.removeEventListener('keydown', escHandler);
+      }
+    };
+    document.addEventListener('keydown', escHandler);
+  }
+}
 </script>
 
 ## Recent Updates
@@ -940,7 +984,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 </script>
 
 <style>
-/* Enhanced Game Styles */
+/* Enhanced Game Styles with Dynamic Width */
+.page__content {
+    max-width: 1200px !important;
+    width: 100% !important;
+}
+
+.page__inner-wrap {
+    max-width: 1200px !important;
+}
+
+.layout--home .page__content {
+    max-width: 1200px !important;
+}
+
 .game-container {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 15px;
@@ -948,6 +1005,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     margin: 2em 0;
     box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     border: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+    max-width: none;
+    overflow: visible;
+    position: relative;
 }
 
 .game-header {
@@ -969,6 +1030,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .game-btn {
@@ -990,8 +1052,53 @@ document.addEventListener('DOMContentLoaded', async function() {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+.fullscreen-toggle {
+    background: rgba(255,255,255,0.25) !important;
+    border: 2px solid rgba(255,255,255,0.4) !important;
+}
+
+.fullscreen-toggle:hover {
+    background: rgba(255,255,255,0.4) !important;
+}
+
 .game-wrapper {
     text-align: center;
+    position: relative;
+}
+
+.game-wrapper.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.game-wrapper.fullscreen #gameCanvas {
+    width: min(90vw, 90vh * 1.5) !important;
+    height: min(60vh, 90vw / 1.5) !important;
+    max-width: 1200px;
+    max-height: 800px;
+}
+
+.fullscreen-exit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,0,0,0.8);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 10000;
 }
 
 #gameCanvas {
@@ -1030,6 +1137,222 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 .game-instructions strong {
     color: #ffff00;
+}
+
+/* Feature row adjustments for better spacing */
+.feature__wrapper {
+    max-width: 1200px !important;
+    margin: 0 auto;
+}
+
+.feature__item {
+    margin-bottom: 2em;
+}
+
+/* Recent Articles Styles */
+.recent-articles {
+    margin-top: 3em;
+    padding: 2em;
+    background: var(--background-color, rgba(255,255,255,0.1));
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.recent-articles h3 {
+    color: var(--text-color, #ffffff);
+    margin-bottom: 1.5em;
+    font-size: 1.5em;
+}
+
+.article-preview {
+    margin-bottom: 2em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.2));
+}
+
+.article-preview:last-child {
+    border-bottom: none;
+}
+
+.article-preview h4 a {
+    color: var(--link-color, #64b5f6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.article-preview h4 a:hover {
+    color: var(--link-hover-color, #42a5f5);
+}
+
+.article-date {
+    font-size: 0.9em;
+    color: var(--muted-text-color, #cccccc);
+    margin: 0.5em 0;
+}
+
+/* Responsive Design - Mobile First Approach */
+/* Mobile Phones (320px - 767px) */
+@media (max-width: 767px) {
+    .page__content {
+        max-width: 100% !important;
+        padding: 0 10px !important;
+    }
+    
+    .game-container {
+        padding: 10px;
+        margin: 1em 0;
+        border-radius: 10px;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .game-header h3 {
+        font-size: 1.3em;
+    }
+    
+    .game-controls {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .game-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
+        min-width: 70px;
+    }
+    
+    #gameCanvas {
+        width: calc(100vw - 40px) !important;
+        max-width: 100% !important;
+        height: calc((100vw - 40px) * 0.6) !important;
+        min-height: 200px;
+        max-height: 300px;
+    }
+    
+    .game-instructions {
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .game-instructions p {
+        font-size: 0.85em;
+    }
+    
+    .recent-articles {
+        padding: 1em;
+        margin-top: 2em;
+    }
+    
+    .fullscreen-exit {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .page__content {
+        max-width: 95% !important;
+        padding: 0 20px !important;
+    }
+    
+    .game-container {
+        padding: 15px;
+        margin: 1.5em 0;
+    }
+    
+    .game-header h3 {
+        font-size: 1.6em;
+    }
+    
+    .game-btn {
+        padding: 9px 14px;
+        font-size: 0.85em;
+    }
+    
+    #gameCanvas {
+        width: min(700px, calc(100vw - 70px)) !important;
+        height: min(467px, calc((100vw - 70px) * 0.667)) !important;
+    }
+    
+    .game-instructions p {
+        font-size: 0.95em;
+    }
+}
+
+/* Small Desktops (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .page__content {
+        max-width: 1000px !important;
+    }
+    
+    #gameCanvas {
+        width: 800px !important;
+        height: 533px !important;
+    }
+}
+
+/* Large Desktops (1200px+) */
+@media (min-width: 1200px) {
+    .page {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .page__content {
+        max-width: 1200px !important;
+    }
+    
+    #gameCanvas {
+        width: 900px !important;
+        height: 600px !important;
+    }
+}
+
+/* Ultra-wide screens (1400px+) */
+@media (min-width: 1400px) {
+    .page__content {
+        max-width: 1300px !important;
+    }
+    
+    .game-container {
+        max-width: 1000px;
+        margin: 2em auto;
+    }
+    
+    #gameCanvas {
+        width: 950px !important;
+        height: 633px !important;
+    }
+}
+
+/* Focus and interaction improvements */
+.game-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+}
+
+/* Dark theme compatibility */
+@media (prefers-color-scheme: dark) {
+    .recent-articles {
+        background: rgba(30, 30, 30, 0.8);
+        border-color: rgba(255,255,255,0.1);
+    }
+}
+
+/* Print styles */
+@media print {
+    .game-container {
+        display: none;
+    }
 }
 
 /* Recent Articles Styles */
