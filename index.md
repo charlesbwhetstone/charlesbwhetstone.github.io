@@ -432,13 +432,13 @@ class RocketPizzaGame {
     
     const combinedRadius = (obj1.width + obj1.height + obj2.width + obj2.height) / 8;
     return distance < combinedRadius;
-  }
+  } 
 
   detectCollision(objA, objB, type = "rectangle") {
     switch (type) {
       case "circle":
         return this.checkCircularCollision(objA, objB);
-      case "loose":
+      case "loose": 
         return this.checkCollision(objA, objB, -5);
       case "tight":
         return this.checkCollision(objA, objB, 5);
