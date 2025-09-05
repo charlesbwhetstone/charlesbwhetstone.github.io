@@ -443,31 +443,9 @@ class RocketPizzaGame {
       case "tight":
         return this.checkCollision(objA, objB, 5);
       default:
-
-
-      case "loose":
-        return this.checkCollision(objA, objB, -5);
-      case "tight":
-        return this.checkCollision(objA, objB, 5);
-      default:
         return this.checkCollision(objA, objB);
     }
-  }
-
-  handleCollisionResponse(obj1, obj2, collisionType) {
-    switch (collisionType) {
-      case "bullet_enemy":
-        const impactX = Math.max(obj1.x, obj2.x) + Math.min(obj1.width, obj2.width) / 2;
-        const impactY = Math.max(obj1.y, obj2.y) + Math.min(obj1.height, obj2.height) / 2;
-        this.addImpactEffect(impactX, impactY);
-        break;
-      case "player_enemy":
-        this.addScreenShake();
-        break;
-      case "player_pickup":
-        this.addPickupBurst(obj2.x + obj2.width/2, obj2.y + obj2.height/2);
-        break;
-    }
+  }    }
   }
 
   addImpactEffect(x, y) {
