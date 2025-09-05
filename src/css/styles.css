@@ -1,0 +1,136 @@
+---
+permalink: /articles/
+title: "Technical Articles & Insights"
+layout: single
+author_profile: true
+header:
+  overlay_color: "#000"
+  overlay_filter: "0.5"
+---
+
+# Latest Articles & Insights
+
+I regularly write about data science, machine learning, and technology trends on Medium. Here are my latest thoughts and discoveries from the intersection of data, technology, and human experience.
+
+<div id="medium-articles-page">
+  <div id="loading">Loading articles from Medium...</div>
+  <div id="articles-container"></div>
+</div>
+
+## What I Write About
+
+- **Data Science Best Practices** - Methodologies, frameworks, and lessons learned from real-world projects
+- **Machine Learning Applications** - Practical implementations, case studies, and emerging techniques
+- **AI Safety & Ethics** - Responsible AI development, evaluation frameworks, and ethical considerations
+- **Technology Trends** - Insights on emerging technologies and their potential impact
+- **Career & Learning** - Thoughts on professional development in the data science field
+- **Creative Tech Projects** - Adventures in building games, experimental systems, and fun side projects
+
+## Connect with My Writing
+
+Follow me on [Medium @groundcontrolcharles](https://groundcontrolcharles.medium.com) for regular updates and deeper dives into the topics that fascinate me.
+
+<script>
+async function loadMediumArticles() {
+    const loadingDiv = document.getElementById('loading');
+    const container = document.getElementById('articles-container');
+    
+    try {
+        const rssUrl = 'https://medium.com/feed/@groundcontrolcharles';
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const data = await response.json();
+        
+        loadingDiv.style.display = 'none';
+        
+        if (data.items && data.items.length > 0) {
+            container.innerHTML = data.items.map(article => `
+                <div class="article-card">
+                    <h3><a href="${article.link}" target="_blank">${article.title}</a></h3>
+                    <p class="article-meta">
+                        <time>${new Date(article.pubDate).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        })}</time>
+                    </p>
+                    <div class="article-content">
+                        ${article.description.replace(/<[^>]*>/g, '').substring(0, 300)}...
+                    </div>
+                    <a href="${article.link}" target="_blank" class="read-more">Read More on Medium →</a>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = `
+                <p>Articles are loading... In the meantime, check out my Medium profile directly:</p>
+                <p><a href="https://groundcontrolcharles.medium.com" target="_blank" class="btn btn--primary">Visit My Medium Profile</a></p>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading Medium articles:', error);
+        loadingDiv.style.display = 'none';
+        container.innerHTML = `
+            <p>Having trouble loading articles right now. Check out my Medium profile directly:</p>
+            <p><a href="https://groundcontrolcharles.medium.com" target="_blank" class="btn btn--primary">Visit My Medium Profile</a></p>
+        `;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadMediumArticles);
+</script>
+
+<style>
+.article-card {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5em;
+    margin-bottom: 2em;
+    transition: box-shadow 0.3s ease;
+}
+
+.article-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.article-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.article-card h3 a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.article-card h3 a:hover {
+    color: var(--link-color);
+}
+
+.article-meta {
+    color: var(--muted-text-color);
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+.article-content {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    color: var(--text-color);
+}
+
+.read-more {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+#loading {
+    text-align: center;
+    padding: 2em;
+    color: var(--muted-text-color);
+}
+</style>

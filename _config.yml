@@ -6,20 +6,23 @@ baseurl: ""
 
 # Theme
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-minimal_mistakes_skin: "dark" # Changed to dark theme
+minimal_mistakes_skin: "dark"
 
 # Site Author
 author:
   name: "Charles Whetstone"
   bio: "Data Scientist & Developer"
-  location: "Your Location"
+  location: "Your Location" # Update this with your actual location
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/charlesbwhetstone"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://linkedin.com/in/yourprofile"
+      url: "https://www.linkedin.com/in/charlesbwhetstone/"
+    - label: "Medium"
+      icon: "fab fa-fw fa-medium"
+      url: "https://groundcontrolcharles.medium.com"
 
 # Collections
 collections:
