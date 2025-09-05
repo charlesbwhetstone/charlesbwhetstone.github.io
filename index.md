@@ -377,8 +377,8 @@ class PizzaGame {
         this.ctx.fillStyle = 'rgba(0, 4, 40, 0.1)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw stars
-        this.ctx.fillStyle = '#ffffff';
+        // Draw stars with reduced opacity for less distraction
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
         this.stars.forEach(star => {
             this.ctx.fillRect(star.x, star.y, star.size, star.size);
         });
@@ -387,37 +387,37 @@ class PizzaGame {
         this.ctx.save();
         this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
         
-        // Rocket ship body - main fuselage
+        // Rocket ship body - main fuselage (facing right)
         this.ctx.fillStyle = '#e74c3c';
-        this.ctx.fillRect(-20, -25, 40, 50);
+        this.ctx.fillRect(-25, -20, 50, 40);
         
-        // Rocket nose cone (triangle)
+        // Rocket nose cone (triangle pointing right)
         this.ctx.fillStyle = '#c0392b';
         this.ctx.beginPath();
-        this.ctx.moveTo(0, -35);
-        this.ctx.lineTo(-12, -25);
-        this.ctx.lineTo(12, -25);
+        this.ctx.moveTo(35, 0);  // Point facing right
+        this.ctx.lineTo(25, -12);
+        this.ctx.lineTo(25, 12);
         this.ctx.closePath();
         this.ctx.fill();
         
-        // Rocket fins
+        // Rocket fins (on the back left side)
         this.ctx.fillStyle = '#2c3e50';
-        this.ctx.fillRect(-25, 15, 12, 15);
-        this.ctx.fillRect(13, 15, 12, 15);
+        this.ctx.fillRect(-25, -25, 12, 15);  // Top fin
+        this.ctx.fillRect(-25, 10, 12, 15);   // Bottom fin
         
-        // Window
+        // Window (on the side)
         this.ctx.fillStyle = '#3498db';
-        this.ctx.fillRect(-8, -12, 16, 12);
+        this.ctx.fillRect(-8, -8, 16, 16);
         
-        // Flame from engines (animated)
+        // Flame from engines (coming from the back/left side)
         if (this.keys['ArrowUp'] || this.keys['KeyW'] || this.keys['ArrowDown'] || this.keys['KeyS'] || 
             this.keys['ArrowLeft'] || this.keys['KeyA'] || this.keys['ArrowRight'] || this.keys['KeyD']) {
             this.ctx.fillStyle = '#f39c12';
-            this.ctx.fillRect(-10, 25, 6, 12);
-            this.ctx.fillRect(4, 25, 6, 12);
+            this.ctx.fillRect(-35, -6, 12, 6);   // Top engine flame
+            this.ctx.fillRect(-35, 0, 12, 6);    // Bottom engine flame
             this.ctx.fillStyle = '#e67e22';
-            this.ctx.fillRect(-8, 27, 3, 8);
-            this.ctx.fillRect(5, 27, 3, 8);
+            this.ctx.fillRect(-30, -4, 8, 3);    // Inner flame top
+            this.ctx.fillRect(-30, 1, 8, 3);     // Inner flame bottom
         }
         
         this.ctx.restore();
@@ -440,34 +440,49 @@ class PizzaGame {
             this.ctx.restore();
         });
         
-        // Draw enemies with custom graphics
+        // Draw enemies with custom graphics (RED/ANGULAR = DANGEROUS!)
         this.enemies.forEach(enemy => {
             this.ctx.save();
             this.ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
             
-            // Different enemy designs based on emoji type
+            // All enemies use red/dark threatening colors and angular shapes
             if (enemy.emoji === '👾') {
-                // Alien invader
-                this.ctx.fillStyle = '#8e44ad';
+                // Alien invader - spiky red danger
+                this.ctx.fillStyle = '#c0392b';
                 this.ctx.fillRect(-15, -15, 30, 30);
-                this.ctx.fillStyle = '#9b59b6';
-                this.ctx.fillRect(-12, -12, 24, 24);
                 this.ctx.fillStyle = '#e74c3c';
-                this.ctx.fillRect(-8, -8, 6, 6);
-                this.ctx.fillRect(2, -8, 6, 6);
-            } else if (enemy.emoji === '🛸') {
-                // UFO
-                this.ctx.fillStyle = '#34495e';
-                this.ctx.fillRect(-18, -8, 36, 16);
-                this.ctx.fillStyle = '#3498db';
-                this.ctx.fillRect(-12, -12, 24, 8);
-                this.ctx.fillStyle = '#f1c40f';
-                this.ctx.fillRect(-6, -4, 3, 3);
-                this.ctx.fillRect(3, -4, 3, 3);
-            } else {
-                // Generic enemy
-                this.ctx.fillStyle = '#e67e22';
                 this.ctx.fillRect(-12, -12, 24, 24);
+                // Spiky edges
+                this.ctx.fillRect(-18, -5, 6, 10);
+                this.ctx.fillRect(12, -5, 6, 10);
+                this.ctx.fillRect(-5, -18, 10, 6);
+                this.ctx.fillRect(-5, 12, 10, 6);
+                // Angry red eyes
+                this.ctx.fillStyle = '#8b0000';
+                this.ctx.fillRect(-8, -8, 4, 4);
+                this.ctx.fillRect(4, -8, 4, 4);
+            } else if (enemy.emoji === '🛸') {
+                // UFO - menacing red saucer
+                this.ctx.fillStyle = '#8b0000';
+                this.ctx.fillRect(-18, -8, 36, 16);
+                this.ctx.fillStyle = '#c0392b';
+                this.ctx.fillRect(-12, -12, 24, 8);
+                // Threatening red lights
+                this.ctx.fillStyle = '#ff0000';
+                this.ctx.fillRect(-8, -4, 4, 4);
+                this.ctx.fillRect(4, -4, 4, 4);
+                // Sharp edges
+                this.ctx.fillRect(-22, -2, 8, 4);
+                this.ctx.fillRect(14, -2, 8, 4);
+            } else {
+                // Generic enemy - dark red angular threat
+                this.ctx.fillStyle = '#8b0000';
+                this.ctx.fillRect(-15, -15, 30, 30);
+                // Spiky appearance
+                this.ctx.fillStyle = '#c0392b';
+                this.ctx.fillRect(-12, -8, 24, 16);
+                this.ctx.fillRect(-8, -12, 16, 24);
+            }
                 this.ctx.fillStyle = '#d35400';
                 this.ctx.fillRect(-8, -8, 16, 16);
             }
@@ -475,29 +490,55 @@ class PizzaGame {
             this.ctx.restore();
         });
         
-        // Draw power-ups with custom graphics
+        // Draw power-ups with custom graphics (BRIGHT/ROUND = HELPFUL!)
         this.powerUps.forEach(powerUp => {
             this.ctx.save();
             this.ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
             
+            // All power-ups use bright colors and friendly round shapes
             if (powerUp.type === '⚡') {
-                // Lightning bolt
+                // Lightning bolt - bright yellow/gold with glow
+                this.ctx.shadowColor = '#f1c40f';
+                this.ctx.shadowBlur = 10;
                 this.ctx.fillStyle = '#f1c40f';
-                this.ctx.fillRect(-8, -12, 6, 8);
-                this.ctx.fillRect(-2, -4, 6, 8);
-                this.ctx.fillRect(-8, 4, 6, 8);
+                // Circular base
+                this.ctx.fillRect(-12, -12, 24, 24);
+                this.ctx.fillStyle = '#fff';
+                // Lightning shape inside circle
+                this.ctx.fillRect(-6, -10, 4, 6);
+                this.ctx.fillRect(-2, -4, 6, 6);
+                this.ctx.fillRect(-4, 2, 4, 6);
+                this.ctx.shadowBlur = 0;
             } else if (powerUp.type === '💖') {
-                // Heart
+                // Heart - bright pink with white highlights
+                this.ctx.shadowColor = '#e91e63';
+                this.ctx.shadowBlur = 8;
                 this.ctx.fillStyle = '#e91e63';
-                this.ctx.fillRect(-10, -8, 20, 12);
-                this.ctx.fillRect(-6, -12, 6, 8);
-                this.ctx.fillRect(0, -12, 6, 8);
+                // Heart shape with circles
+                this.ctx.fillRect(-12, -8, 24, 16);
+                this.ctx.fillRect(-8, -12, 8, 8);
+                this.ctx.fillRect(0, -12, 8, 8);
+                // White highlight
+                this.ctx.fillStyle = '#fff';
+                this.ctx.fillRect(-8, -8, 4, 4);
+                this.ctx.shadowBlur = 0;
             } else {
-                // Pizza slice
+                // Pizza slice - warm orange with friendly colors
+                this.ctx.shadowColor = '#f39c12';
+                this.ctx.shadowBlur = 8;
                 this.ctx.fillStyle = '#f39c12';
-                this.ctx.beginPath();
-                this.ctx.moveTo(0, -12);
-                this.ctx.lineTo(-10, 8);
+                // Circular pizza base
+                this.ctx.fillRect(-12, -12, 24, 24);
+                this.ctx.fillStyle = '#e67e22';
+                this.ctx.fillRect(-10, -10, 20, 20);
+                // Colorful toppings
+                this.ctx.fillStyle = '#c0392b';
+                this.ctx.fillRect(-6, -6, 3, 3);
+                this.ctx.fillRect(3, -3, 3, 3);
+                this.ctx.fillStyle = '#27ae60';
+                this.ctx.fillRect(-3, 2, 3, 3);
+                this.ctx.shadowBlur = 0;
+            }
                 this.ctx.lineTo(10, 8);
                 this.ctx.closePath();
                 this.ctx.fill();
@@ -548,17 +589,24 @@ class PizzaGame {
     
     drawHealthBar() {
         const x = 10;
-        const y = this.canvas.height - 50;
+        const y = this.canvas.height - 70;  // Move up more for larger bar
         
+        // Background bar (larger)
         this.ctx.fillStyle = '#34495e';
-        this.ctx.fillRect(x, y, 150, 20);
+        this.ctx.fillRect(x, y, 200, 30);  // Increased from 150x20 to 200x30
         
+        // Health fill (larger)
         this.ctx.fillStyle = this.player.health > 1 ? '#27ae60' : '#e74c3c';
-        this.ctx.fillRect(x + 2, y + 2, (146 * this.player.health) / 3, 16);
+        this.ctx.fillRect(x + 3, y + 3, (194 * this.player.health) / 3, 24);  // Adjusted for new size
         
+        // Health text (larger)
         this.ctx.fillStyle = '#ecf0f1';
-        this.ctx.font = '12px Arial';
-        this.ctx.fillText('Health', x, y - 5);
+        this.ctx.font = 'bold 16px Arial';  // Increased from 12px
+        this.ctx.fillText('💗 Health', x, y - 8);
+        
+        // Health number indicator
+        this.ctx.font = 'bold 14px Arial';
+        this.ctx.fillText(`${this.player.health}/3`, x + 150, y + 20);
     }
     
     drawUI() {
