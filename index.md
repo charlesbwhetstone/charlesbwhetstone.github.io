@@ -445,10 +445,6 @@ class RocketPizzaGame {
       default:
 
 
-  detectCollision(objA, objB, type = "rectangle") {
-    switch (type) {
-      case "circle":
-        return this.checkCircularCollision(objA, objB);
       case "loose":
         return this.checkCollision(objA, objB, -5);
       case "tight":
