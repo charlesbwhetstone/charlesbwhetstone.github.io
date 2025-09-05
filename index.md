@@ -8,7 +8,7 @@ header:
     - label: "Get to Know Me"
       url: "/about/"
       btn_class: "btn--primary"
-excerpt: "Data Scientist & Developer passionate about turning data into insights and building meaningful connections"
+excerpt: "Data Scientist & Forensics Engineer passionate about turning data into insights and building meaningful connections"
 feature_row:
   - title: "About Me"
     excerpt: "Discover my journey, passions, hobbies, and what makes me tick beyond just the professional realm."
@@ -31,7 +31,7 @@ feature_row:
 
 ## Welcome to My World
 
-I'm Charles Whetstone, a Data Scientist and Developer who believes in the power of data to tell stories and create positive change. This portfolio is a window into both my professional work and personal passions.
+I'm Charles Whetstone, a Data Scientist and Forensics Engineer who believes in the power of data to tell stories and create positive change. This portfolio is a window into both my professional work and personal passions.
 
 ## Recent Updates
 
@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', loadMediumArticles);
 # Site Author
 author:
   name: "Charles Whetstone"
-  bio: "Data Scientist & Developer"
-  location: "San Francisco Bay Area" # Update this with your actual location
+  bio: "Data Scientist & Forensics Engineer"
+  location: "Northwest Arkansas"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"

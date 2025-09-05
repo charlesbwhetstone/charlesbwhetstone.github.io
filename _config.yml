@@ -1,6 +1,6 @@
 # Site Settings
 title: "Charles Whetstone"
-description: "Data Scientist & Developer Portfolio"
+description: "Data Scientist & Forensics Engineer Portfolio"
 url: "https://charlesbwhetstone.github.io"
 baseurl: ""
 
@@ -11,8 +11,9 @@ minimal_mistakes_skin: "dark"
 # Site Author
 author:
   name: "Charles Whetstone"
-  bio: "Data Scientist & Developer"
-  location: "Arkansas, USA" # Updated with your location coordinates
+  bio: "Data Scientist & Forensics Engineer"
+  location: "Northwest Arkansas"
+  avatar: "/assets/images/bio-photo.jpg" # Optional: add your photo here
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
@@ -44,6 +45,12 @@ defaults:
     values:
       layout: single
       author_profile: true
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
 
 # Plugins
 plugins:
@@ -55,3 +62,9 @@ plugins:
 # Build settings
 markdown: kramdown
 highlighter: rouge
+
+# HTML Compression
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
