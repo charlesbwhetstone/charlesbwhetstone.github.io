@@ -1,12 +1,12 @@
 ---
 layout: single
-title: "🎮 Interactive Games"
-permalink: /games/
+title: "� Pizza Delivery Adventure - Enhanced Edition"
+permalink: /pizza-game/
 author_profile: true
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
-  excerpt: "Enhanced gaming experiences with fullscreen support"
+  excerpt: "Experience the ultimate space pizza delivery challenge with fullscreen gaming!"
 classes: wide
 ---
 

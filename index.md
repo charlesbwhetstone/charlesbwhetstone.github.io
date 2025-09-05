@@ -1397,60 +1397,156 @@ document.addEventListener('DOMContentLoaded', async function() {
     margin: 0.5em 0;
 }
 
-/* Responsive Design */
-@media (min-width: 1200px) {
-    #gameCanvas {
-        width: 900px;
-        height: 600px;
-    }
+/* Feature row adjustments for better spacing */
+.feature__wrapper {
+    max-width: 1200px !important;
+    margin: 0 auto;
 }
 
-@media (max-width: 1199px) and (min-width: 600px) {
-    #gameCanvas {
-        width: 100%;
-        max-width: 800px;
-        height: auto;
-        aspect-ratio: 3/2;
-    }
+.feature__item {
+    margin-bottom: 2em;
 }
 
-@media (max-width: 599px) {
+/* Responsive Design - Mobile First Approach */
+/* Mobile Phones (320px - 767px) */
+@media (max-width: 767px) {
+    .page__content {
+        max-width: 100% !important;
+        padding: 0 10px !important;
+    }
+    
     .game-container {
-        padding: 15px;
+        padding: 10px;
         margin: 1em 0;
+        border-radius: 10px;
     }
     
     .game-header {
         flex-direction: column;
         gap: 10px;
+        text-align: center;
     }
     
     .game-header h3 {
-        font-size: 1.4em;
+        font-size: 1.3em;
     }
     
     .game-controls {
         justify-content: center;
+        width: 100%;
     }
     
     .game-btn {
         padding: 8px 12px;
         font-size: 0.8em;
+        min-width: 70px;
     }
     
     #gameCanvas {
-        width: 100%;
-        max-width: 100%;
-        height: 300px;
+        width: calc(100vw - 40px) !important;
+        max-width: 100% !important;
+        height: calc((100vw - 40px) * 0.6) !important;
+        min-height: 200px;
+        max-height: 300px;
     }
     
     .game-instructions {
         text-align: center;
-        padding: 12px;
+        padding: 10px;
     }
     
     .game-instructions p {
-        font-size: 0.9em;
+        font-size: 0.85em;
+    }
+    
+    .recent-articles {
+        padding: 1em;
+        margin-top: 2em;
+    }
+    
+    .fullscreen-exit {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .page__content {
+        max-width: 95% !important;
+        padding: 0 20px !important;
+    }
+    
+    .game-container {
+        padding: 15px;
+        margin: 1.5em 0;
+    }
+    
+    .game-header h3 {
+        font-size: 1.6em;
+    }
+    
+    .game-btn {
+        padding: 9px 14px;
+        font-size: 0.85em;
+    }
+    
+    #gameCanvas {
+        width: min(700px, calc(100vw - 70px)) !important;
+        height: min(467px, calc((100vw - 70px) * 0.667)) !important;
+    }
+    
+    .game-instructions p {
+        font-size: 0.95em;
+    }
+}
+
+/* Small Desktops (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .page__content {
+        max-width: 1000px !important;
+    }
+    
+    #gameCanvas {
+        width: 800px !important;
+        height: 533px !important;
+    }
+}
+
+/* Large Desktops (1200px+) */
+@media (min-width: 1200px) {
+    .page {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .page__content {
+        max-width: 1200px !important;
+    }
+    
+    #gameCanvas {
+        width: 900px !important;
+        height: 600px !important;
+    }
+}
+
+/* Ultra-wide screens (1400px+) */
+@media (min-width: 1400px) {
+    .page__content {
+        max-width: 1300px !important;
+    }
+    
+    .game-container {
+        max-width: 1000px;
+        margin: 2em auto;
+    }
+    
+    #gameCanvas {
+        width: 950px !important;
+        height: 633px !important;
     }
 }
 
@@ -1471,5 +1567,18 @@ document.addEventListener('DOMContentLoaded', async function() {
         background: rgba(30, 30, 30, 0.8);
         border-color: rgba(255,255,255,0.1);
     }
+}
+
+/* Print styles */
+@media print {
+    .game-container {
+        display: none;
+    }
+}
+
+/* Focus and accessibility improvements */
+.game-container:focus-within {
+    outline: 3px solid #00ff00;
+    outline-offset: 3px;
 }
 </style>
