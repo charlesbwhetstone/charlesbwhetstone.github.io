@@ -13,7 +13,7 @@ author:
   name: "Charles Whetstone"
   bio: "Data Scientist & Forensics Engineer"
   location: "Northwest Arkansas"
-  avatar: "/assets/images/bio-photo.jpg" # Optional: add your photo here
+  # avatar: "/assets/images/bio-photo.jpg" # Optional: add your photo here
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"

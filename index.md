@@ -947,7 +947,7 @@ Stay tuned for new projects and articles as I continue to explore the intersecti
 <script>
 async function fetchMediumArticles() {
     try {
-        const rssUrl = 'https://medium.com/feed/@charleswhetstone';
+        const rssUrl = 'https://medium.com/feed/@groundcontrolcharles';
         const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
         
