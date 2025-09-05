@@ -38,7 +38,7 @@ feature_row:
 
 ## Welcome to My Portfolio
 
-I'm a passionate Data Scientist and AI Engineer with expertise in machine learning, deep learning, and advanced analytics. My work focuses on building intelligent systems that solve real-world problems and drive innovation.
+I'm a Forensics Engineer with expertise in data analytics, eDiscovery, machine learning, deep learning, and AI. My work focuses on solving real-world problems and drive innovation. I am an AI enthusist and will often use it as a coding buddy to help me innovate and complete projects quicker. 
 
 {% include feature_row %}
 
