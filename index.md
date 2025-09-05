@@ -444,6 +444,7 @@ class RocketPizzaGame {
         return this.checkCollision(objA, objB, 5);
       default:
 
+
   detectCollision(objA, objB, type = "rectangle") {
     switch (type) {
       case "circle":
@@ -499,31 +500,7 @@ class RocketPizzaGame {
 
   addScreenShake() {
     this.screenShake = { intensity: 5, duration: 10 };
-  }  addScreenShake() {
-    this.screenShake = { intensity: 5, duration: 10 };
-  }        x: x,
-        y: y,
-        dx: (Math.random() - 0.5) * 6,
-        dy: (Math.random() - 0.5) * 6,
-        life: 20,
-        maxLife: 20,
-        particle: "✨",
-        alpha: 1
-      });
-    }
-  }
-
-  addScreenShake() {
-    // Simple screen shake by temporarily offsetting the canvas context
-    this.screenShake = {
-      intensity: 5,
-      duration: 10
-    };
-  }
-        return this.checkCollision(objA, objB);
-    }
-  }
-  
+  }  
   
   handlePowerup(powerup) {
     switch (powerup.type) {
