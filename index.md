@@ -31,7 +31,17 @@ feature_row:
 
 ## Welcome to My World
 
-I'm Charles Whetstone, a Data Scientist and Developer who believes in the power of data to tell stories and create positive change.
+I'm Charles Whetstone, a Data Scientist and Developer who believes in the power of data to tell stories and create positive change. This portfolio is a window into both my professional work and personal passions.
+
+## Recent Updates
+
+Stay tuned for new projects and articles as I continue to explore the intersection of data science, technology, and life's adventures.
+
+<!-- Medium RSS Feed Integration -->
+<div id="medium-articles" class="recent-articles">
+  <h3>Latest Articles</h3>
+  <div id="medium-feed"></div>
+</div>
 
 <script>
 async function loadMediumArticles() {
@@ -47,13 +57,58 @@ async function loadMediumArticles() {
                 <div class="article-preview">
                     <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
                     <p class="article-date">${new Date(article.pubDate).toLocaleDateString()}</p>
+                    <p>${article.description.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
                 </div>
             `).join('');
+        } else {
+            feedContainer.innerHTML = '<p>Articles coming soon...</p>';
         }
     } catch (error) {
-        console.log('Medium articles will load when available');
+        console.error('Error loading Medium articles:', error);
+        document.getElementById('medium-feed').innerHTML = '<p>Articles coming soon...</p>';
     }
 }
 
 document.addEventListener('DOMContentLoaded', loadMediumArticles);
 </script>
+
+<style>
+.recent-articles {
+    margin-top: 2em;
+    padding: 1em;
+    background: var(--background-color);
+    border-radius: 8px;
+}
+
+.article-preview {
+    margin-bottom: 1.5em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.article-preview:last-child {
+    border-bottom: none;
+}
+
+.article-date {
+    font-size: 0.9em;
+    color: var(--muted-text-color);
+    margin: 0.5em 0;
+}
+</style>
+
+# Site Author
+author:
+  name: "Charles Whetstone"
+  bio: "Data Scientist & Developer"
+  location: "San Francisco Bay Area" # Update this with your actual location
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/charlesbwhetstone"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/charlesbwhetstone/"
+    - label: "Medium"
+      icon: "fab fa-fw fa-medium"
+      url: "https://groundcontrolcharles.medium.com"
