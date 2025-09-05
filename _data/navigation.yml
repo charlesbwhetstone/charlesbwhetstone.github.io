@@ -1,0 +1,9 @@
+main:
+  - title: "About"
+    url: /about/
+  - title: "Projects"
+    url: /projects/
+  - title: "Articles"
+    url: /articles/
+  - title: "Pizza Game 🍕"
+    url: /pizza-game/
