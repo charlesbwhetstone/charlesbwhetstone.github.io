@@ -457,7 +457,6 @@ class RocketPizzaGame {
     }
   }
 
-  // Enhanced collision handling with different responses
   handleCollisionResponse(obj1, obj2, collisionType) {
     switch (collisionType) {
       case "bullet_enemy":
@@ -499,6 +498,8 @@ class RocketPizzaGame {
   }
 
   addScreenShake() {
+    this.screenShake = { intensity: 5, duration: 10 };
+  }  addScreenShake() {
     this.screenShake = { intensity: 5, duration: 10 };
   }        x: x,
         y: y,
