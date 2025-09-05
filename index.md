@@ -363,7 +363,7 @@ class RocketPizzaGame {
       const bullet = this.bullets[i];
       for (let j = this.enemies.length - 1; j >= 0; j--) {
         const enemy = this.enemies[j];
-        if (this.isColliding(bullet, enemy)) {
+        if (this.detectCollision(bullet, enemy, "tight")) {
           this.bullets.splice(i, 1);
           enemy.health--;
           
@@ -381,7 +381,7 @@ class RocketPizzaGame {
     
     // Player vs Enemies
     this.enemies.forEach((enemy, index) => {
-      if (this.isColliding(this.player, enemy)) {
+      if (this.detectCollision(this.player, enemy, "loose")) {
         this.player.health--;
         this.enemies.splice(index, 1);
         this.addSoundEffect(this.player.x, this.player.y, 'OUCH!', '#ff0000');
@@ -394,7 +394,7 @@ class RocketPizzaGame {
     
     // Player vs Pizzas
     this.pizzas.forEach((pizza, index) => {
-      if (this.isColliding(this.player, pizza)) {
+      if (this.detectCollision(this.player, pizza, "circle")) {
         this.pizzas.splice(index, 1);
         this.score += 20;
         this.addSoundEffect(pizza.x, pizza.y, 'YUM!', '#ffa500');
@@ -404,7 +404,7 @@ class RocketPizzaGame {
     
     // Player vs Power-ups
     this.powerups.forEach((powerup, index) => {
-      if (this.isColliding(this.player, powerup)) {
+      if (this.detectCollision(this.player, powerup, "circle")) {
         this.powerups.splice(index, 1);
         this.handlePowerup(powerup);
         this.addSoundEffect(powerup.x, powerup.y, 'POWER!', '#00ff00');
@@ -443,6 +443,82 @@ class RocketPizzaGame {
       case "tight":
         return this.checkCollision(objA, objB, 5);
       default:
+
+  detectCollision(objA, objB, type = "rectangle") {
+    switch (type) {
+      case "circle":
+        return this.checkCircularCollision(objA, objB);
+      case "loose":
+        return this.checkCollision(objA, objB, -5);
+      case "tight":
+        return this.checkCollision(objA, objB, 5);
+      default:
+        return this.checkCollision(objA, objB);
+    }
+  }
+
+  // Enhanced collision handling with different responses
+  handleCollisionResponse(obj1, obj2, collisionType) {
+    switch (collisionType) {
+      case "bullet_enemy":
+        const impactX = Math.max(obj1.x, obj2.x) + Math.min(obj1.width, obj2.width) / 2;
+        const impactY = Math.max(obj1.y, obj2.y) + Math.min(obj1.height, obj2.height) / 2;
+        this.addImpactEffect(impactX, impactY);
+        break;
+      case "player_enemy":
+        this.addScreenShake();
+        break;
+      case "player_pickup":
+        this.addPickupBurst(obj2.x + obj2.width/2, obj2.y + obj2.height/2);
+        break;
+    }
+  }
+
+  addImpactEffect(x, y) {
+    for (let i = 0; i < 3; i++) {
+      this.particles.push({
+        x: x, y: y,
+        dx: (Math.random() - 0.5) * 4,
+        dy: (Math.random() - 0.5) * 4,
+        life: 15, maxLife: 15,
+        particle: "💥", alpha: 1
+      });
+    }
+  }
+
+  addPickupBurst(x, y) {
+    for (let i = 0; i < 6; i++) {
+      this.particles.push({
+        x: x, y: y,
+        dx: (Math.random() - 0.5) * 6,
+        dy: (Math.random() - 0.5) * 6,
+        life: 20, maxLife: 20,
+        particle: "✨", alpha: 1
+      });
+    }
+  }
+
+  addScreenShake() {
+    this.screenShake = { intensity: 5, duration: 10 };
+  }        x: x,
+        y: y,
+        dx: (Math.random() - 0.5) * 6,
+        dy: (Math.random() - 0.5) * 6,
+        life: 20,
+        maxLife: 20,
+        particle: "✨",
+        alpha: 1
+      });
+    }
+  }
+
+  addScreenShake() {
+    // Simple screen shake by temporarily offsetting the canvas context
+    this.screenShake = {
+      intensity: 5,
+      duration: 10
+    };
+  }
         return this.checkCollision(objA, objB);
     }
   }
