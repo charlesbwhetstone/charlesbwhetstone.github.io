@@ -1,1711 +1,687 @@
 ---
-layout: home
+title: "Charles Whetstone - Data Scientist & AI Engineer"
+layout: single
 author_profile: true
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
+  overlay_image: /assets/images/header-bg.jpg
   actions:
-    - label: "Get to Know Me"
-      url: "/about/"
-      btn_class: "btn--primary"
-    - label: "Play Pizza Game 🍕"
-      url: "/pizza-game/"
-      btn_class: "btn--info"
-excerpt: "Data Scientist & Forensics Engineer passionate about turning data into insights and building meaningful connections"
+    - label: "View My Work"
+      url: "/projects/"
+    - label: "Read Articles"
+      url: "/articles/"
+excerpt: "Transforming data into actionable insights through machine learning, AI, and advanced analytics"
 feature_row:
-  - title: "About Me"
-    excerpt: "Discover my journey, passions, hobbies, and what makes me tick beyond just the professional realm."
-    url: "/about/"
+  - image_path: /assets/images/ai-safety-thumb.jpg
+    alt: "AI Safety Evaluation"
+    title: "AI Safety Research"
+    excerpt: "Advanced evaluation frameworks for AI system safety and alignment"
+    url: "/projects/ai-safety-evaluation/"
     btn_label: "Learn More"
     btn_class: "btn--primary"
-  - title: "Data Projects"
-    excerpt: "Explore my data science and analytics projects including AI safety evaluation, voice coaching systems, and predictive modeling."
-    url: "/projects/"
-    btn_label: "View Projects"
+  - image_path: /assets/images/voice-coach-thumb.jpg
+    alt: "AI Voice Coach"
+    title: "AI Voice Coach"
+    excerpt: "Multimodal AI system for personalized voice and presentation coaching"
+    url: "/projects/ai-voice-coach/"
+    btn_label: "Learn More"
     btn_class: "btn--primary"
-  - title: "Pizza Game 🍕"
-    excerpt: "Try my retro-style pizza delivery side-scroller game! A fun creative project showcasing interactive development skills."
-    url: "/pizza-game/"
-    btn_label: "Play Game"
-    btn_class: "btn--success"
-  - title: "Technical Articles"
-    excerpt: "Read my latest insights on data science, machine learning, and technology trends on Medium."
-    url: "/articles/"
-    btn_label: "Read Articles"
-    btn_class: "btn--info"
+  - image_path: /assets/images/location-discovery-thumb.jpg
+    alt: "Location Discovery"
+    title: "Amazon Location Discovery"
+    excerpt: "Geospatial analytics and location-based insights using AWS services"
+    url: "/projects/amazon-location-discovery/"
+    btn_label: "Learn More"
+    btn_class: "btn--primary"
 ---
+
+## Welcome to My Portfolio
+
+I'm a passionate Data Scientist and AI Engineer with expertise in machine learning, deep learning, and advanced analytics. My work focuses on building intelligent systems that solve real-world problems and drive innovation.
 
 {% include feature_row %}
 
-## Welcome to My Digital Playground! 🎮
+## Pizza Delivery Space Adventure 🚀
 
-I'm Charles Whetstone, a Data Scientist and Forensics Engineer who believes in the power of data to tell stories and create positive change. This portfolio showcases both my professional work and creative projects - like the space pizza delivery game below!
+Test your skills in this fast-paced space shooter game! Deliver pizzas while avoiding obstacles and enemies.
 
-## Featured Project: 🚀 Rocket Pizza Delivery 🍕
+<canvas id="pizzaGame" width="800" height="600" style="border: 2px solid #333; background: linear-gradient(to bottom, #000428 0%, #004e92 100%); display: block; margin: 20px auto; max-width: 100%;"></canvas>
 
-Test your piloting skills in this retro-style space adventure! Navigate your rocket ship through enemy territory while collecting delicious pizzas. Built with HTML5 Canvas and pure JavaScript.
-
-<div class="game-container">
-  <div class="game-header">
-    <h3>🚀 Rocket Pizza Delivery 🍕</h3>
-    <div class="game-controls">
-      <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
-      <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
-      <a href="#" class="game-btn fullscreen-toggle" onclick="toggleFullScreen()" title="Toggle Fullscreen">🖥️ Fullscreen</a>
-    </div>
-  </div>
-  
-  <div class="game-wrapper">
-    <canvas id="gameCanvas" width="900" height="600"></canvas>
-    <div class="game-instructions">
-      <div class="game-objective">
-        <h4>🎯 Game Objective</h4>
-        <p>You're a space pizza delivery pilot on a dangerous mission! Navigate through enemy territory to deliver delicious pizzas across the galaxy while defending yourself from hostile forces.</p>
-      </div>
-      
-      <div class="game-controls">
-        <h4>🎮 Controls</h4>
-        <p><strong>Arrow Keys (↑↓)</strong> or <strong>W/S</strong>: Move rocket up/down</p>
-        <p><strong>Arrow Keys (←→)</strong> or <strong>A/D</strong>: Move rocket left/right</p>
-        <p><strong>SPACE</strong>: Fire energy blasts at enemies</p>
-        <p><strong>Click canvas</strong>: Focus game for keyboard input</p>
-      </div>
-      
-      <div class="game-good-bad">
-        <div class="good-things">
-          <h4>✅ Good Things (Collect These!)</h4>
-          <p><strong>🍕 Pizza Slices</strong> - Your main objective! Each pizza = +20 points</p>
-          <p><strong>💖 Health Power-ups</strong> - Restore 1 health point (pink hearts)</p>
-          <p><strong>⚡ Speed Boosts</strong> - Temporary speed increase (yellow lightning)</p>
-          <p><strong>⭐ Bonus Points</strong> - Extra +50 points (green stars)</p>
-        </div>
-        
-        <div class="bad-things">
-          <h4>❌ Bad Things (Avoid or Destroy!)</h4>
-          <p><strong>🔴 Red Enemies</strong> - Various hostile ships that damage you on contact</p>
-          <p><strong>Enemy Types:</strong></p>
-          <p>• <strong>Invaders</strong> - Basic enemies (1 hit to destroy, +10 points)</p>
-          <p>• <strong>UFOs</strong> - Tougher enemies (2 hits, +10 points)</p>
-          <p>• <strong>Scouts</strong> - Fast moving (1 hit, +10 points)</p>
-          <p>• <strong>Tanks</strong> - Heavy armor (3 hits, +10 points)</p>
-        </div>
-      </div>
-      
-      <div class="game-tips">
-        <h4>💡 Pro Tips</h4>
-        <p>• <strong>Health Management:</strong> You start with 3 health points - don't let it reach zero!</p>
-        <p>• <strong>Level Progression:</strong> Every 10 enemies destroyed increases the difficulty level</p>
-        <p>• <strong>Strategy:</strong> Balance collecting pizzas with destroying enemies for maximum points</p>
-        <p>• <strong>Power-ups:</strong> Prioritize health power-ups when your health is low</p>
-        <p>• <strong>Shooting:</strong> Aim carefully - your energy blasts have a firing rate limit</p>
-      </div>
-    </div>
-  </div>
+<div style="text-align: center; margin: 10px 0; color: #666;">
+<strong>Controls:</strong> Arrow Keys or WASD to move • Space to shoot • Mouse click to restart
 </div>
 
 <script>
-// Rocket Pizza Delivery Game - Enhanced Version
-class RocketPizzaGame {
-  constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId);
-    if (!this.canvas) {
-      console.error('Canvas element not found!');
-      return;
-    }
-    
-    this.ctx = this.canvas.getContext('2d');
-    if (!this.ctx) {
-      console.error('Could not get 2D context!');
-      return;
-    }
-    
-    // Set canvas dimensions explicitly
-    this.canvas.width = 900;
-    this.canvas.height = 600;
-    
-    console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
-    
-    // Game state
-    this.gameRunning = false;
-    this.paused = false;
-    this.showGameOverScreen = false;
-    this.gameOverTimer = 0;
-    this.score = 0;
-    this.level = 1;
-    this.speed = 2;
-    this.enemiesDestroyed = 0;
-    
-    // Player (rocket ship)
-    this.player = {
-      x: 80,
-      y: 300,
-      width: 100,
-      height: 100,
-      health: 3,
-      maxHealth: 3,
-      speed: 5,
-      moving: false
-    };
-    
-    // Game objects arrays
-    this.bullets = [];
-    this.enemies = [];
-    this.pizzas = [];
-    this.powerups = [];
-    this.particles = [];
-    this.soundEffects = [];
-    this.stars = [];
-    
-    // Input handling
-    this.keys = {};
-    
-    // Initialize stars for background
-    this.initStars();
-    this.setupEventListeners();
-    this.startGame();
-  }
-  
-  initStars() {
-    for (let i = 0; i < 50; i++) {
-      this.stars.push({
-        x: Math.random() * this.canvas.width,
-        y: Math.random() * this.canvas.height,
-        size: Math.random() * 2 + 1,
-        speed: Math.random() * 0.5 + 0.1
-      });
-    }
-  }
-  
-  setupEventListeners() {
-    // Keyboard events
-    window.addEventListener('keydown', (e) => {
-      this.keys[e.code] = true;
-      // Prevent default behavior for game control keys
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)) {
-        e.preventDefault();
-      }
-    });
-    
-    window.addEventListener('keyup', (e) => {
-      this.keys[e.code] = false;
-    });
-    
-    // Canvas click to focus (prevents page scrolling)
-    this.canvas.addEventListener('click', () => {
-      this.canvas.focus();
-    });
-    
-    // Make canvas focusable
-    this.canvas.setAttribute('tabindex', '0');
-  }
-  
-  startGame() {
-    console.log('Starting Rocket Pizza Delivery game...');
-    this.gameRunning = true;
-    this.gameLoop();
-  }
-  
-  update() {
-    if (this.paused || this.showGameOverScreen) {
-      if (this.showGameOverScreen) {
-        this.gameOverTimer--;
-        if (this.gameOverTimer <= 0) {
-          this.restart();
-        }
-      }
-      return;
-    }
-    
-    // Player movement
-    this.player.moving = false;
-    if ((this.keys['ArrowUp'] || this.keys['KeyW']) && this.player.y > 0) {
-      this.player.y -= this.player.speed;
-      this.player.moving = true;
-    }
-    if ((this.keys['ArrowDown'] || this.keys['KeyS']) && this.player.y < this.canvas.height - this.player.height) {
-      this.player.y += this.player.speed;
-      this.player.moving = true;
-    }
-    if ((this.keys['ArrowLeft'] || this.keys['KeyA']) && this.player.x > 0) {
-      this.player.x -= this.player.speed;
-      this.player.moving = true;
-    }
-    if ((this.keys['ArrowRight'] || this.keys['KeyD']) && this.player.x < this.canvas.width - this.player.width) {
-      this.player.x += this.player.speed;
-      this.player.moving = true;
-    }
-    
-    // Shooting
-    if (this.keys['Space']) {
-      this.shoot();
-    }
-    
-    // Update game speed based on level
-    this.speed = 2 + (this.level * 0.5);
-    
-    // Spawn enemies with increasing difficulty
-    const enemyChance = Math.min(0.02 + (this.level * 0.005), 0.04);
-    if (Math.random() < enemyChance) {
-      this.spawnEnemy();
-    }
-    
-    // Spawn pizzas
-    if (Math.random() < 0.015) {
-      this.spawnPizza();
-    }
-    
-    // Spawn power-ups
-    if (Math.random() < 0.008) {
-      this.spawnPowerup();
-    }
-    
-    // Update all game objects
-    this.updateBullets();
-    this.updateEnemies();
-    this.updatePizzas();
-    this.updatePowerups();
-    this.updateParticles();
-    this.updateSoundEffects();
-    this.updateStars();
-    
-    // Check collisions
-    this.checkCollisions();
-    
-    // Level progression
-    if (this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0) {
-      this.levelUp();
-    }
-  }
-  
-  shoot() {
-    // Limit shooting rate
-    const now = Date.now();
-    if (!this.lastShot || now - this.lastShot > 200) {
-      this.bullets.push({
-        x: this.player.x + this.player.width,
-        y: this.player.y + this.player.height / 2,
-        width: 20,
-        height: 8,
-        speed: 8
-      });
-      this.addSoundEffect(this.player.x + this.player.width, this.player.y + this.player.height / 2, 'PEW!', '#ffff00');
-      this.lastShot = now;
-    }
-  }
-  
-  spawnEnemy() {
-    const enemyTypes = [
-      { name: 'invader', size: 40, health: 1, speed: 1, color: '#8b0000' },
-      { name: 'ufo', size: 45, health: 2, speed: 1.5, color: '#c0392b' },
-      { name: 'scout', size: 35, health: 1, speed: 2.5, color: '#8b0000' },
-      { name: 'tank', size: 50, health: 3, speed: 0.8, color: '#8b0000' }
-    ];
-    
-    const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
-    this.enemies.push({
-      ...enemyType,
-      x: this.canvas.width,
-      y: Math.random() * (this.canvas.height - enemyType.size - 40) + 20,
-      width: enemyType.size,
-      height: enemyType.size,
-      maxHealth: enemyType.health
-    });
-  }
-  
-  spawnPizza() {
-    this.pizzas.push({
-      x: this.canvas.width,
-      y: Math.random() * (this.canvas.height - 60) + 30,
-      width: 60,
-      height: 60,
-      rotation: 0
-    });
-  }
-  
-  spawnPowerup() {
-    const powerupTypes = ['speed', 'health', 'bonus'];
-    const type = powerupTypes[Math.floor(Math.random() * powerupTypes.length)];
-    
-    this.powerups.push({
-      type: type,
-      x: this.canvas.width,
-      y: Math.random() * (this.canvas.height - 40) + 20,
-      width: 35,
-      height: 35,
-      rotation: 0
-    });
-  }
-  
-  updateBullets() {
-    this.bullets = this.bullets.filter(bullet => {
-      bullet.x += bullet.speed;
-      return bullet.x < this.canvas.width + bullet.width;
-    });
-  }
-  
-  updateEnemies() {
-    this.enemies = this.enemies.filter(enemy => {
-      enemy.x -= this.speed * enemy.speed;
-      return enemy.x + enemy.width > -50;
-    });
-  }
-  
-  updatePizzas() {
-    this.pizzas = this.pizzas.filter(pizza => {
-      pizza.x -= this.speed;
-      pizza.rotation += 0.1;
-      return pizza.x + pizza.width > -50;
-    });
-  }
-  
-  updatePowerups() {
-    this.powerups = this.powerups.filter(powerup => {
-      powerup.x -= this.speed;
-      powerup.rotation += 0.08;
-      return powerup.x + powerup.width > -50;
-    });
-  }
-  
-  updateParticles() {
-    this.particles = this.particles.filter(particle => {
-      particle.x += particle.dx;
-      particle.y += particle.dy;
-      particle.life--;
-      particle.alpha = particle.life / particle.maxLife;
-      return particle.life > 0;
-    });
-  }
-  
-  updateSoundEffects() {
-    this.soundEffects = this.soundEffects.filter(effect => {
-      effect.life--;
-      effect.y -= 1;
-      effect.alpha = effect.life / effect.maxLife;
-      return effect.life > 0;
-    });
-  }
-  
-  updateStars() {
-    this.stars.forEach(star => {
-      star.x -= star.speed;
-      if (star.x < -5) {
-        star.x = this.canvas.width + 5;
-        star.y = Math.random() * this.canvas.height;
-      }
-    });
-  }
-  
-  checkCollisions() {
-    // Bullets vs Enemies
-    for (let i = this.bullets.length - 1; i >= 0; i--) {
-      const bullet = this.bullets[i];
-      for (let j = this.enemies.length - 1; j >= 0; j--) {
-        const enemy = this.enemies[j];
-        if (this.detectCollision(bullet, enemy, "tight")) {
-          this.bullets.splice(i, 1);
-          enemy.health--;
-          
-          if (enemy.health <= 0) {
-            this.enemies.splice(j, 1);
-            this.score += 10;
-            this.enemiesDestroyed++;
-            this.addExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
-            this.addSoundEffect(enemy.x, enemy.y, 'BOOM!', '#ff4444');
-          }
-          break;
-        }
-      }
-    }
-    
-    // Player vs Enemies
-    this.enemies.forEach((enemy, index) => {
-      if (this.detectCollision(this.player, enemy, "loose")) {
-        this.player.health--;
-        this.enemies.splice(index, 1);
-        this.addSoundEffect(this.player.x, this.player.y, 'OUCH!', '#ff0000');
+class PizzaGame {
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
         
-        if (this.player.health <= 0) {
-          this.gameOver();
+        // Game state
+        this.player = {
+            x: 50,
+            y: this.canvas.height / 2 - 25,
+            width: 50,
+            height: 50,
+            speed: 5,
+            health: 3
+        };
+        
+        this.bullets = [];
+        this.enemies = [];
+        this.powerUps = [];
+        this.particles = [];
+        this.effects = [];
+        this.stars = [];
+        
+        this.score = 0;
+        this.level = 1;
+        this.gameRunning = true;
+        this.gameOver = false;
+        this.keys = {};
+        
+        // Speed boost
+        this.speedBoost = false;
+        this.speedBoostTimer = 0;
+        
+        // Initialize stars
+        this.initStars();
+        
+        // Event listeners
+        this.setupEventListeners();
+        
+        // Start game loop
+        this.gameLoop();
+    }
+    
+    initStars() {
+        for (let i = 0; i < 100; i++) {
+            this.stars.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * 2 + 1,
+                speed: Math.random() * 2 + 1
+            });
         }
-      }
-    });
-    
-    // Player vs Pizzas
-    this.pizzas.forEach((pizza, index) => {
-      if (this.detectCollision(this.player, pizza, "circle")) {
-        this.pizzas.splice(index, 1);
-        this.score += 20;
-        this.addSoundEffect(pizza.x, pizza.y, 'YUM!', '#ffa500');
-        this.addPickupEffect(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
-      }
-    });
-    
-    // Player vs Power-ups
-    this.powerups.forEach((powerup, index) => {
-      if (this.detectCollision(this.player, powerup, "circle")) {
-        this.powerups.splice(index, 1);
-        this.handlePowerup(powerup);
-        this.addSoundEffect(powerup.x, powerup.y, 'POWER!', '#00ff00');
-      }
-    });
-  }
-  
-  checkCollision(rect1, rect2, margin = 0) {
-    const buffer = margin;
-    return !(rect1.x + rect1.width - buffer < rect2.x + buffer ||
-             rect2.x + rect2.width - buffer < rect1.x + buffer ||
-             rect1.y + rect1.height - buffer < rect2.y + buffer ||
-             rect2.y + rect2.height - buffer < rect1.y + buffer);
-  }
-
-  checkCircularCollision(obj1, obj2) {
-    const centerX1 = obj1.x + obj1.width / 2;
-    const centerY1 = obj1.y + obj1.height / 2;
-    const centerX2 = obj2.x + obj2.width / 2;
-    const centerY2 = obj2.y + obj2.height / 2;
-    
-    const distance = Math.sqrt(
-      Math.pow(centerX2 - centerX1, 2) + Math.pow(centerY2 - centerY1, 2)
-    );
-    
-    const combinedRadius = (obj1.width + obj1.height + obj2.width + obj2.height) / 8;
-    return distance < combinedRadius;
-  } 
-
-  detectCollision(objA, objB, type = "rectangle") {
-    switch (type) {
-      case "circle":
-        return this.checkCircularCollision(objA, objB);
-      case "loose": 
-        return this.checkCollision(objA, objB, -5);
-      case "tight":
-        return this.checkCollision(objA, objB, 5);
-      default:
-        return this.checkCollision(objA, objB);
-    }
-  }
-
-  addPickupBurst(x, y) {
-    for (let i = 0; i < 6; i++) {
-      this.particles.push({
-        x: x, y: y,
-        dx: (Math.random() - 0.5) * 6,
-        dy: (Math.random() - 0.5) * 6,
-        life: 20, maxLife: 20,
-        particle: "✨", alpha: 1
-      });
-    }
-  }
-
-  addScreenShake() {
-    this.screenShake = { intensity: 5, duration: 10 };
-  }
-
-  addImpactEffect(x, y) {
-    for (let i = 0; i < 3; i++) {
-      this.particles.push({
-        x: x, y: y,
-        dx: (Math.random() - 0.5) * 4,
-        dy: (Math.random() - 0.5) * 4,
-        life: 15, maxLife: 15,
-        particle: "💥", alpha: 1
-      });
-    }
-  }
-  
-  handlePowerup(powerup) {
-    switch (powerup.type) {
-      case 'health':
-        this.player.health = Math.min(this.player.health + 1, this.player.maxHealth);
-        break;
-      case 'speed':
-        this.player.speed = Math.min(this.player.speed + 1, 8);
-        setTimeout(() => {
-          this.player.speed = Math.max(this.player.speed - 1, 5);
-        }, 5000);
-        break;
-      case 'bonus':
-        this.score += 50;
-        break;
-    }
-  }
-  
-  levelUp() {
-    this.level++;
-    this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'LEVEL UP!', '#00ff00');
-  }
-  
-  addExplosion(x, y) {
-    const particles = ['💥', '🔥'];
-    for (let i = 0; i < 8; i++) {
-      this.particles.push({
-        x: x,
-        y: y,
-        dx: (Math.random() - 0.5) * 8,
-        dy: (Math.random() - 0.5) * 8,
-        life: 30,
-        maxLife: 30,
-        particle: particles[Math.floor(Math.random() * particles.length)],
-        alpha: 1
-      });
-    }
-  }
-  
-  addPickupEffect(x, y) {
-    const particles = ['✨', '⭐'];
-    for (let i = 0; i < 5; i++) {
-      this.particles.push({
-        x: x,
-        y: y,
-        dx: (Math.random() - 0.5) * 4,
-        dy: (Math.random() - 0.5) * 4,
-        life: 25,
-        maxLife: 25,
-        particle: particles[Math.floor(Math.random() * particles.length)],
-        alpha: 1
-      });
-    }
-  }
-  
-  addSoundEffect(x, y, text, color) {
-    this.soundEffects.push({
-      x: x,
-      y: y,
-      text: text,
-      color: color,
-      life: 60,
-      maxLife: 60,
-      alpha: 1
-    });
-  }
-  
-  gameOver() {
-    this.showGameOverScreen = true;
-    this.gameOverTimer = 180; // 3 seconds at 60 FPS
-    this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'GAME OVER!', '#ff0000');
-  }
-  
-  restart() {
-    this.showGameOverScreen = false;
-    this.gameOverTimer = 0;
-    this.score = 0;
-    this.level = 1;
-    this.speed = 2;
-    this.enemiesDestroyed = 0;
-    this.player.health = this.player.maxHealth;
-    this.player.speed = 5;
-    this.player.x = 80;
-    this.player.y = 300;
-    
-    // Clear all arrays
-    this.bullets = [];
-    this.enemies = [];
-    this.pizzas = [];
-    this.powerups = [];
-    this.particles = [];
-    this.soundEffects = [];
-  }
-  
-  togglePause() {
-    if (!this.showGameOverScreen) {
-      this.paused = !this.paused;
-    }
-  }
-  
-  draw() {
-    // Clear canvas with gradient background
-    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-    gradient.addColorStop(0, '#0f0f23');
-    gradient.addColorStop(0.5, '#1a1a3a');
-    gradient.addColorStop(1, '#2d2d5a');
-    this.ctx.fillStyle = gradient;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    // Draw stars (reduced opacity for less distraction)
-    this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    this.stars.forEach(star => {
-      this.ctx.fillRect(star.x, star.y, star.size, star.size);
-    });
-    
-    // Draw player (rocket ship facing right)
-    this.ctx.save();
-    this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
-    
-    // Rocket body (facing right)
-    this.ctx.fillStyle = '#e74c3c';
-    this.ctx.fillRect(-40, -30, 80, 60);
-    this.ctx.fillStyle = '#c0392b';
-    this.ctx.fillRect(-35, -25, 70, 50);
-    
-    // Rocket nose cone (pointing right)
-    this.ctx.fillStyle = '#f39c12';
-    this.ctx.beginPath();
-    this.ctx.moveTo(40, 0);
-    this.ctx.lineTo(25, -15);
-    this.ctx.lineTo(25, 15);
-    this.ctx.closePath();
-    this.ctx.fill();
-    
-    // Rocket fins
-    this.ctx.fillStyle = '#34495e';
-    this.ctx.fillRect(-45, -35, 15, 20);
-    this.ctx.fillRect(-45, 15, 15, 20);
-    
-    // Engine flames (when moving)
-    if (this.player.moving) {
-      this.ctx.fillStyle = '#ff6b35';
-      this.ctx.fillRect(-55, -8, 15, 16);
-      this.ctx.fillStyle = '#ffff00';
-      this.ctx.fillRect(-65, -5, 10, 10);
     }
     
-    this.ctx.restore();
-    
-    // Draw bullets
-    this.bullets.forEach(bullet => {
-      this.ctx.fillStyle = '#ff8c00';
-      this.ctx.shadowColor = '#ffa500';
-      this.ctx.shadowBlur = 10;
-      this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-      this.ctx.shadowBlur = 0;
-    });
-    
-    // Draw enemies (clearly red/threatening)
-    this.enemies.forEach(enemy => {
-      this.ctx.fillStyle = enemy.color;
-      this.ctx.shadowColor = enemy.color;
-      this.ctx.shadowBlur = 8;
-      
-      if (enemy.name === 'ufo') {
-        // UFO shape
-        this.ctx.fillRect(enemy.x, enemy.y + 10, enemy.width, enemy.height - 20);
-        this.ctx.fillStyle = '#666';
-        this.ctx.fillRect(enemy.x + 5, enemy.y, enemy.width - 10, enemy.height / 2);
-      } else {
-        // Regular enemy shape (angular/threatening)
-        this.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-        // Add spiky details
-        this.ctx.fillStyle = '#ff0000';
-        this.ctx.fillRect(enemy.x + 5, enemy.y - 5, 5, 5);
-        this.ctx.fillRect(enemy.x + enemy.width - 10, enemy.y - 5, 5, 5);
-      }
-      
-      this.ctx.shadowBlur = 0;
-      
-      // Health bar for tougher enemies
-      if (enemy.maxHealth > 1) {
-        const healthBarWidth = enemy.width;
-        const healthBarHeight = 4;
-        this.ctx.fillStyle = '#ff0000';
-        this.ctx.fillRect(enemy.x, enemy.y - 10, healthBarWidth, healthBarHeight);
-        this.ctx.fillStyle = '#00ff00';
-        this.ctx.fillRect(enemy.x, enemy.y - 10, (enemy.health / enemy.maxHealth) * healthBarWidth, healthBarHeight);
-      }
-    });
-    
-    // Draw pizzas (larger, rotating)
-    this.pizzas.forEach(pizza => {
-      this.ctx.save();
-      this.ctx.translate(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
-      this.ctx.rotate(pizza.rotation);
-      
-      // Pizza base
-      this.ctx.fillStyle = '#ffa500';
-      this.ctx.shadowColor = '#ff8c00';
-      this.ctx.shadowBlur = 8;
-      this.ctx.beginPath();
-      this.ctx.arc(0, 0, pizza.width/2, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      // Pizza toppings
-      this.ctx.fillStyle = '#ff0000';
-      this.ctx.fillRect(-8, -8, 4, 4);
-      this.ctx.fillRect(8, 8, 4, 4);
-      this.ctx.fillStyle = '#00ff00';
-      this.ctx.fillRect(-8, 8, 4, 4);
-      this.ctx.fillRect(8, -8, 4, 4);
-      
-      this.ctx.shadowBlur = 0;
-      this.ctx.restore();
-    });
-    
-    // Draw power-ups (bright, glowing, friendly)
-    this.powerups.forEach(powerup => {
-      this.ctx.save();
-      this.ctx.translate(powerup.x + powerup.width/2, powerup.y + powerup.height/2);
-      this.ctx.rotate(powerup.rotation);
-      
-      this.ctx.shadowBlur = 10;
-      
-      switch (powerup.type) {
-        case 'speed':
-          // Lightning bolt (bright yellow)
-          this.ctx.fillStyle = '#ffff00';
-          this.ctx.shadowColor = '#ffff00';
-          this.ctx.fillRect(-8, -15, 6, 10);
-          this.ctx.fillRect(-2, -5, 6, 10);
-          this.ctx.fillRect(-8, 5, 6, 10);
-          break;
-        case 'health':
-          // Heart (bright pink)
-          this.ctx.fillStyle = '#ff1493';
-          this.ctx.shadowColor = '#ff1493';
-          this.ctx.beginPath();
-          this.ctx.arc(-5, -5, 8, 0, Math.PI * 2);
-          this.ctx.arc(5, -5, 8, 0, Math.PI * 2);
-          this.ctx.arc(0, 5, 10, 0, Math.PI * 2);
-          this.ctx.fill();
-          break;
-        case 'bonus':
-          // Star (bright green)
-          this.ctx.fillStyle = '#00ff00';
-          this.ctx.shadowColor = '#00ff00';
-          this.ctx.beginPath();
-          for (let i = 0; i < 5; i++) {
-            const angle = (i * Math.PI * 2) / 5 - Math.PI / 2;
-            const x = Math.cos(angle) * 12;
-            const y = Math.sin(angle) * 12;
-            if (i === 0) this.ctx.moveTo(x, y);
-            else this.ctx.lineTo(x, y);
-          }
-          this.ctx.closePath();
-          this.ctx.fill();
-          break;
-      }
-      
-      this.ctx.shadowBlur = 0;
-      this.ctx.restore();
-    });
-    
-    // Draw particles
-    this.particles.forEach(particle => {
-      this.ctx.globalAlpha = particle.alpha;
-      this.ctx.font = '20px Arial';
-      this.ctx.fillText(particle.particle, particle.x, particle.y);
-    });
-    this.ctx.globalAlpha = 1;
-    
-    // Draw sound effects
-    this.soundEffects.forEach(effect => {
-      this.ctx.globalAlpha = effect.alpha;
-      this.ctx.fillStyle = effect.color;
-      this.ctx.font = 'bold 16px Arial';
-      this.ctx.fillText(effect.text, effect.x, effect.y);
-    });
-    this.ctx.globalAlpha = 1;
-    
-    // Enhanced UI
-    this.drawUI();
-    
-    // Game over screen
-    if (this.showGameOverScreen) {
-      this.drawGameOverScreen();
+    setupEventListeners() {
+        document.addEventListener('keydown', (e) => {
+            this.keys[e.code] = true;
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (this.gameRunning && !this.gameOver) {
+                    this.shoot();
+                }
+            }
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            this.keys[e.code] = false;
+        });
+        
+        this.canvas.addEventListener('click', (e) => {
+            if (this.gameOver) {
+                this.restartGame();
+            }
+        });
     }
     
-    // Pause screen
-    if (this.paused && !this.showGameOverScreen) {
-      this.ctx.fillStyle = 'rgba(0,0,0,0.7)';
-      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.fillStyle = 'white';
-      this.ctx.font = 'bold 48px Arial';
-      this.ctx.textAlign = 'center';
-      this.ctx.fillText('PAUSED', this.canvas.width/2, this.canvas.height/2);
-      this.ctx.font = '24px Arial';
-      this.ctx.fillText('Click Resume to continue', this.canvas.width/2, this.canvas.height/2 + 50);
-      this.ctx.textAlign = 'left';
+    restartGame() {
+        // Reset all game state
+        this.player = {
+            x: 50,
+            y: this.canvas.height / 2 - 25,
+            width: 50,
+            height: 50,
+            speed: 5,
+            health: 3
+        };
+        
+        this.bullets = [];
+        this.enemies = [];
+        this.powerUps = [];
+        this.particles = [];
+        this.effects = [];
+        
+        this.score = 0;
+        this.level = 1;
+        this.gameRunning = true;
+        this.gameOver = false;
+        this.speedBoost = false;
+        this.speedBoostTimer = 0;
+        
+        // Reinitialize stars
+        this.initStars();
     }
-  }
-  
-  drawUI() {
-    // Health bar (larger and more visible)
-    const healthBarWidth = 200;
-    const healthBarHeight = 30;
-    const healthBarX = 20;
-    const healthBarY = 20;
     
-    // Health bar background
-    this.ctx.fillStyle = '#333';
-    this.ctx.fillRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-    
-    // Health bar fill
-    const healthPercentage = this.player.health / this.player.maxHealth;
-    if (healthPercentage > 0.6) {
-      this.ctx.fillStyle = '#00ff00';
-    } else if (healthPercentage > 0.3) {
-      this.ctx.fillStyle = '#ffff00';
-    } else {
-      this.ctx.fillStyle = '#ff0000';
+    shoot() {
+        this.bullets.push({
+            x: this.player.x + this.player.width,
+            y: this.player.y + this.player.height / 2 - 5,
+            width: 15,
+            height: 10,
+            speed: 8
+        });
+        
+        // Add muzzle flash effect
+        this.effects.push({
+            x: this.player.x + this.player.width,
+            y: this.player.y + this.player.height / 2,
+            text: 'PEW!',
+            emoji: '💥',
+            timer: 15,
+            maxTimer: 15
+        });
     }
-    this.ctx.fillRect(healthBarX, healthBarY, healthBarWidth * healthPercentage, healthBarHeight);
     
-    // Health bar border
-    this.ctx.strokeStyle = '#fff';
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-    
-    // Health text
-    this.ctx.fillStyle = '#fff';
-    this.ctx.font = 'bold 16px Arial';
-    this.ctx.fillText(`Health: ${this.player.health}/${this.player.maxHealth}`, healthBarX + 5, healthBarY + 20);
-    
-    // Score and level
-    this.ctx.fillStyle = '#fff';
-    this.ctx.font = 'bold 24px Arial';
-    this.ctx.strokeStyle = '#000';
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeText(`Score: ${this.score}`, 20, 80);
-    this.ctx.fillText(`Score: ${this.score}`, 20, 80);
-    this.ctx.strokeText(`Level: ${this.level}`, 20, 110);
-    this.ctx.fillText(`Level: ${this.level}`, 20, 110);
-  }
-  
-  drawGameOverScreen() {
-    this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    this.ctx.fillStyle = '#ff0000';
-    this.ctx.font = 'bold 48px Arial';
-    this.ctx.textAlign = 'center';
-    this.ctx.strokeStyle = '#fff';
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeText('GAME OVER!', this.canvas.width/2, this.canvas.height/2 - 50);
-    this.ctx.fillText('GAME OVER!', this.canvas.width/2, this.canvas.height/2 - 50);
-    
-    this.ctx.fillStyle = '#fff';
-    this.ctx.font = '32px Arial';
-    this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width/2, this.canvas.height/2);
-    this.ctx.fillText(`Level Reached: ${this.level}`, this.canvas.width/2, this.canvas.height/2 + 40);
-    
-    const secondsLeft = Math.ceil(this.gameOverTimer / 60);
-    this.ctx.font = '24px Arial';
-    this.ctx.fillText(`Restarting in ${secondsLeft} seconds...`, this.canvas.width/2, this.canvas.height/2 + 80);
-    
-    this.ctx.font = '48px Arial';
-    this.ctx.fillText('💀', this.canvas.width/2, this.canvas.height/2 + 130);
-    
-    this.ctx.textAlign = 'left';
-  }
-  
-  gameLoop() {
-    if (this.gameRunning) {
-      this.update();
-      this.draw();
-      requestAnimationFrame(() => this.gameLoop());
+    update() {
+        if (this.gameOver || !this.gameRunning) return;
+        
+        // Handle input
+        const currentSpeed = this.speedBoost ? this.player.speed * 2 : this.player.speed;
+        
+        if (this.keys['ArrowUp'] || this.keys['KeyW']) {
+            this.player.y = Math.max(0, this.player.y - currentSpeed);
+        }
+        if (this.keys['ArrowDown'] || this.keys['KeyS']) {
+            this.player.y = Math.min(this.canvas.height - this.player.height, this.player.y + currentSpeed);
+        }
+        if (this.keys['ArrowLeft'] || this.keys['KeyA']) {
+            this.player.x = Math.max(0, this.player.x - currentSpeed);
+        }
+        if (this.keys['ArrowRight'] || this.keys['KeyD']) {
+            this.player.x = Math.min(this.canvas.width - this.player.width, this.player.x + currentSpeed);
+        }
+        
+        // Update speed boost
+        if (this.speedBoost) {
+            this.speedBoostTimer--;
+            if (this.speedBoostTimer <= 0) {
+                this.speedBoost = false;
+            }
+        }
+        
+        // Update stars
+        this.stars.forEach(star => {
+            star.x -= star.speed;
+            if (star.x < 0) {
+                star.x = this.canvas.width;
+                star.y = Math.random() * this.canvas.height;
+            }
+        });
+        
+        // Update bullets
+        this.bullets = this.bullets.filter(bullet => {
+            bullet.x += bullet.speed;
+            return bullet.x < this.canvas.width;
+        });
+        
+        // Spawn enemies
+        if (Math.random() < 0.02 + (this.level * 0.005)) {
+            const enemyTypes = ['👾', '🛸', '💀', '👻', '🦇'];
+            this.enemies.push({
+                x: this.canvas.width,
+                y: Math.random() * (this.canvas.height - 40),
+                width: 40,
+                height: 40,
+                speed: 2 + Math.random() * 2 + (this.level * 0.5),
+                emoji: enemyTypes[Math.floor(Math.random() * enemyTypes.length)],
+                health: 1 + Math.floor(this.level / 3)
+            });
+        }
+        
+        // Update enemies
+        this.enemies = this.enemies.filter(enemy => {
+            enemy.x -= enemy.speed;
+            return enemy.x > -enemy.width && enemy.health > 0;
+        });
+        
+        // Spawn power-ups occasionally
+        if (Math.random() < 0.005) {
+            const powerUpTypes = ['⚡', '💖', '🍕'];
+            this.powerUps.push({
+                x: this.canvas.width,
+                y: Math.random() * (this.canvas.height - 30),
+                width: 30,
+                height: 30,
+                speed: 3,
+                type: powerUpTypes[Math.floor(Math.random() * powerUpTypes.length)]
+            });
+        }
+        
+        // Update power-ups
+        this.powerUps = this.powerUps.filter(powerUp => {
+            powerUp.x -= powerUp.speed;
+            return powerUp.x > -powerUp.width;
+        });
+        
+        // Check collisions
+        this.checkCollisions();
+        
+        // Update particles
+        this.particles = this.particles.filter(particle => {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.life--;
+            return particle.life > 0;
+        });
+        
+        // Update effects
+        this.effects = this.effects.filter(effect => {
+            effect.timer--;
+            return effect.timer > 0;
+        });
+        
+        // Level progression
+        if (this.score > this.level * 100) {
+            this.level++;
+            this.effects.push({
+                x: this.canvas.width / 2,
+                y: this.canvas.height / 2,
+                text: `LEVEL ${this.level}!`,
+                emoji: '🎉',
+                timer: 60,
+                maxTimer: 60
+            });
+        }
     }
-  }
+    
+    checkCollisions() {
+        // Bullet-enemy collisions
+        this.bullets.forEach((bullet, bulletIndex) => {
+            this.enemies.forEach((enemy, enemyIndex) => {
+                if (this.isColliding(bullet, enemy)) {
+                    // Create explosion particles
+                    this.createExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2, '💥');
+                    
+                    enemy.health--;
+                    this.bullets.splice(bulletIndex, 1);
+                    
+                    if (enemy.health <= 0) {
+                        this.enemies.splice(enemyIndex, 1);
+                        this.score += 10;
+                    }
+                }
+            });
+        });
+        
+        // Player-enemy collisions
+        this.enemies.forEach((enemy, enemyIndex) => {
+            if (this.isColliding(this.player, enemy)) {
+                this.player.health--;
+                this.enemies.splice(enemyIndex, 1);
+                this.createExplosion(this.player.x + this.player.width/2, this.player.y + this.player.height/2, '💥');
+                
+                if (this.player.health <= 0) {
+                    this.gameOver = true;
+                }
+            }
+        });
+        
+        // Player-powerup collisions
+        this.powerUps.forEach((powerUp, powerUpIndex) => {
+            if (this.isColliding(this.player, powerUp)) {
+                this.powerUps.splice(powerUpIndex, 1);
+                
+                switch (powerUp.type) {
+                    case '⚡':
+                        this.speedBoost = true;
+                        this.speedBoostTimer = 300;
+                        break;
+                    case '💖':
+                        this.player.health = Math.min(3, this.player.health + 1);
+                        break;
+                    case '🍕':
+                        this.score += 50;
+                        break;
+                }
+                
+                this.effects.push({
+                    x: powerUp.x,
+                    y: powerUp.y,
+                    text: 'POWER UP!',
+                    emoji: powerUp.type,
+                    timer: 30,
+                    maxTimer: 30
+                });
+            }
+        });
+    }
+    
+    isColliding(rect1, rect2) {
+        return rect1.x < rect2.x + rect2.width &&
+               rect1.x + rect1.width > rect2.x &&
+               rect1.y < rect2.y + rect2.height &&
+               rect1.y + rect1.height > rect2.y;
+    }
+    
+    createExplosion(x, y, emoji) {
+        const chars = ['*', '+', '○', '●', '◇', '◆'];
+        for (let i = 0; i < 8; i++) {
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 6,
+                vy: (Math.random() - 0.5) * 6,
+                char: chars[Math.floor(Math.random() * chars.length)],
+                life: 30 + Math.random() * 20,
+                color: `hsl(${Math.random() * 360}, 70%, 60%)`
+            });
+        }
+    }
+    
+    draw() {
+        // Clear canvas
+        this.ctx.fillStyle = 'rgba(0, 4, 40, 0.1)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Draw stars
+        this.ctx.fillStyle = '#ffffff';
+        this.stars.forEach(star => {
+            this.ctx.fillRect(star.x, star.y, star.size, star.size);
+        });
+        
+        // Draw player rocket ship with custom graphics
+        this.ctx.save();
+        this.ctx.translate(this.player.x + this.player.width/2, this.player.y + this.player.height/2);
+        
+        // Rocket ship body - main fuselage
+        this.ctx.fillStyle = '#e74c3c';
+        this.ctx.fillRect(-20, -25, 40, 50);
+        
+        // Rocket nose cone (triangle)
+        this.ctx.fillStyle = '#c0392b';
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -35);
+        this.ctx.lineTo(-12, -25);
+        this.ctx.lineTo(12, -25);
+        this.ctx.closePath();
+        this.ctx.fill();
+        
+        // Rocket fins
+        this.ctx.fillStyle = '#2c3e50';
+        this.ctx.fillRect(-25, 15, 12, 15);
+        this.ctx.fillRect(13, 15, 12, 15);
+        
+        // Window
+        this.ctx.fillStyle = '#3498db';
+        this.ctx.fillRect(-8, -12, 16, 12);
+        
+        // Flame from engines (animated)
+        if (this.keys['ArrowUp'] || this.keys['KeyW'] || this.keys['ArrowDown'] || this.keys['KeyS'] || 
+            this.keys['ArrowLeft'] || this.keys['KeyA'] || this.keys['ArrowRight'] || this.keys['KeyD']) {
+            this.ctx.fillStyle = '#f39c12';
+            this.ctx.fillRect(-10, 25, 6, 12);
+            this.ctx.fillRect(4, 25, 6, 12);
+            this.ctx.fillStyle = '#e67e22';
+            this.ctx.fillRect(-8, 27, 3, 8);
+            this.ctx.fillRect(5, 27, 3, 8);
+        }
+        
+        this.ctx.restore();
+        
+        // Draw health bar
+        this.drawHealthBar();
+        
+        // Draw bullets with enhanced effects
+        this.bullets.forEach(bullet => {
+            this.ctx.save();
+            this.ctx.translate(bullet.x + bullet.width/2, bullet.y + bullet.height/2);
+            
+            // Energy bullet with glow effect
+            this.ctx.shadowColor = '#f39c12';
+            this.ctx.shadowBlur = 10;
+            this.ctx.fillStyle = '#f39c12';
+            this.ctx.fillRect(-7, -4, 14, 8);
+            
+            this.ctx.shadowBlur = 0;
+            this.ctx.restore();
+        });
+        
+        // Draw enemies with custom graphics
+        this.enemies.forEach(enemy => {
+            this.ctx.save();
+            this.ctx.translate(enemy.x + enemy.width/2, enemy.y + enemy.height/2);
+            
+            // Different enemy designs based on emoji type
+            if (enemy.emoji === '👾') {
+                // Alien invader
+                this.ctx.fillStyle = '#8e44ad';
+                this.ctx.fillRect(-15, -15, 30, 30);
+                this.ctx.fillStyle = '#9b59b6';
+                this.ctx.fillRect(-12, -12, 24, 24);
+                this.ctx.fillStyle = '#e74c3c';
+                this.ctx.fillRect(-8, -8, 6, 6);
+                this.ctx.fillRect(2, -8, 6, 6);
+            } else if (enemy.emoji === '🛸') {
+                // UFO
+                this.ctx.fillStyle = '#34495e';
+                this.ctx.fillRect(-18, -8, 36, 16);
+                this.ctx.fillStyle = '#3498db';
+                this.ctx.fillRect(-12, -12, 24, 8);
+                this.ctx.fillStyle = '#f1c40f';
+                this.ctx.fillRect(-6, -4, 3, 3);
+                this.ctx.fillRect(3, -4, 3, 3);
+            } else {
+                // Generic enemy
+                this.ctx.fillStyle = '#e67e22';
+                this.ctx.fillRect(-12, -12, 24, 24);
+                this.ctx.fillStyle = '#d35400';
+                this.ctx.fillRect(-8, -8, 16, 16);
+            }
+            
+            this.ctx.restore();
+        });
+        
+        // Draw power-ups with custom graphics
+        this.powerUps.forEach(powerUp => {
+            this.ctx.save();
+            this.ctx.translate(powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2);
+            
+            if (powerUp.type === '⚡') {
+                // Lightning bolt
+                this.ctx.fillStyle = '#f1c40f';
+                this.ctx.fillRect(-8, -12, 6, 8);
+                this.ctx.fillRect(-2, -4, 6, 8);
+                this.ctx.fillRect(-8, 4, 6, 8);
+            } else if (powerUp.type === '💖') {
+                // Heart
+                this.ctx.fillStyle = '#e91e63';
+                this.ctx.fillRect(-10, -8, 20, 12);
+                this.ctx.fillRect(-6, -12, 6, 8);
+                this.ctx.fillRect(0, -12, 6, 8);
+            } else {
+                // Pizza slice
+                this.ctx.fillStyle = '#f39c12';
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, -12);
+                this.ctx.lineTo(-10, 8);
+                this.ctx.lineTo(10, 8);
+                this.ctx.closePath();
+                this.ctx.fill();
+                this.ctx.fillStyle = '#e74c3c';
+                this.ctx.fillRect(-4, -2, 3, 3);
+                this.ctx.fillRect(1, 2, 3, 3);
+            }
+            
+            this.ctx.restore();
+        });
+        
+        // Draw particles
+        this.particles.forEach(particle => {
+            this.ctx.save();
+            this.ctx.fillStyle = particle.color;
+            this.ctx.font = '12px Arial';
+            this.ctx.fillText(particle.char, particle.x, particle.y);
+            this.ctx.restore();
+        });
+        
+        // Draw effects
+        this.effects.forEach(effect => {
+            this.ctx.save();
+            this.ctx.translate(effect.x, effect.y);
+            
+            const alpha = effect.timer / effect.maxTimer;
+            this.ctx.globalAlpha = alpha;
+            
+            this.ctx.fillStyle = '#f1c40f';
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText(effect.text, -20, 0);
+            
+            this.ctx.restore();
+        });
+        
+        // Draw health bar
+        this.drawHealthBar();
+        
+        // Draw UI
+        this.drawUI();
+        
+        // Draw game over screen
+        if (this.gameOver) {
+            this.drawGameOverScreen();
+        }
+    }
+    
+    drawHealthBar() {
+        const x = 10;
+        const y = this.canvas.height - 50;
+        
+        this.ctx.fillStyle = '#34495e';
+        this.ctx.fillRect(x, y, 150, 20);
+        
+        this.ctx.fillStyle = this.player.health > 1 ? '#27ae60' : '#e74c3c';
+        this.ctx.fillRect(x + 2, y + 2, (146 * this.player.health) / 3, 16);
+        
+        this.ctx.fillStyle = '#ecf0f1';
+        this.ctx.font = '12px Arial';
+        this.ctx.fillText('Health', x, y - 5);
+    }
+    
+    drawUI() {
+        // Score
+        this.ctx.fillStyle = '#ecf0f1';
+        this.ctx.font = 'bold 18px Arial';
+        const scoreText = `Score: ${this.score}`;
+        this.ctx.fillText(scoreText, 10, 30);
+        
+        // Level
+        this.ctx.fillStyle = '#f39c12';
+        this.ctx.font = 'bold 16px Arial';
+        const levelText = `Level ${this.level}`;
+        this.ctx.fillText(levelText, this.canvas.width - 120, 30);
+        
+        // Title in bottom left
+        this.ctx.fillStyle = '#95a5a6';
+        this.ctx.font = '12px Arial';
+        const titleText = 'Pizza Delivery Space Adventure';
+        this.ctx.fillText(titleText, 10, this.canvas.height - 10);
+        
+        // Speed boost indicator
+        if (this.speedBoost) {
+            this.ctx.fillStyle = '#f1c40f';
+            this.ctx.font = 'bold 14px Arial';
+            this.ctx.fillText('SPEED BOOST!', this.canvas.width - 150, this.canvas.height - 10);
+        }
+    }
+    
+    drawGameOverScreen() {
+        // Semi-transparent overlay
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Game Over text
+        this.ctx.fillStyle = '#e74c3c';
+        this.ctx.font = 'bold 48px Arial';
+        this.ctx.textAlign = 'center';
+        const gameOverText = 'GAME OVER';
+        this.ctx.fillText(gameOverText, this.canvas.width/2, this.canvas.height/2 - 60);
+        
+        // Final score
+        this.ctx.fillStyle = '#f39c12';
+        this.ctx.font = 'bold 24px Arial';
+        const finalScoreText = `Final Score: ${this.score}`;
+        this.ctx.fillText(finalScoreText, this.canvas.width/2, this.canvas.height/2 - 10);
+        
+        // Level reached
+        this.ctx.fillStyle = '#3498db';
+        this.ctx.font = 'bold 20px Arial';
+        const levelText = `Level Reached: ${this.level}`;
+        this.ctx.fillText(levelText, this.canvas.width/2, this.canvas.height/2 + 30);
+        
+        // Restart instruction
+        this.ctx.fillStyle = '#95a5a6';
+        this.ctx.font = 'bold 18px Arial';
+        const restartText = 'Click to Play Again';
+        this.ctx.fillText(restartText, this.canvas.width/2, this.canvas.height/2 + 80);
+        
+        // Reset text alignment
+        this.ctx.textAlign = 'left';
+    }
+    
+    gameLoop() {
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.gameLoop());
+    }
 }
 
-// Initialize game when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, initializing game...');
-  if (document.getElementById('gameCanvas')) {
-    try {
-      window.rocketGame = new RocketPizzaGame('gameCanvas');
-      console.log('Game initialized successfully!');
-    } catch (error) {
-      console.error('Game initialization failed:', error);
+// Initialize the game
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('pizzaGame')) {
+        new PizzaGame('pizzaGame');
     }
-  } else {
-    console.error('gameCanvas element not found!');
-  }
 });
-
-// Game control functions
-function toggleGamePause() {
-  if (window.rocketGame) {
-    window.rocketGame.togglePause();
-    const btn = document.getElementById('pauseBtn');
-    btn.textContent = window.rocketGame.paused ? '▶️ Resume' : '⏸️ Pause';
-  }
-}
-
-function restartGame() {
-  if (window.rocketGame) {
-    window.rocketGame.restart();
-    const btn = document.getElementById('pauseBtn');
-    btn.textContent = '⏸️ Pause';
-  }
-}
-
-function toggleFullScreen() {
-  const wrapper = document.querySelector('.game-wrapper');
-  const canvas = document.getElementById('gameCanvas');
-  
-  if (wrapper.classList.contains('fullscreen')) {
-    // Exit fullscreen
-    wrapper.classList.remove('fullscreen');
-    const exitBtn = wrapper.querySelector('.fullscreen-exit');
-    if (exitBtn) exitBtn.remove();
-    
-    // Restore normal canvas size by removing inline styles
-    canvas.style.width = '';
-    canvas.style.height = '';
-    
-    // Update button text
-    const toggleBtn = document.querySelector('.fullscreen-toggle');
-    if (toggleBtn) toggleBtn.innerHTML = '🖥️ Fullscreen';
-    
-  } else {
-    // Enter fullscreen
-    wrapper.classList.add('fullscreen');
-    
-    // Add exit button
-    const exitBtn = document.createElement('button');
-    exitBtn.className = 'fullscreen-exit';
-    exitBtn.innerHTML = '✖ Exit Fullscreen';
-    exitBtn.onclick = toggleFullScreen;
-    wrapper.appendChild(exitBtn);
-    
-    // Update button text
-    const toggleBtn = document.querySelector('.fullscreen-toggle');
-    if (toggleBtn) toggleBtn.innerHTML = '📱 Exit Fullscreen';
-    
-    // Allow ESC key to exit
-    const escHandler = (e) => {
-      if (e.key === 'Escape' && wrapper.classList.contains('fullscreen')) {
-        toggleFullScreen();
-        document.removeEventListener('keydown', escHandler);
-      }
-    };
-    document.addEventListener('keydown', escHandler);
-  }
-}
 </script>
 
-## Recent Updates
+## Latest Articles from Medium
 
-Stay tuned for new projects and articles as I continue to explore the intersection of data science, technology, and life's adventures.
-
-<!-- Medium RSS Feed Integration -->
-<div id="medium-articles" class="recent-articles">
-  <h3>Latest Articles</h3>
-  <div id="medium-feed"></div>
+<div id="medium-articles" style="margin: 40px 0;">
+  <h3>Recent Publications</h3>
+  <div id="articles-container">
+    <p>Loading latest articles...</p>
+  </div>
 </div>
 
 <script>
+// Fetch Medium articles
 async function fetchMediumArticles() {
     try {
-        const rssUrl = 'https://medium.com/feed/@groundcontrolcharles';
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+        const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/@charleswhetstone/feed');
         const data = await response.json();
         
-        if (data.items && data.items.length > 0) {
-            return data.items.slice(0, 3);
+        if (data.status === 'ok') {
+            displayArticles(data.items.slice(0, 3)); // Show latest 3 articles
         }
     } catch (error) {
-        console.log('Medium articles will load when available');
-        return [];
+        console.error('Error fetching articles:', error);
+        document.getElementById('articles-container').innerHTML = '<p>Unable to load articles at this time.</p>';
     }
-    return [];
 }
 
 function displayArticles(articles) {
-    const feedContainer = document.getElementById('medium-feed');
+    const container = document.getElementById('articles-container');
     
-    if (articles.length > 0) {
-        feedContainer.innerHTML = articles.map(article => `
-            <div class="article-preview">
-                <h4><a href="${article.link}" target="_blank">${article.title}</a></h4>
-                <p class="article-date">${new Date(article.pubDate).toLocaleDateString()}</p>
-                <p>${article.description.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
+    const articlesHTML = articles.map(article => {
+        const date = new Date(article.pubDate).toLocaleDateString();
+        const description = article.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
+        
+        return `
+            <div style="border: 1px solid #333; border-radius: 8px; padding: 20px; margin: 15px 0; background: rgba(255,255,255,0.05);">
+                <h4 style="margin-top: 0;"><a href="${article.link}" target="_blank" style="color: #4CAF50; text-decoration: none;">${article.title}</a></h4>
+                <p style="color: #ccc; font-size: 14px; margin: 10px 0;">${date}</p>
+                <p style="color: #aaa; line-height: 1.6;">${description}</p>
+                <a href="${article.link}" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Read More →</a>
             </div>
-        `).join('');
-    } else {
-        feedContainer.innerHTML = '<p>Articles coming soon...</p>';
-    }
+        `;
+    }).join('');
+    
+    container.innerHTML = articlesHTML;
 }
 
-document.addEventListener('DOMContentLoaded', async function() {
-    const articles = await fetchMediumArticles();
-    displayArticles(articles);
-});
+// Load articles when page loads
+document.addEventListener('DOMContentLoaded', fetchMediumArticles);
 </script>
-
-<style>
-/* Enhanced Game Styles with Dynamic Width */
-.page__content {
-    max-width: 1200px !important;
-    width: 100% !important;
-}
-
-.page__inner-wrap {
-    max-width: 1200px !important;
-}
-
-.layout--home .page__content {
-    max-width: 1200px !important;
-}
-
-.game-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    padding: 20px;
-    margin: 2em 0;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.1);
-    width: 100%;
-    max-width: none;
-    overflow: visible;
-    position: relative;
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.game-header h3 {
-    color: white;
-    margin: 0;
-    font-size: 1.8em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.game-controls {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.game-btn {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: bold;
-}
-
-.game-btn:hover {
-    background: rgba(255,255,255,0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.fullscreen-toggle {
-    background: rgba(255,255,255,0.25) !important;
-    border: 2px solid rgba(255,255,255,0.4) !important;
-}
-
-.fullscreen-toggle:hover {
-    background: rgba(255,255,255,0.4) !important;
-}
-
-.game-wrapper {
-    text-align: center;
-    position: relative;
-}
-
-.game-wrapper.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.95);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.game-wrapper.fullscreen #gameCanvas {
-    width: min(90vw, 90vh * 1.5) !important;
-    height: min(60vh, 90vw / 1.5) !important;
-    max-width: 1200px;
-    max-height: 800px;
-}
-
-.fullscreen-exit {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,0,0,0.8);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    z-index: 10000;
-}
-
-#gameCanvas {
-    border: 3px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d2d5a 100%);
-    display: block;
-    margin: 0 auto;
-    cursor: crosshair;
-    transition: all 0.3s ease;
-}
-
-#gameCanvas:hover {
-    border-color: rgba(255,255,255,0.5);
-    box-shadow: 0 0 20px rgba(255,255,255,0.2);
-}
-
-#gameCanvas:focus {
-    outline: 2px solid #00ff00;
-    outline-offset: 2px;
-}
-
-.game-instructions {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 10px;
-    text-align: left;
-}
-
-.game-instructions p {
-    color: white;
-    margin: 8px 0;
-    font-size: 1em;
-}
-
-.game-instructions strong {
-    color: #ffff00;
-}
-
-.game-objective {
-    margin-bottom: 20px;
-}
-
-.game-objective h4 {
-    color: #00ff00;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.game-controls {
-    margin-bottom: 20px;
-}
-
-.game-controls h4 {
-    color: #64b5f6;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.game-good-bad {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.good-things h4 {
-    color: #4caf50;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.bad-things h4 {
-    color: #f44336;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.game-tips {
-    border-top: 1px solid rgba(255,255,255,0.3);
-    padding-top: 15px;
-}
-
-.game-tips h4 {
-    color: #ff9800;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-@media (max-width: 767px) {
-    .game-good-bad {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .game-instructions p {
-        font-size: 0.9em;
-    }
-    
-    .game-instructions h4 {
-        font-size: 1em;
-    }
-}
-
-/* Feature row adjustments for better spacing */
-.feature__wrapper {
-    max-width: 1200px !important;
-    margin: 0 auto;
-}
-
-.feature__item {
-    margin-bottom: 2em;
-}
-
-/* Recent Articles Styles */
-.recent-articles {
-    margin-top: 3em;
-    padding: 2em;
-    background: var(--background-color, rgba(255,255,255,0.1));
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.recent-articles h3 {
-    color: var(--text-color, #ffffff);
-    margin-bottom: 1.5em;
-    font-size: 1.5em;
-}
-
-.article-preview {
-    margin-bottom: 2em;
-    padding-bottom: 1.5em;
-    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.2));
-}
-
-.article-preview:last-child {
-    border-bottom: none;
-}
-
-.article-preview h4 a {
-    color: var(--link-color, #64b5f6);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.article-preview h4 a:hover {
-    color: var(--link-hover-color, #42a5f5);
-}
-
-.article-date {
-    font-size: 0.9em;
-    color: var(--muted-text-color, #cccccc);
-    margin: 0.5em 0;
-}
-
-/* Responsive Design - Mobile First Approach */
-/* Mobile Phones (320px - 767px) */
-@media (max-width: 767px) {
-    .page__content {
-        max-width: 100% !important;
-        padding: 0 10px !important;
-    }
-    
-    .game-container {
-        padding: 10px;
-        margin: 1em 0;
-        border-radius: 10px;
-    }
-    
-    .game-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-    
-    .game-header h3 {
-        font-size: 1.3em;
-    }
-    
-    .game-controls {
-        justify-content: center;
-        width: 100%;
-    }
-    
-    .game-btn {
-        padding: 8px 12px;
-        font-size: 0.8em;
-        min-width: 70px;
-    }
-    
-    #gameCanvas {
-        width: calc(100vw - 40px) !important;
-        max-width: 100% !important;
-        height: calc((100vw - 40px) * 0.6) !important;
-        min-height: 200px;
-        max-height: 300px;
-    }
-    
-    .game-instructions {
-        text-align: center;
-        padding: 10px;
-    }
-    
-    .game-instructions p {
-        font-size: 0.85em;
-    }
-    
-    .recent-articles {
-        padding: 1em;
-        margin-top: 2em;
-    }
-    
-    .fullscreen-exit {
-        top: 10px;
-        right: 10px;
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-}
-
-/* Tablets (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .page__content {
-        max-width: 95% !important;
-        padding: 0 20px !important;
-    }
-    
-    .game-container {
-        padding: 15px;
-        margin: 1.5em 0;
-    }
-    
-    .game-header h3 {
-        font-size: 1.6em;
-    }
-    
-    .game-btn {
-        padding: 9px 14px;
-        font-size: 0.85em;
-    }
-    
-    #gameCanvas {
-        width: min(700px, calc(100vw - 70px)) !important;
-        height: min(467px, calc((100vw - 70px) * 0.667)) !important;
-    }
-    
-    .game-instructions p {
-        font-size: 0.95em;
-    }
-}
-
-/* Small Desktops (1024px - 1199px) */
-@media (min-width: 1024px) and (max-width: 1199px) {
-    .page__content {
-        max-width: 1000px !important;
-    }
-    
-    #gameCanvas {
-        width: 800px !important;
-        height: 533px !important;
-    }
-}
-
-/* Large Desktops (1200px+) */
-@media (min-width: 1200px) {
-    .page {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .page__content {
-        max-width: 1200px !important;
-    }
-    
-    #gameCanvas {
-        width: 900px !important;
-        height: 600px !important;
-    }
-}
-
-/* Ultra-wide screens (1400px+) */
-@media (min-width: 1400px) {
-    .page__content {
-        max-width: 1300px !important;
-    }
-    
-    .game-container {
-        max-width: 1000px;
-        margin: 2em auto;
-    }
-    
-    #gameCanvas {
-        width: 950px !important;
-        height: 633px !important;
-    }
-}
-
-/* Focus and interaction improvements */
-.game-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
-}
-
-/* Dark theme compatibility */
-@media (prefers-color-scheme: dark) {
-    .recent-articles {
-        background: rgba(30, 30, 30, 0.8);
-        border-color: rgba(255,255,255,0.1);
-    }
-}
-
-/* Print styles */
-@media print {
-    .game-container {
-        display: none;
-    }
-}
-
-/* Recent Articles Styles */
-.recent-articles {
-    margin-top: 3em;
-    padding: 2em;
-    background: var(--background-color, rgba(255,255,255,0.1));
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.recent-articles h3 {
-    color: var(--text-color, #ffffff);
-    margin-bottom: 1.5em;
-    font-size: 1.5em;
-}
-
-.article-preview {
-    margin-bottom: 2em;
-    padding-bottom: 1.5em;
-    border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.2));
-}
-
-.article-preview:last-child {
-    border-bottom: none;
-}
-
-.article-preview h4 a {
-    color: var(--link-color, #64b5f6);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.article-preview h4 a:hover {
-    color: var(--link-hover-color, #42a5f5);
-}
-
-.article-date {
-    font-size: 0.9em;
-    color: var(--muted-text-color, #cccccc);
-    margin: 0.5em 0;
-}
-
-/* Feature row adjustments for better spacing */
-.feature__wrapper {
-    max-width: 1200px !important;
-    margin: 0 auto;
-}
-
-.feature__item {
-    margin-bottom: 2em;
-}
-
-/* Responsive Design - Mobile First Approach */
-/* Mobile Phones (320px - 767px) */
-@media (max-width: 767px) {
-    .page__content {
-        max-width: 100% !important;
-        padding: 0 10px !important;
-    }
-    
-    .game-container {
-        padding: 10px;
-        margin: 1em 0;
-        border-radius: 10px;
-    }
-    
-    .game-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-    
-    .game-header h3 {
-        font-size: 1.3em;
-    }
-    
-    .game-controls {
-        justify-content: center;
-        width: 100%;
-    }
-    
-    .game-btn {
-        padding: 8px 12px;
-        font-size: 0.8em;
-        min-width: 70px;
-    }
-    
-    #gameCanvas {
-        width: calc(100vw - 40px) !important;
-        max-width: 100% !important;
-        height: calc((100vw - 40px) * 0.6) !important;
-        min-height: 200px;
-        max-height: 300px;
-    }
-    
-    .game-instructions {
-        text-align: center;
-        padding: 10px;
-    }
-    
-    .game-instructions p {
-        font-size: 0.85em;
-    }
-    
-    .recent-articles {
-        padding: 1em;
-        margin-top: 2em;
-    }
-    
-    .fullscreen-exit {
-        top: 10px;
-        right: 10px;
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-}
-
-/* Tablets (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .page__content {
-        max-width: 95% !important;
-        padding: 0 20px !important;
-    }
-    
-    .game-container {
-        padding: 15px;
-        margin: 1.5em 0;
-    }
-    
-    .game-header h3 {
-        font-size: 1.6em;
-    }
-    
-    .game-btn {
-        padding: 9px 14px;
-        font-size: 0.85em;
-    }
-    
-    #gameCanvas {
-        width: min(700px, calc(100vw - 70px)) !important;
-        height: min(467px, calc((100vw - 70px) * 0.667)) !important;
-    }
-    
-    .game-instructions p {
-        font-size: 0.95em;
-    }
-}
-
-/* Small Desktops (1024px - 1199px) */
-@media (min-width: 1024px) and (max-width: 1199px) {
-    .page__content {
-        max-width: 1000px !important;
-    }
-    
-    #gameCanvas {
-        width: 800px !important;
-        height: 533px !important;
-    }
-}
-
-/* Large Desktops (1200px+) */
-@media (min-width: 1200px) {
-    .page {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .page__content {
-        max-width: 1200px !important;
-    }
-    
-    #gameCanvas {
-        width: 900px !important;
-        height: 600px !important;
-    }
-}
-
-/* Ultra-wide screens (1400px+) */
-@media (min-width: 1400px) {
-    .page__content {
-        max-width: 1300px !important;
-    }
-    
-    .game-container {
-        max-width: 1000px;
-        margin: 2em auto;
-    }
-    
-    #gameCanvas {
-        width: 950px !important;
-        height: 633px !important;
-    }
-}
-
-/* Focus and interaction improvements */
-.game-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
-}
-
-/* Smooth animations */
-* {
-    box-sizing: border-box;
-}
-
-/* Dark theme compatibility */
-@media (prefers-color-scheme: dark) {
-    .recent-articles {
-        background: rgba(30, 30, 30, 0.8);
-        border-color: rgba(255,255,255,0.1);
-    }
-}
-
-/* Print styles */
-@media print {
-    .game-container {
-        display: none;
-    }
-}
-
-/* Focus and accessibility improvements */
-.game-container:focus-within {
-    outline: 3px solid #00ff00;
-    outline-offset: 3px;
-}
-
-/* Better Canvas Sizing Override */
-#gameCanvas {
-    width: min(750px, 85vw) !important;
-    height: min(500px, 56.7vw) !important;
-    max-width: 750px;
-    max-height: 500px;
-}
-
-@media (max-width: 767px) {
-    #gameCanvas {
-        width: calc(100vw - 40px) !important;
-        height: calc((100vw - 40px) * 0.6) !important;
-        min-height: 200px;
-        max-height: 300px;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    #gameCanvas {
-        width: min(650px, 85vw) !important;
-        height: min(433px, 56.7vw) !important;
-    }
-}
-</style>

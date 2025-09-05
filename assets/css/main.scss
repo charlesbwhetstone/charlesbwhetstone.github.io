@@ -1,0 +1,105 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+/* Custom overrides for game canvas container sizing */
+
+/* Override theme's page content width restrictions for home layout */
+.layout--home .page__content {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 0 auto;
+}
+
+/* Override theme's inner wrap width restrictions */
+.layout--home .page__inner-wrap {
+  max-width: 1200px !important;
+  width: 100% !important;
+}
+
+/* Ensure the main content area can expand */
+.layout--home .page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Game container specific overrides */
+.game-container {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 2rem 0;
+  overflow: visible;
+}
+
+/* Canvas responsive sizing that works with theme containers */
+#gameCanvas {
+  width: min(750px, calc(100vw - 40px)) !important;
+  height: min(500px, calc((100vw - 40px) * 0.667)) !important;
+  max-width: 750px;
+  max-height: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Mobile specific canvas sizing */
+@media (max-width: 767px) {
+  .layout--home .page__content {
+    padding: 0 1rem !important;
+  }
+  
+  #gameCanvas {
+    width: calc(100vw - 2rem) !important;
+    height: calc((100vw - 2rem) * 0.6) !important;
+    min-height: 200px;
+    max-height: 300px;
+  }
+  
+  .game-container {
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+}
+
+/* Tablet specific canvas sizing */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #gameCanvas {
+    width: min(650px, calc(100vw - 4rem)) !important;
+    height: min(433px, calc((100vw - 4rem) * 0.667)) !important;
+  }
+}
+
+/* Desktop specific canvas sizing */
+@media (min-width: 1024px) {
+  /* Override theme's sidebar layout if present */
+  .layout--home .sidebar {
+    max-width: none;
+  }
+  
+  .layout--home .page__content {
+    float: none !important;
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+  
+  #gameCanvas {
+    width: min(750px, 80vw) !important;
+    height: min(500px, 53.3vw) !important;
+    max-width: 750px;
+    max-height: 500px;
+  }
+}
+
+/* Ensure feature rows work with expanded content */
+.layout--home .feature__wrapper {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}
+
+.layout--home .archive {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}
