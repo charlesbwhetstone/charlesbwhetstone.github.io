@@ -461,19 +461,7 @@ class RocketPizzaGame {
 
   addScreenShake() {
     this.screenShake = { intensity: 5, duration: 10 };
-  }
-
-  addImpactEffect(x, y) {
-    for (let i = 0; i < 3; i++) {
-      this.particles.push({
-        x: x, y: y,
-        dx: (Math.random() - 0.5) * 4,
-        dy: (Math.random() - 0.5) * 4,
-        life: 15, maxLife: 15,
-        particle: "💥", alpha: 1
-      });
-    }
-  }
+  }  
   
   handlePowerup(powerup) {
     switch (powerup.type) {
