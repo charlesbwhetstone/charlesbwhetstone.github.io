@@ -58,18 +58,18 @@ Test your piloting skills in this retro-style space adventure! Navigate your roc
   <div class="game-wrapper">
     <canvas id="gameCanvas" width="900" height="600"></canvas>
     
-    <!-- MOBILE TOUCH CONTROLS - Game Overlay -->
+    <!-- MOBILE TOUCH CONTROLS - Responsive Game Overlay -->
     <div id="mobileControls" style="display:none; position:relative; pointer-events:none;">
-      <!-- Touch Control Container -->
-      <div style="position:absolute; top:-600px; left:0; width:900px; height:600px; pointer-events:auto; z-index:10;">
+      <!-- Touch Control Container positioned over canvas -->
+      <div style="position:absolute; top:-600px; left:0; width:100%; max-width:900px; height:600px; pointer-events:auto; z-index:10;">
         <!-- Virtual Joystick -->
-        <div id="virtualJoystick" style="position:absolute; bottom:20px; left:20px; width:100px; height:100px; background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11;">
-          <div id="joystickKnob" style="position:absolute; width:35px; height:35px; background:rgba(0,255,0,0.8); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s;"></div>
+        <div id="virtualJoystick" style="position:absolute; bottom:15px; left:15px; width:110px; height:110px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none;">
+          <div id="joystickKnob" style="position:absolute; width:40px; height:40px; background:rgba(0,255,0,0.8); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
         </div>
         <!-- Fire Button -->
-        <div id="fireButton" style="position:absolute; bottom:20px; right:20px; width:70px; height:70px; background:rgba(255,0,0,0.4); border:2px solid rgba(255,0,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:12px;">FIRE</div>
+        <div id="fireButton" style="position:absolute; bottom:15px; right:15px; width:80px; height:80px; background:rgba(255,0,0,0.4); border:3px solid rgba(255,0,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:14px; touch-action:none; user-select:none; box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:all 0.1s;">FIRE</div>
         <!-- Auto-Fire Button -->
-        <div id="autoFireButton" style="position:absolute; bottom:100px; right:20px; width:50px; height:50px; background:rgba(255,255,0,0.4); border:2px solid rgba(255,255,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:10px; font-weight:bold;">AUTO</div>
+        <div id="autoFireButton" style="position:absolute; bottom:110px; right:15px; width:60px; height:60px; background:rgba(255,255,0,0.4); border:2px solid rgba(255,255,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:11px; font-weight:bold; touch-action:none; user-select:none; box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:all 0.1s;">AUTO</div>
       </div>
     </div>
     <div class="game-instructions">
@@ -944,12 +944,14 @@ class RocketPizzaGame {
   }
   
   initTouchControls() {
+    // Initialize keys object if not present
+    if (!this.keys) {
+      this.keys = {};
+    }
+    
     // Touch control state
     this.touchState = {
       joystickActive: false,
-      joystickCenter: {x: 50, y: 50}, // Center of 100px joystick
-      moveDirection: {x: 0, y: 0},
-      firePressed: false,
       autoFire: false,
       autoFireInterval: null
     };
@@ -964,16 +966,28 @@ class RocketPizzaGame {
       return;
     }
     
-    // Joystick touch events
+    // Prevent default touch behavior on game elements
+    [joystick, fireButton, autoFireButton].forEach(element => {
+      element.style.touchAction = 'none';
+      element.addEventListener('touchstart', (e) => e.preventDefault(), {passive: false});
+      element.addEventListener('touchmove', (e) => e.preventDefault(), {passive: false});
+      element.addEventListener('touchend', (e) => e.preventDefault(), {passive: false});
+    });
+    
+    // === JOYSTICK CONTROLS ===
     joystick.addEventListener('touchstart', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       this.touchState.joystickActive = true;
+      joystick.style.background = 'rgba(255,255,255,0.25)';
       console.log('Joystick touch started');
-    });
+    }, {passive: false});
     
     joystick.addEventListener('touchmove', (e) => {
       e.preventDefault();
-      if (!this.touchState.joystickActive) return;
+      e.stopPropagation();
+      
+      if (!this.touchState.joystickActive || !e.touches[0]) return;
       
       const touch = e.touches[0];
       const rect = joystick.getBoundingClientRect();
@@ -985,7 +999,7 @@ class RocketPizzaGame {
       
       // Limit to circle
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      const maxDistance = 30; // Adjust for smaller joystick
+      const maxDistance = 35; // Slightly smaller than joystick radius
       
       if (distance > maxDistance) {
         deltaX = (deltaX / distance) * maxDistance;
@@ -996,86 +1010,114 @@ class RocketPizzaGame {
       joystickKnob.style.left = `calc(50% + ${deltaX}px)`;
       joystickKnob.style.top = `calc(50% + ${deltaY}px)`;
       
-      // Update movement direction (normalized)
-      this.touchState.moveDirection.x = deltaX / maxDistance;
-      this.touchState.moveDirection.y = deltaY / maxDistance;
+      // Clear all movement keys first
+      this.keys['ArrowLeft'] = false;
+      this.keys['ArrowRight'] = false;
+      this.keys['ArrowUp'] = false;
+      this.keys['ArrowDown'] = false;
       
-      // Apply movement directly to player
-      if (this.player) {
-        // Reset movement
-        this.player.dx = 0;
-        this.player.dy = 0;
-        
-        // Apply touch movement
-        const speed = 5;
-        if (Math.abs(this.touchState.moveDirection.x) > 0.2) {
-          this.player.dx = this.touchState.moveDirection.x * speed;
+      // Set movement keys based on joystick position
+      const threshold = 10; // Minimum movement threshold
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX < 0) {
+          this.keys['ArrowLeft'] = true;
+        } else {
+          this.keys['ArrowRight'] = true;
         }
-        if (Math.abs(this.touchState.moveDirection.y) > 0.2) {
-          this.player.dy = this.touchState.moveDirection.y * speed;
-        }
-        this.player.moving = (this.player.dx !== 0 || this.player.dy !== 0);
       }
-    });
+      
+      if (Math.abs(deltaY) > threshold) {
+        if (deltaY < 0) {
+          this.keys['ArrowUp'] = true;
+        } else {
+          this.keys['ArrowDown'] = true;
+        }
+      }
+      
+      console.log('Joystick movement:', {
+        deltaX: Math.round(deltaX),
+        deltaY: Math.round(deltaY),
+        keys: {
+          left: this.keys['ArrowLeft'],
+          right: this.keys['ArrowRight'],
+          up: this.keys['ArrowUp'],
+          down: this.keys['ArrowDown']
+        }
+      });
+      
+    }, {passive: false});
     
     joystick.addEventListener('touchend', (e) => {
       e.preventDefault();
+      e.stopPropagation();
+      
       this.touchState.joystickActive = false;
+      joystick.style.background = 'rgba(255,255,255,0.15)';
       
       // Reset knob position
       joystickKnob.style.left = '50%';
       joystickKnob.style.top = '50%';
       
-      // Reset movement
-      this.touchState.moveDirection = {x: 0, y: 0};
+      // Clear all movement keys
+      this.keys['ArrowLeft'] = false;
+      this.keys['ArrowRight'] = false;
+      this.keys['ArrowUp'] = false;
+      this.keys['ArrowDown'] = false;
       
-      // Stop player movement
-      if (this.player) {
-        this.player.dx = 0;
-        this.player.dy = 0;
-        this.player.moving = false;
-      }
-      console.log('Joystick released');
-    });
+      console.log('Joystick released - movement stopped');
+    }, {passive: false});
     
-    // Fire button events
+    // === FIRE BUTTON ===
     fireButton.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      this.touchState.firePressed = true;
-      fireButton.style.background = 'rgba(255,0,0,0.7)';
-      console.log('Fire button pressed');
+      e.stopPropagation();
       
-      // Fire immediately
-      this.fireBullet();
-    });
+      this.keys['Space'] = true;
+      fireButton.style.background = 'rgba(255,0,0,0.7)';
+      fireButton.style.transform = 'scale(0.95)';
+      console.log('Fire button pressed - shooting');
+    }, {passive: false});
     
     fireButton.addEventListener('touchend', (e) => {
       e.preventDefault();
-      this.touchState.firePressed = false;
+      e.stopPropagation();
+      
+      this.keys['Space'] = false;
       fireButton.style.background = 'rgba(255,0,0,0.4)';
-    });
+      fireButton.style.transform = 'scale(1)';
+      console.log('Fire button released');
+    }, {passive: false});
     
-    // Auto-fire button
+    // === AUTO-FIRE BUTTON ===
     autoFireButton.addEventListener('touchstart', (e) => {
       e.preventDefault();
+      e.stopPropagation();
+      
       this.touchState.autoFire = !this.touchState.autoFire;
-      autoFireButton.style.background = this.touchState.autoFire ? 
-        'rgba(255,255,0,0.7)' : 'rgba(255,255,0,0.4)';
-      console.log('Auto-fire toggled:', this.touchState.autoFire);
       
       if (this.touchState.autoFire) {
+        autoFireButton.style.background = 'rgba(255,255,0,0.7)';
+        autoFireButton.innerHTML = 'ON';
+        // Auto-fire every 150ms
         this.touchState.autoFireInterval = setInterval(() => {
-          this.fireBullet();
-        }, 200);
+          this.keys['Space'] = true;
+          setTimeout(() => {
+            this.keys['Space'] = false;
+          }, 50);
+        }, 150);
+        console.log('Auto-fire enabled');
       } else {
+        autoFireButton.style.background = 'rgba(255,255,0,0.4)';
+        autoFireButton.innerHTML = 'AUTO';
         if (this.touchState.autoFireInterval) {
           clearInterval(this.touchState.autoFireInterval);
           this.touchState.autoFireInterval = null;
         }
+        console.log('Auto-fire disabled');
       }
-    });
+    }, {passive: false});
     
-    console.log('Touch controls initialized successfully');
+    console.log('Touch controls initialized and integrated with game input system');
   }
 }
 
