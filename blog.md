@@ -33,7 +33,6 @@ Here I share updates on projects, thoughts on technology, life experiences, and 
       <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
       <p class="post-meta">
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
-        {% if post.read_time %} • {% include read-time.html %}{% endif %}
         {% if post.categories.size > 0 %}
           • Categories: 
           {% for category in post.categories %}
