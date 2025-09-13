@@ -1,9 +1,7 @@
 ---
-layout: splash
+layout: home
 title: "Charles Whetstone - Data Enthusiast and Curious Human"
 excerpt: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. The truth is out there, afterall!"
-intro: 
-  - excerpt: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. The truth is out there, afterall!"
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
@@ -42,8 +40,6 @@ feature_row:
     btn_label: "Read Articles"
     btn_class: "btn--info"
 ---
-
-{% include feature_row id="intro" type="center" %}
 
 {% include feature_row %}
 
