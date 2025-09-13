@@ -286,6 +286,23 @@ layout: none
                 text-align: center;
                 margin-bottom: 10px;
             }
+            
+            /* Mobile touch controls improvements */
+            #mobileControls {
+                pointer-events: none !important;
+            }
+            
+            #virtualJoystick, #fireButton, #autoFireButton {
+                pointer-events: auto !important;
+                user-select: none;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            #virtualJoystick:active, #fireButton:active, #autoFireButton:active {
+                transform: scale(0.95);
+            }
         }
         
         @media (max-width: 480px) {
@@ -323,17 +340,15 @@ layout: none
                 <canvas id="gameCanvas" width="900" height="600"></canvas>
                 
                 <!-- MOBILE TOUCH CONTROLS -->
-                <div id="mobileControls" style="display:none; position:relative; pointer-events:none;">
-                    <div style="position:absolute; top:-600px; left:0; width:100%; max-width:900px; height:600px; pointer-events:auto; z-index:10;">
-                        <!-- Virtual Joystick -->
-                        <div id="virtualJoystick" style="position:absolute; bottom:15px; left:15px; width:110px; height:110px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none;">
-                            <div id="joystickKnob" style="position:absolute; width:40px; height:40px; background:rgba(0,255,0,0.8); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
-                        </div>
-                        
-                        <div id="fireButton" style="position:absolute; bottom:15px; right:15px; width:80px; height:80px; background:rgba(255,0,0,0.4); border:3px solid rgba(255,0,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:14px; touch-action:none; user-select:none; box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:all 0.1s;">FIRE</div>
-                        
-                        <div id="autoFireButton" style="position:absolute; bottom:110px; right:15px; width:60px; height:60px; background:rgba(255,255,0,0.4); border:2px solid rgba(255,255,0,0.6); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:11px; font-weight:bold; touch-action:none; user-select:none; box-shadow:0 2px 8px rgba(0,0,0,0.3); transition:all 0.1s;">AUTO</div>
+                <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; max-width:900px; height:600px; pointer-events:none; z-index:10;">
+                    <!-- Virtual Joystick -->
+                    <div id="virtualJoystick" style="position:absolute; bottom:20px; left:20px; width:120px; height:120px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none; pointer-events:auto;">
+                        <div id="joystickKnob" style="position:absolute; width:45px; height:45px; background:rgba(0,255,136,0.8); border:2px solid rgba(0,255,136,1); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 3px 10px rgba(0,0,0,0.4);"></div>
                     </div>
+                    
+                    <div id="fireButton" style="position:absolute; bottom:20px; right:20px; width:90px; height:90px; background:rgba(255,0,0,0.6); border:3px solid rgba(255,0,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:16px; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">FIRE</div>
+                    
+                    <div id="autoFireButton" style="position:absolute; bottom:130px; right:20px; width:70px; height:70px; background:rgba(255,221,0,0.6); border:3px solid rgba(255,221,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:bold; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">AUTO</div>
                 </div>
             </div>
         </div>
@@ -633,6 +648,11 @@ class ElectricCrustPizzaGame {
   }
   
   spawnEnemy() {
+    // Don't spawn enemies during power-up modes (bonus runs)
+    if (this.activePowerUps.has('speed-boost') || this.activePowerUps.has('rapid-fire') || this.activePowerUps.has('multi-shot')) {
+      return;
+    }
+    
     const enemyTypes = [
       { name: 'invader', size: 40, health: 1, speed: 1, color: '#8b0000' },
       { name: 'ufo', size: 45, health: 2, speed: 1.5, color: '#c0392b' },
@@ -936,6 +956,7 @@ class ElectricCrustPizzaGame {
     this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'LEVEL UP!', '#00ff00');
     this.addLevelUpEffect();
     this.playLevelUpSound();
+    // Note: No health penalty for leveling up - this is a reward!
   }
   
   addExplosion(x, y) {
@@ -1242,6 +1263,12 @@ class ElectricCrustPizzaGame {
       maxDuration: duration
     });
     this.applyPowerUpEffect(type);
+    
+    // Clear existing enemies for bonus run during major power-ups
+    if (type === 'speed-boost' || type === 'rapid-fire' || type === 'multi-shot') {
+      this.enemies = [];
+      this.addSoundEffect(this.canvas.width/2, this.canvas.height/3, 'BONUS RUN!', '#ffdd00');
+    }
   }
   
   deactivatePowerUp(type) {
@@ -1781,9 +1808,21 @@ class ElectricCrustPizzaGame {
       
       powerUpX += 110;
       
+      // Check if in bonus mode
+      const inBonusMode = this.activePowerUps.has('speed-boost') || 
+                         this.activePowerUps.has('rapid-fire') || 
+                         this.activePowerUps.has('multi-shot');
+      
+      if (inBonusMode) {
+        this.ctx.font = 'bold 16px Arial';
+        this.ctx.fillStyle = '#ffdd00';
+        this.ctx.fillText('🌟 BONUS RUN - NO ENEMIES! 🌟', 20, 195);
+      }
+      
       for (const [powerType, data] of this.activePowerUps.entries()) {
         const timeLeft = Math.ceil(data.remaining);
-        this.ctx.fillStyle = '#ffdd00';
+        this.ctx.fillStyle = inBonusMode && (powerType === 'speed-boost' || powerType === 'rapid-fire' || powerType === 'multi-shot') ? '#ffdd00' : '#00ddff';
+        this.ctx.font = 'bold 14px Arial';
         this.ctx.fillText(`${powerType}: ${timeLeft}s`, powerUpX, powerUpY);
         powerUpX += 150;
       }
