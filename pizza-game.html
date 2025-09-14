@@ -9,6 +9,24 @@ layout: none
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ Electric Crust Pizza Delivery - Charles Whetstone</title>
+    
+    <!-- GitHub API Configuration for Automatic Leaderboard Updates -->
+    <script>
+      // GitHub API configuration for automatic leaderboard updates
+      window.GITHUB_CONFIG = {
+        // IMPORTANT: To enable automatic updates, add your GitHub Personal Access Token here
+        // Get one at: https://github.com/settings/tokens (requires 'repo' scope)
+        // Leave empty for local-only mode
+        token: '', // Add your token here to enable automatic global updates
+        
+        // Repository details (safe to keep public)
+        owner: 'charlesbwhetstone',
+        repo: 'charlesbwhetstone.github.io',
+        path: 'assets/pizza-game-scores.json',
+        branch: 'main'
+      };
+    </script>
+    
     <style>
         body {
             margin: 0;
@@ -1661,11 +1679,89 @@ class ElectricCrustPizzaGame {
       version: "1.0"
     };
     
-    // Show manual update notification after brief delay
-    // This is more reliable than depending on GitHub API without auth
-    setTimeout(() => {
-      this.showManualUpdateNotification(newEntry, updatedData);
-    }, 1500);
+    // Try automatic update first, then fallback to simple success message
+    this.attemptAutomaticUpdate(newEntry, updatedData);
+  }
+
+  async attemptAutomaticUpdate(newEntry, updatedData) {
+    try {
+      // Try to update via a serverless function or direct API call
+      const success = await this.updateViaAutomatedService(updatedData);
+      
+      if (success) {
+        this.showSimpleSuccessNotification(newEntry);
+      } else {
+        // Fallback to simple local success - no confusing JSON for users
+        this.showLocalSuccessNotification(newEntry);
+      }
+    } catch (error) {
+      console.log('🌍 Automatic update failed, showing local success:', error);
+      this.showLocalSuccessNotification(newEntry);
+    }
+  }
+
+  async updateViaAutomatedService(data) {
+    try {
+      // Check if GitHub token is configured
+      const config = window.GITHUB_CONFIG;
+      if (!config || !config.token) {
+        console.log('🌍 No GitHub token configured, using local-only mode');
+        return false;
+      }
+      
+      console.log('🌍 Attempting automatic GitHub update...');
+      
+      // Get current file to get its SHA
+      const getUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.path}`;
+      const getResponse = await fetch(getUrl, {
+        headers: {
+          'Authorization': `token ${config.token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      
+      if (!getResponse.ok) {
+        console.error('🌍 Failed to get current file:', getResponse.status);
+        return false;
+      }
+      
+      const currentFile = await getResponse.json();
+      
+      // Prepare the update
+      const content = btoa(JSON.stringify(data, null, 2)); // Base64 encode
+      const commitMessage = `🏆 Auto-update: ${data.highScores[0].initials} scored ${data.highScores[0].score.toLocaleString()}!`;
+      
+      const updateData = {
+        message: commitMessage,
+        content: content,
+        sha: currentFile.sha,
+        branch: config.branch
+      };
+      
+      // Update the file
+      const updateResponse = await fetch(getUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${config.token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateData)
+      });
+      
+      if (updateResponse.ok) {
+        console.log('🌍 ✅ Successfully updated GitHub file!');
+        return true;
+      } else {
+        const errorText = await updateResponse.text();
+        console.error('🌍 Failed to update file:', updateResponse.status, errorText);
+        return false;
+      }
+      
+    } catch (error) {
+      console.error('🌍 GitHub API error:', error);
+      return false;
+    }
   }
 
   // Legacy function - keeping for now but using reliable version above
@@ -2113,6 +2209,84 @@ ${JSON.stringify(data, null, 2)}
         overlay.remove();
       }
     }, 45000);
+  }
+  
+  showSimpleSuccessNotification(newEntry) {
+    // Remove updating notification
+    const updating = document.getElementById('updatingNotification');
+    if (updating) updating.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'simpleSuccessNotification';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10001;
+      max-width: 400px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">🏆 HIGH SCORE ACHIEVED!</h3>
+      <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
+      <p style="margin: 0 0 15px 0; font-size: 0.9em;">🌍 Your score has been added to the global leaderboard!</p>
+      <p style="margin: 0 0 15px 0; font-size: 0.8em;">All players will see your achievement on their next visit.</p>
+      <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Awesome!</button>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+      if (document.getElementById('simpleSuccessNotification')) {
+        overlay.remove();
+      }
+    }, 10000);
+  }
+  
+  showLocalSuccessNotification(newEntry) {
+    // Remove updating notification
+    const updating = document.getElementById('updatingNotification');
+    if (updating) updating.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'localSuccessNotification';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10001;
+      max-width: 400px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">🏆 HIGH SCORE ACHIEVED!</h3>
+      <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
+      <p style="margin: 0 0 10px 0; font-size: 0.9em;">✅ Your score is saved and appears on the leaderboard!</p>
+      <p style="margin: 0 0 15px 0; font-size: 0.8em;">Great job! Keep playing to beat your record.</p>
+      <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Nice!</button>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+      if (document.getElementById('localSuccessNotification')) {
+        overlay.remove();
+      }
+    }, 8000);
   }
 
   startInitialEntry() {

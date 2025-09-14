@@ -1,0 +1,21 @@
+<!-- GitHub API Configuration -->
+<!-- To enable automatic high score updates, you need to:
+     1. Create a GitHub Personal Access Token with 'repo' scope
+     2. Add it to this configuration
+     3. Keep this token secure and never commit it publicly -->
+
+<script>
+  // GitHub API configuration for automatic leaderboard updates
+  window.GITHUB_CONFIG = {
+    // Set this to your GitHub Personal Access Token
+    // Get one at: https://github.com/settings/tokens
+    // Required scopes: 'repo' (to write to repository)
+    token: '', // IMPORTANT: Add your token here, keep it secure
+    
+    // Repository details (these are safe to keep public)
+    owner: 'charlesbwhetstone',
+    repo: 'charlesbwhetstone.github.io',
+    path: 'assets/pizza-game-scores.json',
+    branch: 'main'
+  };
+</script>
