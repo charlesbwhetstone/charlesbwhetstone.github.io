@@ -416,52 +416,121 @@ layout: none
         
         /* Landscape mode - keep high scores hidden */
         @media (max-width: 768px) and (orientation: landscape) {
-            body {
+            html, body {
                 overflow-y: auto !important;
                 overflow-x: hidden !important;
+                height: auto !important;
+                touch-action: pan-y !important;
             }
             
             .game-header {
-                padding: 3px;
+                padding: 2px;
+                text-align: center;
             }
             
             .game-title {
-                font-size: 16px;
-                margin: 2px 0;
+                font-size: 14px !important;
+                margin: 1px 0 !important;
+                line-height: 1.2;
             }
             
             .game-subtitle {
-                font-size: 10px;
-                margin: 2px 0;
+                font-size: 8px !important;
+                margin: 1px 0 !important;
+                line-height: 1.1;
             }
             
             .game-container {
-                min-height: calc(100vh - 60px) !important;
-                height: auto !important;
-                overflow-y: auto !important;
-                overflow-x: hidden !important;
-                padding: 3px;
+                display: flex !important;
                 flex-direction: column !important;
+                width: 100% !important;
+                min-height: auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding: 2px !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
             }
             
             .game-main {
                 order: 1 !important;
                 width: 100% !important;
-                flex: none !important;
+                flex: 1 !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             
-            /* Force hide high score sidebar in landscape */
+            /* Completely remove high score sidebar in landscape */
             .high-score-sidebar {
                 display: none !important;
+                visibility: hidden !important;
+                width: 0 !important;
+                height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                order: 999 !important;
             }
             
             .game-wrapper {
-                min-height: 200px;
+                min-height: 180px !important;
+                height: auto !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 2px !important;
             }
             
             #gameCanvas {
-                max-height: 250px;
-                max-width: calc(100vw - 20px);
+                max-height: 220px !important;
+                max-width: calc(100vw - 10px) !important;
+                width: auto !important;
+                height: auto !important;
+                margin: 0 auto !important;
+                display: block !important;
+            }
+            
+            /* Mobile controls positioning for landscape */
+            #mobileControls {
+                position: fixed !important;
+                bottom: 5px !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 1000 !important;
+                pointer-events: none !important;
+            }
+            
+            #virtualJoystick {
+                position: absolute !important;
+                bottom: 10px !important;
+                left: 20px !important;
+                pointer-events: auto !important;
+            }
+            
+            #fireButton {
+                position: absolute !important;
+                bottom: 10px !important;
+                right: 20px !important;
+                pointer-events: auto !important;
+            }
+        }
+        
+        /* Extreme mobile landscape override - highest specificity */
+        @media screen and (max-width: 896px) and (orientation: landscape) {
+            body.game-page {
+                overflow-y: auto !important;
+                height: auto !important;
+            }
+            
+            .game-container {
+                display: flex !important;
+                flex-direction: column !important;
+                flex-wrap: nowrap !important;
+            }
+            
+            .high-score-sidebar {
+                display: none !important;
+                visibility: hidden !important;
+                position: absolute !important;
+                left: -9999px !important;
             }
         }
         
@@ -575,7 +644,7 @@ layout: none
         }
     </style>
 </head>
-<body>
+<body class="game-page">
     <div class="navigation">
         <a href="/" class="nav-link">← Back to Portfolio</a>
     </div>
@@ -918,6 +987,7 @@ class ElectricCrustPizzaGame {
   spawnEnemy() {
     // Don't spawn enemies only during speed-boost power-up (super fast mode)
     if (this.activePowerUps.has('speed-boost')) {
+      console.log('🚀 BONUS RUN: No enemies spawning during speed-boost!');
       return;
     }
     
