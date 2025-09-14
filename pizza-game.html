@@ -744,6 +744,7 @@ layout: none
                 <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
                 <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
                 <a href="#" class="game-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen">🖥️ Fullscreen</a>
+                <button onclick="testHighScore()" class="game-btn" style="background: #ff6b6b;">🏆 Test High Score</button>
             </div>
             
             <div class="game-wrapper">
@@ -2550,6 +2551,8 @@ class ElectricCrustPizzaGame {
   }
   
   drawInitialEntryScreen() {
+    console.log('🎨 RENDERING INITIAL ENTRY SCREEN - showInitialEntry:', this.showInitialEntry);
+    
     this.ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
@@ -2716,6 +2719,14 @@ function restartGame() {
     window.electricGame.restart();
     const btn = document.getElementById('pauseBtn');
     btn.textContent = '⏸️ Pause';
+  }
+}
+
+function testHighScore() {
+  if (window.electricGame) {
+    console.log('🧪 TESTING HIGH SCORE ENTRY SYSTEM');
+    window.electricGame.score = 1000; // Set a high test score
+    window.electricGame.startInitialEntry();
   }
 }
 
