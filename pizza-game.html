@@ -1477,9 +1477,16 @@ class ElectricCrustPizzaGame {
   
   gameOver() {
     // Check if it's a high score
+    console.log(`🏆 GAME OVER: Score=${this.score}`);
+    console.log(`🏆 CURRENT HIGH SCORES:`, this.highScores);
+    console.log(`🏆 LOWEST HIGH SCORE:`, this.highScores[this.highScores.length - 1].score);
+    console.log(`🏆 IS HIGH SCORE:`, this.isHighScore(this.score));
+    
     if (this.isHighScore(this.score)) {
+      console.log(`🎉 NEW HIGH SCORE! Starting initial entry...`);
       this.startInitialEntry();
     } else {
+      console.log(`❌ Not a high score. Showing game over screen.`);
       this.showGameOverScreen = true;
     }
     
@@ -1551,7 +1558,13 @@ class ElectricCrustPizzaGame {
   }
   
   isHighScore(score) {
-    return score > this.highScores[this.highScores.length - 1].score || this.highScores.length < 10;
+    const lowestScore = this.highScores[this.highScores.length - 1].score;
+    const hasLessThan10 = this.highScores.length < 10;
+    const beatsLowest = score > lowestScore;
+    
+    console.log(`🔍 isHighScore check: score=${score}, lowestScore=${lowestScore}, hasLessThan10=${hasLessThan10}, beatsLowest=${beatsLowest}`);
+    
+    return beatsLowest || hasLessThan10;
   }
   
   addHighScore(initials, score) {
