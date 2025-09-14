@@ -869,7 +869,7 @@ class ElectricCrustPizzaGame {
     
     // Debug mode for collision visualization (toggle with 'D' key)
     this.debugMode = false;
-    this.lightspeedMode = false; // Track lightspeed travel mode
+    this.hyperBoostMode = false; // Track hyper boost travel mode
     
     // High Score System
     this.showInitialEntry = false;
@@ -1179,7 +1179,7 @@ class ElectricCrustPizzaGame {
   }
   
   spawnEnemy() {
-    // Don't spawn enemies during speed-boost power-up (super fast mode)
+    // Don't spawn enemies during speed-boost power-up (hyper boost mode)
     if (this.activePowerUps.has('speed-boost')) {
       console.log('🚀 BONUS RUN: No enemies spawning during speed-boost!');
       return;
@@ -1323,8 +1323,8 @@ class ElectricCrustPizzaGame {
   
   updateStars() {
     this.stars.forEach(star => {
-      // Lightspeed mode: stars move MUCH faster and create streaks
-      const speed = this.lightspeedMode ? star.speed * 12 : star.speed;
+      // Hyper Boost mode: stars move MUCH faster and create streaks
+      const speed = this.hyperBoostMode ? star.speed * 12 : star.speed;
       star.x -= speed;
       
       if (star.x < -5) {
@@ -2593,10 +2593,10 @@ ${JSON.stringify(data, null, 2)}
     console.log(`⚡ POWER-UP: ${type} activated for ${duration} seconds`);
     this.applyPowerUpEffect(type);
     
-    // Clear existing enemies only for speed-boost (super fast mode)
+    // Clear existing enemies only for speed-boost (hyper boost mode)
     if (type === 'speed-boost') {
       this.enemies = [];
-      this.addSoundEffect(this.canvas.width/2, this.canvas.height/3, 'SUPER FAST MODE!', '#ffdd00');
+      this.addSoundEffect(this.canvas.width/2, this.canvas.height/3, 'HYPER BOOST!', '#ffdd00');
     }
   }
   
@@ -2612,9 +2612,9 @@ ${JSON.stringify(data, null, 2)}
         this.player.speed = Math.min(this.player.speed + 3, 10);
         break;
       case 'level-celebration':
-        // Give LIGHTSPEED during level-up celebration
+        // Give HYPER BOOST during level-up celebration
         this.player.speed = Math.min(this.player.speed + 8, 18); // Super fast!
-        this.lightspeedMode = true;
+        this.hyperBoostMode = true;
         
         // Eliminate all enemies with force field effect
         this.enemies.forEach(enemy => {
@@ -2623,7 +2623,7 @@ ${JSON.stringify(data, null, 2)}
         });
         this.enemies = []; // Clear all enemies
         
-        console.log('🚀 LIGHTSPEED MODE: Activated! All enemies eliminated by force field!');
+        console.log('🚀 HYPER BOOST MODE: Activated! All enemies eliminated by force field!');
         break;
     }
   }
@@ -2634,10 +2634,10 @@ ${JSON.stringify(data, null, 2)}
         this.player.speed = Math.max(this.player.speed - 3, 5);
         break;
       case 'level-celebration':
-        // Restore normal speed after lightspeed mode
+        // Restore normal speed after hyper boost mode
         this.player.speed = Math.max(this.player.speed - 8, 5);
-        this.lightspeedMode = false;
-        console.log('🎉 LIGHTSPEED MODE: Deactivated, speed restored to', this.player.speed);
+        this.hyperBoostMode = false;
+        console.log('🎉 HYPER BOOST MODE: Deactivated, speed restored to', this.player.speed);
         break;
     }
   }
@@ -3002,8 +3002,8 @@ ${JSON.stringify(data, null, 2)}
       const twinkleBrightness = star.brightness + Math.sin(star.twinkle) * 0.3;
       const alpha = Math.max(0.1, Math.min(1, twinkleBrightness));
       
-      if (this.lightspeedMode) {
-        // Lightspeed streaks!
+      if (this.hyperBoostMode) {
+        // Hyper boost streaks!
         this.ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.8})`;
         this.ctx.lineWidth = star.size * 0.5;
         this.ctx.beginPath();
@@ -3081,8 +3081,8 @@ ${JSON.stringify(data, null, 2)}
     const floatOffset = Math.sin(Date.now() * 0.003) * 2;
     this.ctx.translate(0, floatOffset);
     
-    // Lightspeed force field effect
-    if (this.lightspeedMode) {
+    // Hyper boost force field effect
+    if (this.hyperBoostMode) {
       const time = Date.now() * 0.01;
       this.ctx.strokeStyle = `rgba(0, 255, 255, ${0.6 + Math.sin(time) * 0.3})`;
       this.ctx.lineWidth = 3;
@@ -3413,7 +3413,7 @@ ${JSON.stringify(data, null, 2)}
       if (inBonusMode) {
         this.ctx.font = 'bold 16px Arial';
         this.ctx.fillStyle = '#ffdd00';
-        this.ctx.fillText('🚀 SUPER FAST MODE - NO ENEMIES! 🚀', 20, 195);
+        this.ctx.fillText('🚀 HYPER BOOST - NO ENEMIES! 🚀', 20, 195);
       }
       
       for (const [powerType, data] of this.activePowerUps.entries()) {
@@ -3468,8 +3468,8 @@ ${JSON.stringify(data, null, 2)}
     this.ctx.shadowColor = effect.color;
     this.ctx.shadowBlur = 20;
     
-    this.ctx.strokeText('LEVEL UP!', centerX, centerY - 50);
-    this.ctx.fillText('LEVEL UP!', centerX, centerY - 50);
+    this.ctx.strokeText('WARP MODE!', centerX, centerY - 50);
+    this.ctx.fillText('WARP MODE!', centerX, centerY - 50);
     
     this.ctx.restore();
     
