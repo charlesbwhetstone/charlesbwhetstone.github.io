@@ -832,7 +832,14 @@ class ElectricCrustPizzaGame {
     // High Score System
     this.showInitialEntry = false;
     this.initialEntry = { initials: '', currentChar: 0 };
-    this.highScores = this.loadHighScores();
+    this.highScores = []; // Will be loaded asynchronously
+    this.pendingHighScore = null; // Store high score that needs to be added to repo
+    
+    // Load high scores asynchronously
+    this.loadHighScores().then(scores => {
+      this.highScores = scores;
+      this.updateHighScoreDisplay();
+    });
     
     // Score popup effects system
     this.scorePopups = [];
@@ -1528,16 +1535,36 @@ class ElectricCrustPizzaGame {
   }
   
   // High Score System Methods
-  loadHighScores() {
+  async loadHighScores() {
+    console.log('📚 LOADING HIGH SCORES FROM JSON FILE');
     try {
-      const saved = localStorage.getItem('pizzaGameHighScores');
-      if (saved) {
-        return JSON.parse(saved);
+      // Try to load from the repo JSON file first
+      const response = await fetch('./assets/pizza-game-scores.json');
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`📚 Loaded ${data.highScores.length} high scores from JSON file:`, data.highScores);
+        return data.highScores;
+      } else {
+        console.warn('📚 Could not load JSON file, trying localStorage...');
       }
     } catch (e) {
-      console.warn('Could not load high scores:', e);
+      console.warn('📚 Error loading JSON file:', e);
     }
     
+    // Fallback to localStorage
+    try {
+      const saved = localStorage.getItem('pizzaGameHighScores');
+      console.log('📚 Raw localStorage data:', saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        console.log(`📚 Loaded ${parsed.length} high scores from localStorage:`, parsed);
+        return parsed;
+      }
+    } catch (e) {
+      console.warn('Could not load high scores from localStorage:', e);
+    }
+    
+    console.log('📚 Using default high scores');
     // Default high scores - classic arcade style
     return [
       { initials: 'AAA', score: 5000 },
@@ -1554,10 +1581,28 @@ class ElectricCrustPizzaGame {
   }
   
   saveHighScores() {
+    console.log(`💾 SAVING ${this.highScores.length} HIGH SCORES TO LOCALSTORAGE (BACKUP):`, this.highScores);
+    console.log('💾 localStorage available:', typeof(Storage) !== "undefined");
+    console.log('💾 Mobile device:', this.isMobile());
+    
     try {
-      localStorage.setItem('pizzaGameHighScores', JSON.stringify(this.highScores));
+      const dataToSave = JSON.stringify(this.highScores);
+      console.log('💾 Data to save (length):', dataToSave.length);
+      localStorage.setItem('pizzaGameHighScores', dataToSave);
+      console.log('💾 BACKUP SAVE SUCCESSFUL, data length:', dataToSave.length);
+      
+      // Verify the save by reading it back immediately
+      const verification = localStorage.getItem('pizzaGameHighScores');
+      console.log('💾 VERIFICATION - Saved data exists:', verification !== null);
+      console.log('💾 VERIFICATION - Saved data length:', verification ? verification.length : 0);
+      
+      if (verification) {
+        const parsedVerification = JSON.parse(verification);
+        console.log('💾 VERIFICATION - Parsed length:', parsedVerification.length);
+      }
     } catch (e) {
-      console.warn('Could not save high scores:', e);
+      console.error('💾 ERROR saving high scores:', e);
+      console.log('💾 localStorage quota exceeded?', e.name === 'QuotaExceededError');
     }
   }
   
@@ -1572,21 +1617,88 @@ class ElectricCrustPizzaGame {
   }
   
   addHighScore(initials, score) {
-    this.highScores.push({ initials: initials.toUpperCase(), score: score });
+    console.log(`📝 ADDING HIGH SCORE: ${initials} - ${score}`);
+    console.log(`📝 BEFORE: High scores length = ${this.highScores.length}`, this.highScores);
+    
+    const newEntry = { 
+      initials: initials.toUpperCase(), 
+      score: score,
+      date: new Date().toISOString().split('T')[0] // Add date in YYYY-MM-DD format
+    };
+    
+    this.highScores.push(newEntry);
     this.highScores.sort((a, b) => b.score - a.score);
     this.highScores = this.highScores.slice(0, 10); // Keep only top 10
+    
+    console.log(`📝 AFTER: High scores length = ${this.highScores.length}`, this.highScores);
+    
+    // Save to localStorage as backup
     this.saveHighScores();
+    
+    // Store the new high score for repo update notification
+    this.pendingHighScore = newEntry;
+    
+    // Show notification to update the repo
+    this.showRepoUpdateNotification(newEntry);
+    
+    console.log(`💾 HIGH SCORES SAVED TO LOCALSTORAGE`);
+  }
+
+  showRepoUpdateNotification(newEntry) {
+    console.log('🎯 NEW HIGH SCORE FOR REPO:', newEntry);
+    
+    // Create notification overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'repoUpdateNotification';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10001;
+      max-width: 400px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">🏆 NEW HIGH SCORE!</h3>
+      <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
+      <p style="margin: 0 0 15px 0; font-size: 0.9em;">To update the global leaderboard, add this to assets/pizza-game-scores.json:</p>
+      <code style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; display: block; font-size: 0.8em; margin: 0 0 15px 0;">
+        { "initials": "${newEntry.initials}", "score": ${newEntry.score}, "date": "${newEntry.date}" }
+      </code>
+      <button onclick="this.parentElement.remove()" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Got it!</button>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Auto-remove after 30 seconds
+    setTimeout(() => {
+      if (document.getElementById('repoUpdateNotification')) {
+        overlay.remove();
+      }
+    }, 30000);
   }
   
   startInitialEntry() {
     console.log('🎯 Starting high score initial entry');
+    console.log('🎯 Is mobile device:', this.isMobile());
+    console.log('🎯 Current score:', this.score);
     this.showInitialEntry = true;
     this.showGameOverScreen = false; // Make sure game over screen doesn't override
     this.initialEntry = { initials: 'AAA', currentChar: 0 };
     
     // For mobile devices, create an HTML overlay as backup
     if (this.isMobile()) {
+      console.log('🎯 Creating mobile overlay for initial entry');
       this.createMobileInitialEntryOverlay();
+    } else {
+      console.log('🎯 Using desktop canvas initial entry');
     }
   }
   
@@ -1595,6 +1707,9 @@ class ElectricCrustPizzaGame {
     
     if (e.code === 'Enter' || e.code === 'Space') {
       // Submit initials
+      console.log('🖥️ DESKTOP SUBMIT - Adding high score');
+      console.log('🖥️ Initials:', this.initialEntry.initials);
+      console.log('🖥️ Score:', this.score);
       this.addHighScore(this.initialEntry.initials, this.score);
       this.showInitialEntry = false;
       this.showGameOverScreen = true; // Return to game over screen
@@ -1666,6 +1781,9 @@ class ElectricCrustPizzaGame {
     }
     if (this.keys['Space']) {
       // Submit initials
+      console.log('📱 TOUCH SUBMIT - Adding high score');
+      console.log('📱 Initials:', this.initialEntry.initials);
+      console.log('📱 Score:', this.score);
       this.addHighScore(this.initialEntry.initials, this.score);
       this.showInitialEntry = false;
       this.showGameOverScreen = true;
@@ -1987,10 +2105,14 @@ class ElectricCrustPizzaGame {
     };
     
     submit.onclick = () => {
+      console.log('📱 MOBILE SUBMIT CLICKED - Adding high score');
+      console.log('📱 Initials:', this.initialEntry.initials);
+      console.log('📱 Score:', this.score);
       this.addHighScore(this.initialEntry.initials, this.score);
       this.showInitialEntry = false;
       this.showGameOverScreen = true;
       document.getElementById('mobileHighScoreOverlay').remove();
+      console.log('📱 Calling updateHighScoreDisplay from mobile submit');
       this.updateHighScoreDisplay();
     };
     
@@ -2758,12 +2880,17 @@ class ElectricCrustPizzaGame {
   }
   
   updateHighScoreDisplay() {
+    console.log(`🎨 UPDATING HIGH SCORE DISPLAY with ${this.highScores.length} scores`);
     const container = document.getElementById('highScoreList');
-    if (!container) return;
+    if (!container) {
+      console.warn('⚠️ highScoreList container not found!');
+      return;
+    }
     
     container.innerHTML = '';
     
     this.highScores.forEach((entry, index) => {
+      console.log(`🏆 Displaying score ${index + 1}: ${entry.initials} - ${entry.score}`);
       const div = document.createElement('div');
       div.className = 'high-score-entry';
       

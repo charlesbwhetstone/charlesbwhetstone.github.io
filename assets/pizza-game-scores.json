@@ -1,0 +1,16 @@
+{
+  "highScores": [
+    { "initials": "CWH", "score": 15000, "date": "2025-09-14" },
+    { "initials": "AAA", "score": 12500, "date": "2025-09-14" },
+    { "initials": "BBB", "score": 10000, "date": "2025-09-14" },
+    { "initials": "CCC", "score": 8500, "date": "2025-09-14" },
+    { "initials": "DDD", "score": 7000, "date": "2025-09-14" },
+    { "initials": "EEE", "score": 5500, "date": "2025-09-14" },
+    { "initials": "FFF", "score": 4000, "date": "2025-09-14" },
+    { "initials": "GGG", "score": 3000, "date": "2025-09-14" },
+    { "initials": "HHH", "score": 2000, "date": "2025-09-14" },
+    { "initials": "III", "score": 1000, "date": "2025-09-14" }
+  ],
+  "lastUpdated": "2025-09-14T00:00:00Z",
+  "version": "1.0"
+}
