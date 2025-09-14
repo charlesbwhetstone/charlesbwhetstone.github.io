@@ -936,6 +936,22 @@ class ElectricCrustPizzaGame {
   }
   
   update() {
+    // Update active power-up timers FIRST (even when paused/game over)
+    for (const [powerType, data] of this.activePowerUps.entries()) {
+      const oldRemaining = data.remaining;
+      data.remaining -= 1/60; // Assuming 60 FPS
+      
+      // Debug: Show timer countdown every second
+      if (Math.floor(oldRemaining) !== Math.floor(data.remaining)) {
+        console.log(`⏰ COUNTDOWN: ${powerType} has ${Math.ceil(data.remaining)} seconds remaining`);
+      }
+      
+      if (data.remaining <= 0) {
+        console.log(`⏰ TIMER: ${powerType} expired (${data.remaining.toFixed(2)}s remaining)`);
+        this.deactivatePowerUp(powerType);
+      }
+    }
+    
     if (this.paused || this.showGameOverScreen) {
       // Game is paused or over - no updates except for initial entry
       if (this.showInitialEntry) {
@@ -1167,14 +1183,6 @@ class ElectricCrustPizzaGame {
       return powerup.x + powerup.width > -50;
     });
     
-    // Update active power-up timers
-    for (const [powerType, data] of this.activePowerUps.entries()) {
-      data.remaining -= 1/60; // Assuming 60 FPS
-      if (data.remaining <= 0) {
-        console.log(`⏰ TIMER: ${powerType} expired (${data.remaining.toFixed(2)}s remaining)`);
-        this.deactivatePowerUp(powerType);
-      }
-    }
   }
   
   updateParticles() {
