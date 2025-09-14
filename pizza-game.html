@@ -1575,8 +1575,11 @@ class ElectricCrustPizzaGame {
   }
   
   startInitialEntry() {
+    console.log('🎯 STARTING INITIAL ENTRY: Setting showInitialEntry to true');
     this.showInitialEntry = true;
+    this.showGameOverScreen = false; // Make sure game over screen doesn't override
     this.initialEntry = { initials: 'AAA', currentChar: 0 };
+    console.log('🎯 INITIAL ENTRY STATE: showInitialEntry=', this.showInitialEntry, 'showGameOverScreen=', this.showGameOverScreen);
   }
   
   handleInitialEntry(e) {
@@ -1830,6 +1833,11 @@ class ElectricCrustPizzaGame {
       case 'speed-boost':
         this.player.speed = Math.min(this.player.speed + 3, 10);
         break;
+      case 'level-celebration':
+        // Give extra speed during level-up celebration
+        this.player.speed = Math.min(this.player.speed + 4, 12);
+        console.log('🚀 LEVEL UP: Super fast mode activated! Speed increased to', this.player.speed);
+        break;
     }
   }
   
@@ -1839,7 +1847,9 @@ class ElectricCrustPizzaGame {
         this.player.speed = Math.max(this.player.speed - 3, 5);
         break;
       case 'level-celebration':
-        console.log('🎉 LEVEL UP: Celebration period ended, enemies will resume spawning');
+        // Restore normal speed after level-up celebration
+        this.player.speed = Math.max(this.player.speed - 4, 5);
+        console.log('🎉 LEVEL UP: Celebration period ended, speed restored to', this.player.speed);
         break;
     }
   }
@@ -2121,6 +2131,7 @@ class ElectricCrustPizzaGame {
     
     // Initial entry screen
     if (this.showInitialEntry) {
+      console.log('🎨 DRAWING INITIAL ENTRY SCREEN');
       this.drawInitialEntryScreen();
     }
     
