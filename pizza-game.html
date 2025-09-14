@@ -923,6 +923,13 @@ class ElectricCrustPizzaGame {
   startGame() {
     console.log('Starting Electric Crust Pizza Delivery game...');
     this.resumeAudio(); // Enable audio on user interaction
+    
+    // Test audio on game start
+    setTimeout(() => {
+      console.log('Testing audio with startup sound...');
+      this.playTone(440, 0.2, 'sine'); // Play A note for 0.2 seconds
+    }, 100);
+    
     this.startBackgroundMusic(); // Start ambient music
     this.gameRunning = true;
     this.gameLoop();
@@ -1014,10 +1021,8 @@ class ElectricCrustPizzaGame {
     }
     
     if (!this.lastShot || now - this.lastShot > shootingDelay) {
-      // Add subtle haptic feedback for shooting (mobile only) - DISABLED
-      // if (this.isMobileDevice) {
-      //   this.triggerHapticFeedback('light');
-      // }
+      // Resume audio on user interaction
+      this.resumeAudio();
       
       // Multi-shot power-up creates multiple bullets
       if (this.activePowerUps.has('multi-shot')) {
@@ -1031,6 +1036,7 @@ class ElectricCrustPizzaGame {
             speed: 8
           });
         }
+        this.playLaserSound(); // Multi-shot sound
         this.addSoundEffect(this.player.x + this.player.width, this.player.y + this.player.height / 2, 'MULTI-PEW!', '#ff6600');
       } else {
         // Standard single bullet
@@ -1041,10 +1047,10 @@ class ElectricCrustPizzaGame {
           height: 32,
           speed: 8
         });
+        this.playLaserSound(); // Single shot sound
         this.addSoundEffect(this.player.x + this.player.width, this.player.y + this.player.height / 2, 'PEW!', '#ffff00');
       }
       
-      this.playLaserSound();
       this.lastShot = now;
     }
   }
@@ -1590,7 +1596,7 @@ class ElectricCrustPizzaGame {
       this.masterGain.connect(this.audioContext.destination);
       this.masterGain.gain.setValueAtTime(0.3, this.audioContext.currentTime);
       this.audioEnabled = true;
-      console.log('Audio system initialized successfully');
+      console.log('Audio system initialized successfully, state:', this.audioContext.state);
     } catch (error) {
       console.warn('Audio not supported:', error);
       this.audioEnabled = false;
@@ -1599,7 +1605,10 @@ class ElectricCrustPizzaGame {
 
   resumeAudio() {
     if (this.audioContext && this.audioContext.state === 'suspended') {
-      this.audioContext.resume();
+      console.log('Resuming audio context...');
+      this.audioContext.resume().then(() => {
+        console.log('Audio context resumed successfully');
+      });
     }
   }
 
@@ -1623,19 +1632,30 @@ class ElectricCrustPizzaGame {
   }
 
   playTone(frequency, duration, type = 'sine') {
-    const now = this.audioContext.currentTime;
-    const osc = this.audioContext.createOscillator();
-    const gain = this.audioContext.createGain();
+    if (!this.audioEnabled || !this.audioContext) {
+      console.log('Audio not enabled or context missing');
+      return;
+    }
     
-    osc.type = type;
-    osc.frequency.setValueAtTime(frequency, now);
-    gain.gain.setValueAtTime(0.1, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
-    
-    osc.connect(gain);
-    gain.connect(this.masterGain);
-    osc.start(now);
-    osc.stop(now + duration);
+    try {
+      const now = this.audioContext.currentTime;
+      const osc = this.audioContext.createOscillator();
+      const gain = this.audioContext.createGain();
+      
+      osc.type = type;
+      osc.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+      
+      osc.connect(gain);
+      gain.connect(this.masterGain);
+      osc.start(now);
+      osc.stop(now + duration);
+      
+      console.log(`Playing tone: ${frequency}Hz for ${duration}s`);
+    } catch (error) {
+      console.error('Error playing tone:', error);
+    }
   }
 
   startBackgroundMusic() {
