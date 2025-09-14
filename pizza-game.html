@@ -744,7 +744,6 @@ layout: none
                 <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
                 <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
                 <a href="#" class="game-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen">🖥️ Fullscreen</a>
-                <button onclick="testHighScore()" class="game-btn" style="background: #ff6b6b;">🏆 Test High Score</button>
             </div>
             
             <div class="game-wrapper">
@@ -1487,13 +1486,6 @@ class ElectricCrustPizzaGame {
     console.log(`🏆 LOWEST HIGH SCORE:`, this.highScores[this.highScores.length - 1].score);
     console.log(`🏆 IS HIGH SCORE:`, this.isHighScore(this.score));
     
-    // TEMPORARY: Force high score entry for testing
-    if (this.score >= 500) {
-      console.log(`🎉 FORCING HIGH SCORE ENTRY for testing purposes!`);
-      this.startInitialEntry();
-      return;
-    }
-    
     if (this.isHighScore(this.score)) {
       console.log(`🎉 NEW HIGH SCORE! Starting initial entry...`);
       this.startInitialEntry();
@@ -1587,11 +1579,10 @@ class ElectricCrustPizzaGame {
   }
   
   startInitialEntry() {
-    console.log('🎯 STARTING INITIAL ENTRY: Setting showInitialEntry to true');
+    console.log('🎯 Starting high score initial entry');
     this.showInitialEntry = true;
     this.showGameOverScreen = false; // Make sure game over screen doesn't override
     this.initialEntry = { initials: 'AAA', currentChar: 0 };
-    console.log('🎯 INITIAL ENTRY STATE: showInitialEntry=', this.showInitialEntry, 'showGameOverScreen=', this.showGameOverScreen);
     
     // For mobile devices, create an HTML overlay as backup
     if (this.isMobile()) {
@@ -1892,8 +1883,6 @@ class ElectricCrustPizzaGame {
   }
 
   createMobileInitialEntryOverlay() {
-    console.log('📱 CREATING MOBILE INITIAL ENTRY OVERLAY');
-    
     // Remove existing overlay if any
     const existingOverlay = document.getElementById('mobileHighScoreOverlay');
     if (existingOverlay) {
@@ -2295,7 +2284,6 @@ class ElectricCrustPizzaGame {
     
     // Initial entry screen
     if (this.showInitialEntry) {
-      console.log('🎨 DRAWING INITIAL ENTRY SCREEN');
       this.drawInitialEntryScreen();
     }
     
@@ -2678,8 +2666,6 @@ class ElectricCrustPizzaGame {
   }
   
   drawInitialEntryScreen() {
-    console.log('🎨 RENDERING INITIAL ENTRY SCREEN - showInitialEntry:', this.showInitialEntry);
-    
     this.ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
@@ -2846,14 +2832,6 @@ function restartGame() {
     window.electricGame.restart();
     const btn = document.getElementById('pauseBtn');
     btn.textContent = '⏸️ Pause';
-  }
-}
-
-function testHighScore() {
-  if (window.electricGame) {
-    console.log('🧪 TESTING HIGH SCORE ENTRY SYSTEM');
-    window.electricGame.score = 1000; // Set a high test score
-    window.electricGame.startInitialEntry();
   }
 }
 
