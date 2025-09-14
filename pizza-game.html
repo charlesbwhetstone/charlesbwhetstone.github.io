@@ -1620,8 +1620,15 @@ class ElectricCrustPizzaGame {
     console.log(`📝 ADDING HIGH SCORE: ${initials} - ${score}`);
     console.log(`📝 BEFORE: High scores length = ${this.highScores.length}`, this.highScores);
     
+    // Check for inappropriate initials
+    const cleanInitials = this.filterProfanity(initials.toUpperCase());
+    if (cleanInitials !== initials.toUpperCase()) {
+      console.log(`🚫 Filtered offensive initials: ${initials} → ${cleanInitials}`);
+      this.showProfanityWarning(initials, cleanInitials);
+    }
+    
     const newEntry = { 
-      initials: initials.toUpperCase(), 
+      initials: cleanInitials, 
       score: score,
       date: new Date().toISOString().split('T')[0] // Add date in YYYY-MM-DD format
     };
@@ -1639,6 +1646,94 @@ class ElectricCrustPizzaGame {
     this.updateGlobalLeaderboard(newEntry);
     
     console.log(`💾 HIGH SCORES SAVED TO LOCALSTORAGE`);
+  }
+
+  filterProfanity(initials) {
+    // List of inappropriate words/combinations to filter
+    const bannedWords = [
+      'ASS', 'CUM', 'TIT', 'SEX', 'XXX', 'WTF', 'FUK', 'FCK', 'SHT', 'DMN',
+      'BTH', 'SLT', 'WHR', 'BTC', 'SOB', 'PIS', 'DIK', 'COK', 'BAL', 'NUT',
+      'FAG', 'GAY', 'LES', 'STD', 'HIV', 'AIDS', 'KKK', 'NAZ', 'ISIS', 'KILL',
+      'DIE', 'HATE', 'NAZI', 'DRUG', 'WEED', 'POT', 'COKE', 'METH', 'PORN',
+      'NUDE', 'SEXY', 'MILF', 'THOT', 'SIMP', 'INCEL', 'CHAD', 'BETA'
+    ];
+    
+    // Check if initials contain any banned words
+    const cleanInitials = initials.toUpperCase();
+    
+    for (const banned of bannedWords) {
+      if (cleanInitials.includes(banned)) {
+        console.log(`🚫 Blocked inappropriate initials: ${initials} (contains: ${banned})`);
+        // Replace with neutral alternatives
+        return this.generateCleanInitials();
+      }
+    }
+    
+    // Additional check for letter combinations that could be offensive
+    const offensivePatterns = [
+      /^A+S+$/, // All A's and S's
+      /^F+U+$/, // All F's and U's  
+      /^D+M+N+$/, // DMN variations
+      /^H+E+L+$/, // HEL variations
+      /^666$/, // Devil number
+      /^420$/ // Drug reference
+    ];
+    
+    for (const pattern of offensivePatterns) {
+      if (pattern.test(cleanInitials)) {
+        console.log(`🚫 Blocked pattern: ${initials}`);
+        return this.generateCleanInitials();
+      }
+    }
+    
+    return cleanInitials;
+  }
+  
+  generateCleanInitials() {
+    // Generate random clean 3-letter combinations
+    const cleanLetters = ['A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'T', 'V', 'W', 'Y', 'Z'];
+    const cleanCombos = ['ACE', 'TOP', 'PRO', 'WIN', 'MVP', 'VIP', 'GOD', 'ONE', 'BIG', 'MAX'];
+    
+    // Return a random clean combo
+    return cleanCombos[Math.floor(Math.random() * cleanCombos.length)];
+  }
+  
+  showProfanityWarning(original, replacement) {
+    const overlay = document.createElement('div');
+    overlay.id = 'profanityWarning';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10002;
+      max-width: 500px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+      text-align: center;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">🚫 Inappropriate Initials Detected</h3>
+      <p style="margin: 0 0 10px 0;">The initials "<strong>${original}</strong>" contain inappropriate content.</p>
+      <p style="margin: 0 0 10px 0;">Your initials have been changed to: <strong style="color: #ffdd00;">${replacement}</strong></p>
+      <p style="margin: 0 0 15px 0; font-size: 0.9em;">Please keep the leaderboard family-friendly! 🎮</p>
+      <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Got it!</button>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+      if (document.getElementById('profanityWarning')) {
+        overlay.remove();
+      }
+    }, 10000);
   }
 
   async updateGlobalLeaderboard(newEntry) {
