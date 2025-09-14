@@ -827,6 +827,7 @@ class ElectricCrustPizzaGame {
     this.speed = 2;
     this.lastLevelUpAt = 0; // Track last enemy count when level up occurred
     this.completedMilestones = new Set(); // Track which level-up milestones have been reached
+    this.lightspeedMode = false; // Track lightspeed travel mode
     
     // High Score System
     this.showInitialEntry = false;
@@ -1258,7 +1259,10 @@ class ElectricCrustPizzaGame {
   
   updateStars() {
     this.stars.forEach(star => {
-      star.x -= star.speed;
+      // Lightspeed mode: stars move MUCH faster and create streaks
+      const speed = this.lightspeedMode ? star.speed * 12 : star.speed;
+      star.x -= speed;
+      
       if (star.x < -5) {
         star.x = this.canvas.width + 5;
         star.y = Math.random() * this.canvas.height;
@@ -1481,6 +1485,13 @@ class ElectricCrustPizzaGame {
     console.log(`🏆 CURRENT HIGH SCORES:`, this.highScores);
     console.log(`🏆 LOWEST HIGH SCORE:`, this.highScores[this.highScores.length - 1].score);
     console.log(`🏆 IS HIGH SCORE:`, this.isHighScore(this.score));
+    
+    // TEMPORARY: Force high score entry for testing
+    if (this.score >= 500) {
+      console.log(`🎉 FORCING HIGH SCORE ENTRY for testing purposes!`);
+      this.startInitialEntry();
+      return;
+    }
     
     if (this.isHighScore(this.score)) {
       console.log(`🎉 NEW HIGH SCORE! Starting initial entry...`);
@@ -1834,9 +1845,18 @@ class ElectricCrustPizzaGame {
         this.player.speed = Math.min(this.player.speed + 3, 10);
         break;
       case 'level-celebration':
-        // Give extra speed during level-up celebration
-        this.player.speed = Math.min(this.player.speed + 4, 12);
-        console.log('🚀 LEVEL UP: Super fast mode activated! Speed increased to', this.player.speed);
+        // Give LIGHTSPEED during level-up celebration
+        this.player.speed = Math.min(this.player.speed + 8, 18); // Super fast!
+        this.lightspeedMode = true;
+        
+        // Eliminate all enemies with force field effect
+        this.enemies.forEach(enemy => {
+          this.createExplosion(enemy.x + enemy.width/2, enemy.y + enemy.height/2, '#00ffff', 8);
+          this.addScorePopup(enemy.x + enemy.width/2, enemy.y, 'ELIMINATED!', '#00ffff');
+        });
+        this.enemies = []; // Clear all enemies
+        
+        console.log('🚀 LIGHTSPEED MODE: Activated! All enemies eliminated by force field!');
         break;
     }
   }
@@ -1847,9 +1867,10 @@ class ElectricCrustPizzaGame {
         this.player.speed = Math.max(this.player.speed - 3, 5);
         break;
       case 'level-celebration':
-        // Restore normal speed after level-up celebration
-        this.player.speed = Math.max(this.player.speed - 4, 5);
-        console.log('🎉 LEVEL UP: Celebration period ended, speed restored to', this.player.speed);
+        // Restore normal speed after lightspeed mode
+        this.player.speed = Math.max(this.player.speed - 8, 5);
+        this.lightspeedMode = false;
+        console.log('🎉 LIGHTSPEED MODE: Deactivated, speed restored to', this.player.speed);
         break;
     }
   }
@@ -2090,8 +2111,23 @@ class ElectricCrustPizzaGame {
       const twinkleBrightness = star.brightness + Math.sin(star.twinkle) * 0.3;
       const alpha = Math.max(0.1, Math.min(1, twinkleBrightness));
       
-      this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-      this.ctx.fillRect(star.x, star.y, star.size, star.size);
+      if (this.lightspeedMode) {
+        // Lightspeed streaks!
+        this.ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.8})`;
+        this.ctx.lineWidth = star.size * 0.5;
+        this.ctx.beginPath();
+        this.ctx.moveTo(star.x, star.y);
+        this.ctx.lineTo(star.x + 40, star.y); // Create horizontal streak
+        this.ctx.stroke();
+        
+        // Bright center point
+        this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        this.ctx.fillRect(star.x, star.y, star.size * 1.5, star.size * 1.5);
+      } else {
+        // Normal twinkling stars
+        this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        this.ctx.fillRect(star.x, star.y, star.size, star.size);
+      }
     });
     
     // Draw particles
@@ -2149,6 +2185,23 @@ class ElectricCrustPizzaGame {
     
     const floatOffset = Math.sin(Date.now() * 0.003) * 2;
     this.ctx.translate(0, floatOffset);
+    
+    // Lightspeed force field effect
+    if (this.lightspeedMode) {
+      const time = Date.now() * 0.01;
+      this.ctx.strokeStyle = `rgba(0, 255, 255, ${0.6 + Math.sin(time) * 0.3})`;
+      this.ctx.lineWidth = 3;
+      this.ctx.beginPath();
+      this.ctx.arc(0, 0, 60 + Math.sin(time * 1.5) * 8, 0, Math.PI * 2);
+      this.ctx.stroke();
+      
+      // Inner energy field
+      this.ctx.strokeStyle = `rgba(255, 255, 255, ${0.4 + Math.sin(time * 2) * 0.2})`;
+      this.ctx.lineWidth = 2;
+      this.ctx.beginPath();
+      this.ctx.arc(0, 0, 45 + Math.sin(time * 2) * 5, 0, Math.PI * 2);
+      this.ctx.stroke();
+    }
     
     // Main body
     this.ctx.fillStyle = '#c0c0c0';
