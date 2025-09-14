@@ -825,6 +825,7 @@ class ElectricCrustPizzaGame {
     this.score = 0;
     this.level = 1;
     this.speed = 2;
+    this.lastLevelUpAt = 0; // Track last enemy count when level up occurred
     
     // High Score System
     this.showInitialEntry = false;
@@ -1049,8 +1050,15 @@ class ElectricCrustPizzaGame {
     // Check collisions
     this.checkCollisions();
     
-    // Level progression - only level up once per milestone
-    if (this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0 && !this.activePowerUps.has('level-celebration')) {
+    // Level progression - only level up once per 10-enemy milestone
+    const currentMilestone = Math.floor(this.enemiesDestroyed / 10) * 10;
+    const shouldLevelUp = this.enemiesDestroyed > 0 && 
+                         this.enemiesDestroyed % 10 === 0 && 
+                         this.enemiesDestroyed > this.lastLevelUpAt;
+    
+    if (shouldLevelUp) {
+      console.log(`✅ TRIGGERING LEVEL UP: enemiesDestroyed=${this.enemiesDestroyed}, lastLevelUpAt=${this.lastLevelUpAt}`);
+      this.lastLevelUpAt = this.enemiesDestroyed; // Track this level-up
       this.levelUp();
     }
   }
@@ -1482,6 +1490,7 @@ class ElectricCrustPizzaGame {
     this.level = 1;
     this.speed = 2;
     this.enemiesDestroyed = 0;
+    this.lastLevelUpAt = 0; // Reset level-up tracker
     this.player.health = this.player.maxHealth;
     this.player.speed = 5;
     this.player.x = 80;
