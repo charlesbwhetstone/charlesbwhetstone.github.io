@@ -1056,9 +1056,15 @@ class ElectricCrustPizzaGame {
   }
   
   spawnEnemy() {
-    // Don't spawn enemies only during speed-boost power-up (super fast mode)
+    // Don't spawn enemies during speed-boost power-up (super fast mode)
     if (this.activePowerUps.has('speed-boost')) {
       console.log('🚀 BONUS RUN: No enemies spawning during speed-boost!');
+      return;
+    }
+    
+    // Don't spawn enemies during level-up celebration
+    if (this.levelUpEffect) {
+      console.log('🎉 LEVEL UP: No enemies spawning during level-up celebration!');
       return;
     }
     
@@ -1362,6 +1368,11 @@ class ElectricCrustPizzaGame {
   
   levelUp() {
     this.level++;
+    
+    // Clear all enemies during level-up celebration (like bonus mode)
+    this.enemies = [];
+    console.log('🎉 LEVEL UP: Clearing enemies for celebration!');
+    
     this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'LEVEL UP!', '#00ff00');
     this.addLevelUpEffect();
     this.playLevelUpSound();
@@ -1500,7 +1511,7 @@ class ElectricCrustPizzaGame {
   }
   
   handleInitialEntry(e) {
-    const allowedKeys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const allowedKeys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*+-=?';
     
     if (e.code === 'Enter' || e.code === 'Space') {
       // Submit initials
