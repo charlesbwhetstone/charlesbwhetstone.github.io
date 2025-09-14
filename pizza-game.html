@@ -282,18 +282,12 @@ layout: none
                 order: 1;
                 flex: 1;
                 min-height: 0;
+                width: 100%;
             }
             
+            /* Hide high score sidebar on mobile for full-screen gaming */
             .high-score-sidebar {
-                order: 2;
-                padding: 10px;
-                max-height: 200px;
-                overflow-y: auto;
-            }
-            
-            .high-score-entry {
-                font-size: 12px;
-                padding: 4px 8px;
+                display: none;
             }
             
             .game-wrapper {
@@ -302,11 +296,12 @@ layout: none
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                position: relative;
             }
             
             #gameCanvas {
-                max-width: 100%;
-                max-height: 100%;
+                max-width: 100vw;
+                max-height: calc(100vh - 160px);
                 width: auto;
                 height: auto;
                 object-fit: contain;
@@ -318,10 +313,16 @@ layout: none
                 margin-bottom: 5px;
             }
             
-            /* Mobile touch controls improvements */
+            /* Mobile touch controls - force show */
             #mobileControls {
-                pointer-events: none !important;
                 display: block !important;
+                pointer-events: none !important;
+                position: absolute !important;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1000;
             }
             
             #virtualJoystick, #fireButton, #autoFireButton {
@@ -330,6 +331,52 @@ layout: none
                 -webkit-user-select: none;
                 -webkit-touch-callout: none;
                 -webkit-tap-highlight-color: transparent;
+                position: absolute !important;
+            }
+            
+            #virtualJoystick {
+                bottom: 20px !important;
+                left: 20px !important;
+                width: 120px !important;
+                height: 120px !important;
+                background: rgba(255,255,255,0.2) !important;
+                border: 3px solid rgba(255,255,255,0.5) !important;
+                border-radius: 50% !important;
+                z-index: 1001 !important;
+            }
+            
+            #fireButton {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 90px !important;
+                height: 90px !important;
+                background: rgba(255,0,0,0.7) !important;
+                border: 3px solid rgba(255,0,0,0.9) !important;
+                border-radius: 50% !important;
+                z-index: 1001 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-weight: bold !important;
+                font-size: 16px !important;
+            }
+            
+            #autoFireButton {
+                bottom: 130px !important;
+                right: 20px !important;
+                width: 70px !important;
+                height: 70px !important;
+                background: rgba(255,221,0,0.7) !important;
+                border: 3px solid rgba(255,221,0,0.9) !important;
+                border-radius: 50% !important;
+                z-index: 1001 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
             }
             
             #virtualJoystick:active, #fireButton:active, #autoFireButton:active {
@@ -337,22 +384,18 @@ layout: none
             }
         }
         
-        /* Portrait mode specific adjustments */
+        /* Portrait mode - keep high scores hidden */
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container {
                 height: calc(100vh - 100px);
             }
             
             #gameCanvas {
-                max-height: 60vh;
-            }
-            
-            .high-score-sidebar {
-                max-height: 150px;
+                max-height: 70vh;
             }
         }
         
-        /* Landscape mode specific adjustments */
+        /* Landscape mode - keep high scores hidden */
         @media (max-width: 768px) and (orientation: landscape) {
             .game-header {
                 padding: 5px;
@@ -368,22 +411,11 @@ layout: none
             
             .game-container {
                 height: calc(100vh - 80px);
-                flex-direction: row;
-            }
-            
-            .game-main {
-                flex: 2;
-            }
-            
-            .high-score-sidebar {
-                flex: 1;
-                max-width: 200px;
-                order: 2;
             }
             
             #gameCanvas {
                 max-height: calc(100vh - 120px);
-                max-width: 100%;
+                max-width: 100vw;
             }
         }
         
@@ -640,8 +672,8 @@ class ElectricCrustPizzaGame {
     // Initialize screen shake
     this.screenShake = 0;
     
-    // Track user interaction for haptic feedback
-    this.userHasInteracted = false;
+    // Track actual user touch interaction
+    this.userHasTouched = false;
     
     this.startGame();
   }
@@ -712,7 +744,6 @@ class ElectricCrustPizzaGame {
     console.log('Starting Electric Crust Pizza Delivery game...');
     this.resumeAudio(); // Enable audio on user interaction
     this.startBackgroundMusic(); // Start ambient music
-    this.userHasInteracted = true; // Enable haptic feedback
     this.gameRunning = true;
     this.gameLoop();
   }
@@ -1570,10 +1601,13 @@ class ElectricCrustPizzaGame {
 
   // Haptic feedback for mobile
   triggerHapticFeedback(type = 'light') {
+    // Completely disable haptic feedback to prevent console errors
+    return;
+    
     if (!navigator.vibrate) return;
     
-    // Check if user has interacted with the page (prevents Chrome warnings)
-    if (!this.userHasInteracted) return;
+    // Check if user has actually touched the screen
+    if (!this.userHasTouched) return;
     
     const patterns = {
       light: 10,
@@ -1597,11 +1631,19 @@ class ElectricCrustPizzaGame {
     
     this.isMobileDevice = isMobile;
     
+    console.log('Mobile device detected:', isMobile);
+    
+    // Force show mobile controls on all mobile devices
     if (isMobile) {
       const mobileControls = document.getElementById('mobileControls');
       if (mobileControls) {
         mobileControls.style.display = 'block';
+        mobileControls.style.visibility = 'visible';
+        mobileControls.style.opacity = '1';
+        console.log('Mobile controls enabled');
         this.initTouchControls();
+      } else {
+        console.log('Mobile controls element not found');
       }
     }
   }
