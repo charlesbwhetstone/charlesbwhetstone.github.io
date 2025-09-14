@@ -937,9 +937,12 @@ class ElectricCrustPizzaGame {
   
   update() {
     // Update active power-up timers FIRST (even when paused/game over)
+    console.log(`🔄 UPDATE: Power-ups active: ${this.activePowerUps.size}`);
     for (const [powerType, data] of this.activePowerUps.entries()) {
       const oldRemaining = data.remaining;
       data.remaining -= 1/60; // Assuming 60 FPS
+      
+      console.log(`⏰ TICK: ${powerType} - ${data.remaining.toFixed(2)}s remaining (was ${oldRemaining.toFixed(2)}s)`);
       
       // Debug: Show timer countdown every second
       if (Math.floor(oldRemaining) !== Math.floor(data.remaining)) {
@@ -2552,9 +2555,15 @@ class ElectricCrustPizzaGame {
   
   gameLoop() {
     if (this.gameRunning) {
+      // Debug: Check if game loop is running during power-ups
+      if (this.activePowerUps && this.activePowerUps.size > 0) {
+        console.log('🎮 GAME LOOP: Running with power-ups - gameRunning:', this.gameRunning);
+      }
       this.update();
       this.draw();
       requestAnimationFrame(() => this.gameLoop());
+    } else {
+      console.log('🛑 GAME LOOP: Stopped - gameRunning:', this.gameRunning);
     }
   }
 }
