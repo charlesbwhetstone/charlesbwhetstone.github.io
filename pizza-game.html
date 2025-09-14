@@ -236,7 +236,7 @@ layout: none
         }
         
         /* Responsive Design */
-        @media (max-width: 1200px) {
+        @media (max-width: 1200px) and (min-width: 769px) {
             .game-container {
                 flex-direction: column;
                 align-items: center;
@@ -417,7 +417,8 @@ layout: none
         /* Landscape mode - keep high scores hidden */
         @media (max-width: 768px) and (orientation: landscape) {
             body {
-                overflow-y: auto;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
             }
             
             .game-header {
@@ -435,9 +436,23 @@ layout: none
             }
             
             .game-container {
-                min-height: calc(100vh - 60px);
-                overflow-y: auto;
+                min-height: calc(100vh - 60px) !important;
+                height: auto !important;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
                 padding: 3px;
+                flex-direction: column !important;
+            }
+            
+            .game-main {
+                order: 1 !important;
+                width: 100% !important;
+                flex: none !important;
+            }
+            
+            /* Force hide high score sidebar in landscape */
+            .high-score-sidebar {
+                display: none !important;
             }
             
             .game-wrapper {
