@@ -1830,24 +1830,45 @@ ${JSON.stringify(data, null, 2)}
         labels: ['high-score', 'leaderboard']
       };
       
+      console.log('🌍 Attempting to create GitHub issue...');
+      
       const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
         },
         body: JSON.stringify(issueData)
       });
       
+      console.log('🌍 GitHub API response status:', response.status);
+      
       if (response.ok) {
-        console.log('🌍 ✅ High score issue created successfully!');
+        const result = await response.json();
+        console.log('🌍 ✅ High score issue created successfully!', result.html_url);
         return true;
       } else {
-        console.error('Failed to create issue:', response.status);
+        const errorText = await response.text();
+        console.error('🌍 Failed to create issue:', response.status, errorText);
+        
+        // Check specific error types
+        if (response.status === 403) {
+          console.log('🌍 Rate limited or forbidden - this is normal without auth token');
+        } else if (response.status === 422) {
+          console.log('🌍 Validation error - issue data might be invalid');
+        }
+        
         return false;
       }
       
     } catch (error) {
-      console.error('Issue creation error:', error);
+      console.error('🌍 Network error creating issue:', error);
+      
+      // Check if it's a network connectivity issue
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        console.log('🌍 Network connectivity issue detected');
+      }
+      
       return false;
     }
   }
@@ -1949,29 +1970,80 @@ ${JSON.stringify(data, null, 2)}
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 10001;
+      max-width: 450px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">📶 Connection Issue</h3>
+      <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
+      <p style="margin: 0 0 10px 0; font-size: 0.9em;">⚠️ Couldn't connect to update the global leaderboard.</p>
+      <p style="margin: 0 0 15px 0; font-size: 0.8em;">✅ Your score is saved locally and will appear when you reload!</p>
+      
+      <details style="margin: 10px 0; font-size: 0.8em;">
+        <summary style="cursor: pointer; color: #ffdd00;">📋 Manual Update Data</summary>
+        <code style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 3px; display: block; margin-top: 5px; word-break: break-all;">
+          { "initials": "${newEntry.initials}", "score": ${newEntry.score}, "date": "${newEntry.date}" }
+        </code>
+      </details>
+      
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1;">Got it</button>
+        <button onclick="navigator.clipboard.writeText('{ \"initials\": \"${newEntry.initials}\", \"score\": ${newEntry.score}, \"date\": \"${newEntry.date}\" }').then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'))" style="background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; flex: 1;">📋 Copy</button>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Auto-remove after 30 seconds instead of 20
+    setTimeout(() => {
+      if (document.getElementById('errorNotification')) {
+        overlay.remove();
+      }
+    }, 30000);
+  }
+  
+  showOfflineNotification(newEntry) {
+    // Remove updating notification
+    const updating = document.getElementById('updatingNotification');
+    if (updating) updating.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'offlineNotification';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10001;
       max-width: 400px;
       font-family: Arial, sans-serif;
       border: 2px solid #ffdd00;
     `;
     
     overlay.innerHTML = `
-      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">⚠️ UPDATE FAILED</h3>
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">📶 Offline Mode</h3>
       <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
-      <p style="margin: 0 0 10px 0; font-size: 0.9em;">❌ Couldn't update global leaderboard automatically.</p>
-      <p style="margin: 0 0 15px 0; font-size: 0.8em;">Your score is saved locally. A notification has been sent to update the global board.</p>
-      <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Got it</button>
+      <p style="margin: 0 0 10px 0; font-size: 0.9em;">📱 No internet connection detected.</p>
+      <p style="margin: 0 0 15px 0; font-size: 0.8em;">✅ Your score is saved locally! When you're back online, the global leaderboard will update.</p>
+      <button onclick="this.parentElement.remove()" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Got it!</button>
     `;
     
     document.body.appendChild(overlay);
     
-    // Auto-remove after 20 seconds
+    // Auto-remove after 15 seconds
     setTimeout(() => {
-      if (document.getElementById('errorNotification')) {
+      if (document.getElementById('offlineNotification')) {
         overlay.remove();
       }
-    }, 20000);
+    }, 15000);
   }
-  
+
   startInitialEntry() {
     console.log('🎯 Starting high score initial entry');
     console.log('🎯 Is mobile device:', this.isMobile());
