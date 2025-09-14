@@ -423,7 +423,8 @@ layout: none
             
             body {
                 height: auto !important;
-                min-height: 100vh !important;
+                min-height: auto !important;
+                max-height: none !important;
                 overflow-y: scroll !important;
                 overflow-x: hidden !important;
                 touch-action: manipulation !important;
@@ -455,7 +456,7 @@ layout: none
                 min-height: auto !important;
                 max-height: none !important;
                 overflow: visible !important;
-                padding: 5px !important;
+                padding: 10px !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
             }
@@ -485,43 +486,56 @@ layout: none
                 min-height: auto !important;
                 height: auto !important;
                 width: 100% !important;
-                margin: 0 !important;
-                padding: 5px !important;
+                margin: 0 auto !important;
+                padding: 10px !important;
                 overflow: visible !important;
+                max-width: 500px !important;
+            }
+            
+            /* Add space below for scrolling */
+            .game-container::after {
+                content: '';
+                display: block;
+                height: 150px;
+                width: 100%;
             }
             
             #gameCanvas {
-                max-height: none !important;
-                height: 300px !important;
-                max-width: calc(100vw - 20px) !important;
-                width: auto !important;
-                margin: 0 auto !important;
+                height: 250px !important;
+                width: calc(100vw - 30px) !important;
+                max-width: 400px !important;
+                max-height: 250px !important;
+                margin: 10px auto !important;
                 display: block !important;
-                border: 1px solid #444 !important;
+                border: 2px solid #ffdd00 !important;
+                background: #000 !important;
             }
             
             /* Mobile controls positioning for landscape */
             #mobileControls {
                 position: fixed !important;
-                bottom: 5px !important;
+                bottom: 10px !important;
                 left: 0 !important;
                 right: 0 !important;
                 z-index: 1000 !important;
                 pointer-events: none !important;
+                height: 80px !important;
             }
             
             #virtualJoystick {
                 position: absolute !important;
                 bottom: 10px !important;
-                left: 20px !important;
+                left: 15px !important;
                 pointer-events: auto !important;
+                z-index: 1001 !important;
             }
             
             #fireButton {
                 position: absolute !important;
                 bottom: 10px !important;
-                right: 20px !important;
+                right: 15px !important;
                 pointer-events: auto !important;
+                z-index: 1001 !important;
             }
         }
         
@@ -535,7 +549,8 @@ layout: none
             body.game-page {
                 overflow-y: scroll !important;
                 height: auto !important;
-                min-height: 100vh !important;
+                min-height: auto !important;
+                max-height: none !important;
                 position: relative !important;
             }
             
@@ -545,6 +560,7 @@ layout: none
                 flex-wrap: nowrap !important;
                 height: auto !important;
                 min-height: auto !important;
+                max-height: none !important;
                 overflow: visible !important;
             }
             
