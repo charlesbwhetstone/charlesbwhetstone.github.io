@@ -1592,6 +1592,11 @@ class ElectricCrustPizzaGame {
     this.showGameOverScreen = false; // Make sure game over screen doesn't override
     this.initialEntry = { initials: 'AAA', currentChar: 0 };
     console.log('🎯 INITIAL ENTRY STATE: showInitialEntry=', this.showInitialEntry, 'showGameOverScreen=', this.showGameOverScreen);
+    
+    // For mobile devices, create an HTML overlay as backup
+    if (this.isMobile()) {
+      this.createMobileInitialEntryOverlay();
+    }
   }
   
   handleInitialEntry(e) {
@@ -1879,6 +1884,128 @@ class ElectricCrustPizzaGame {
   addPowerUpPickupEffect(powerup) {
     this.createExplosion(powerup.x + powerup.width/2, powerup.y + powerup.height/2, powerup.color, 6);
     this.addScorePopup(powerup.x + powerup.width/2, powerup.y, powerup.icon + ' POWER-UP!', powerup.color);
+  }
+
+  isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           window.innerWidth <= 768;
+  }
+
+  createMobileInitialEntryOverlay() {
+    console.log('📱 CREATING MOBILE INITIAL ENTRY OVERLAY');
+    
+    // Remove existing overlay if any
+    const existingOverlay = document.getElementById('mobileHighScoreOverlay');
+    if (existingOverlay) {
+      existingOverlay.remove();
+    }
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'mobileHighScoreOverlay';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    `;
+    
+    overlay.innerHTML = `
+      <h1 style="color: #ffdd00; font-size: 2em; margin-bottom: 10px;">🏆 NEW HIGH SCORE! 🏆</h1>
+      <p style="color: #ff6b6b; font-size: 1.5em; margin-bottom: 20px;">Score: ${this.score}</p>
+      <p style="margin-bottom: 20px;">Enter your initials:</p>
+      <div id="mobileInitialsDisplay" style="font-size: 2em; font-weight: bold; margin-bottom: 20px; letter-spacing: 0.2em;">AAA</div>
+      <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <button id="mobilePrevChar" style="background: #667eea; color: white; border: none; padding: 15px 20px; border-radius: 5px; font-size: 1.2em;">◀</button>
+        <button id="mobileNextChar" style="background: #667eea; color: white; border: none; padding: 15px 20px; border-radius: 5px; font-size: 1.2em;">▶</button>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="mobilePrevLetter" style="background: #764ba2; color: white; border: none; padding: 10px 15px; border-radius: 5px;">▲</button>
+        <button id="mobileNextLetter" style="background: #764ba2; color: white; border: none; padding: 10px 15px; border-radius: 5px;">▼</button>
+      </div>
+      <button id="mobileSubmit" style="background: #4caf50; color: white; border: none; padding: 15px 30px; border-radius: 5px; font-size: 1.2em; margin-top: 30px;">SUBMIT</button>
+    `;
+    
+    document.body.appendChild(overlay);
+    this.setupMobileInitialEntryEvents();
+  }
+
+  setupMobileInitialEntryEvents() {
+    const display = document.getElementById('mobileInitialsDisplay');
+    const prevChar = document.getElementById('mobilePrevChar');
+    const nextChar = document.getElementById('mobileNextChar');
+    const prevLetter = document.getElementById('mobilePrevLetter');
+    const nextLetter = document.getElementById('mobileNextLetter');
+    const submit = document.getElementById('mobileSubmit');
+    
+    const updateDisplay = () => {
+      const initials = this.initialEntry.initials.split('');
+      let displayText = '';
+      for (let i = 0; i < 3; i++) {
+        if (i === this.initialEntry.currentChar) {
+          displayText += `<span style="background: #ffdd00; color: black; padding: 2px 4px;">${initials[i]}</span>`;
+        } else {
+          displayText += initials[i];
+        }
+      }
+      display.innerHTML = displayText;
+    };
+    
+    prevChar.onclick = () => {
+      if (this.initialEntry.currentChar > 0) {
+        this.initialEntry.currentChar--;
+        updateDisplay();
+      }
+    };
+    
+    nextChar.onclick = () => {
+      if (this.initialEntry.currentChar < 2) {
+        this.initialEntry.currentChar++;
+        updateDisplay();
+      }
+    };
+    
+    prevLetter.onclick = () => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const initials = this.initialEntry.initials.split('');
+      const currentIndex = chars.indexOf(initials[this.initialEntry.currentChar]);
+      const newIndex = currentIndex > 0 ? currentIndex - 1 : chars.length - 1;
+      initials[this.initialEntry.currentChar] = chars[newIndex];
+      this.initialEntry.initials = initials.join('');
+      updateDisplay();
+    };
+    
+    nextLetter.onclick = () => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const initials = this.initialEntry.initials.split('');
+      const currentIndex = chars.indexOf(initials[this.initialEntry.currentChar]);
+      const newIndex = currentIndex < chars.length - 1 ? currentIndex + 1 : 0;
+      initials[this.initialEntry.currentChar] = chars[newIndex];
+      this.initialEntry.initials = initials.join('');
+      updateDisplay();
+    };
+    
+    submit.onclick = () => {
+      this.addHighScore(this.initialEntry.initials, this.score);
+      this.showInitialEntry = false;
+      this.showGameOverScreen = true;
+      document.getElementById('mobileHighScoreOverlay').remove();
+      this.updateHighScoreDisplay();
+    };
+    
+    updateDisplay();
   }
 
   // Score popup system
