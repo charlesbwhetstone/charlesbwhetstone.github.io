@@ -819,6 +819,7 @@ class ElectricCrustPizzaGame {
     
     // Power-up system
     this.activePowerUps = new Map(); // Track active power-ups and their timers
+    this.lastUpdateTime = null; // For accurate timer calculations
     this.powerUpEffects = []; // Visual effects for power-ups
     
     // Player (rocket ship)
@@ -936,13 +937,18 @@ class ElectricCrustPizzaGame {
   }
   
   update() {
+    // Calculate delta time for accurate timers
+    const now = performance.now();
+    const deltaTime = this.lastUpdateTime ? (now - this.lastUpdateTime) / 1000 : 1/60;
+    this.lastUpdateTime = now;
+    
     // Update active power-up timers FIRST (even when paused/game over)
-    console.log(`🔄 UPDATE: Power-ups active: ${this.activePowerUps.size}`);
+    console.log(`🔄 UPDATE: Power-ups active: ${this.activePowerUps.size}, deltaTime: ${deltaTime.toFixed(3)}s`);
     for (const [powerType, data] of this.activePowerUps.entries()) {
       const oldRemaining = data.remaining;
-      data.remaining -= 1/60; // Assuming 60 FPS
+      data.remaining -= deltaTime; // Use actual time instead of frame assumption
       
-      console.log(`⏰ TICK: ${powerType} - ${data.remaining.toFixed(2)}s remaining (was ${oldRemaining.toFixed(2)}s)`);
+      console.log(`⏰ TICK: ${powerType} - ${data.remaining.toFixed(2)}s remaining (was ${oldRemaining.toFixed(2)}s, delta: ${deltaTime.toFixed(3)}s)`);
       
       // Debug: Show timer countdown every second
       if (Math.floor(oldRemaining) !== Math.floor(data.remaining)) {
