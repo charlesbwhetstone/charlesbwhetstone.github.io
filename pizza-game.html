@@ -605,18 +605,39 @@ layout: none
                 overflow: visible !important;
             }
             
-            .high-score-sidebar {
+            /* AGGRESSIVE HIGH SCORE SIDEBAR HIDING */
+            .high-score-sidebar,
+            #highScoreSection,
+            .high-score-section,
+            [class*="high-score"] {
                 display: none !important;
                 visibility: hidden !important;
                 position: absolute !important;
                 left: -9999px !important;
+                top: -9999px !important;
                 width: 0 !important;
                 height: 0 !important;
+                max-width: 0 !important;
+                max-height: 0 !important;
+                overflow: hidden !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                z-index: -1 !important;
+            }
+            
+            /* Force single column layout */
+            .game-main {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 1 !important;
+                order: 1 !important;
             }
             
             /* Ensure content can scroll past viewport */
             .game-wrapper {
                 margin-bottom: 100px !important;
+                width: 100% !important;
+                max-width: 100% !important;
             }
         }
         
@@ -3615,6 +3636,54 @@ function toggleFullScreen() {
     document.addEventListener('keydown', escHandler);
   }
 }
+
+// Mobile landscape high score sidebar fix
+function handleOrientationChange() {
+  const isMobile = window.innerWidth <= 896;
+  const isLandscape = window.innerHeight < window.innerWidth;
+  
+  if (isMobile && isLandscape) {
+    // Force hide all high score related elements
+    const elements = document.querySelectorAll('.high-score-sidebar, #highScoreSection, .high-score-section, [class*="high-score"]');
+    elements.forEach(el => {
+      el.style.display = 'none';
+      el.style.visibility = 'hidden';
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      el.style.top = '-9999px';
+      el.style.width = '0';
+      el.style.height = '0';
+      el.style.overflow = 'hidden';
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+      el.style.zIndex = '-1';
+    });
+    
+    // Ensure game container is full width
+    const gameContainer = document.querySelector('.game-container');
+    if (gameContainer) {
+      gameContainer.style.flexDirection = 'column';
+      gameContainer.style.width = '100%';
+    }
+    
+    const gameMain = document.querySelector('.game-main');
+    if (gameMain) {
+      gameMain.style.width = '100%';
+      gameMain.style.maxWidth = '100%';
+    }
+    
+    console.log('🔧 Mobile landscape: Forced high score sidebar hiding');
+  }
+}
+
+// Listen for orientation changes
+window.addEventListener('resize', handleOrientationChange);
+window.addEventListener('orientationchange', handleOrientationChange);
+document.addEventListener('DOMContentLoaded', handleOrientationChange);
+
+// Run immediately
+handleOrientationChange();
+
     </script>
 </body>
 </html>
