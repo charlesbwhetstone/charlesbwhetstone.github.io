@@ -834,10 +834,10 @@ class ElectricCrustPizzaGame {
     }
     
     if (!this.lastShot || now - this.lastShot > shootingDelay) {
-      // Add subtle haptic feedback for shooting (mobile only)
-      if (this.isMobileDevice) {
-        this.triggerHapticFeedback('light');
-      }
+      // Add subtle haptic feedback for shooting (mobile only) - DISABLED
+      // if (this.isMobileDevice) {
+      //   this.triggerHapticFeedback('light');
+      // }
       
       // Multi-shot power-up creates multiple bullets
       if (this.activePowerUps.has('multi-shot')) {
@@ -1043,7 +1043,7 @@ class ElectricCrustPizzaGame {
             this.addSoundEffect(enemy.x, enemy.y, 'BOOM!', '#ff4444');
             this.addScorePopup(enemy.x + enemy.width/2, enemy.y + enemy.height/2, 10, '#ffdd00');
             this.playExplosionSound();
-            this.triggerHapticFeedback('medium'); // Enemy destroyed feedback
+            // this.triggerHapticFeedback('medium'); // Enemy destroyed feedback - DISABLED
           }
           break;
         }
@@ -1064,7 +1064,7 @@ class ElectricCrustPizzaGame {
           this.enemies.splice(index, 1);
           this.addSoundEffect(this.player.x, this.player.y, 'OUCH!', '#ff0000');
           this.playHitSound();
-          this.triggerHapticFeedback('heavy'); // Strong feedback for taking damage
+          // this.triggerHapticFeedback('heavy'); // Strong feedback for taking damage - DISABLED
           
           if (this.player.health <= 0) {
             this.gameOver();
@@ -1136,31 +1136,31 @@ class ElectricCrustPizzaGame {
       case 'rapid-fire':
         this.activatePowerUp('rapid-fire', 8.0); // 8 seconds
         this.playPowerUpSound('rapid-fire');
-        this.triggerHapticFeedback('heavy'); // Power-up collected feedback
+        // this.triggerHapticFeedback('heavy'); // Power-up collected feedback - DISABLED
         break;
         
       case 'multi-shot':
         this.activatePowerUp('multi-shot', 10.0); // 10 seconds
         this.playPowerUpSound('multi-shot');
-        this.triggerHapticFeedback('heavy'); // Power-up collected feedback
+        // this.triggerHapticFeedback('heavy'); // Power-up collected feedback - DISABLED
         break;
         
       case 'shield':
         this.activatePowerUp('shield', 12.0); // 12 seconds
         this.playPowerUpSound('shield');
-        this.triggerHapticFeedback('heavy'); // Power-up collected feedback
+        // this.triggerHapticFeedback('heavy'); // Power-up collected feedback - DISABLED
         break;
         
       case 'speed-boost':
         this.activatePowerUp('speed-boost', 6.0); // 6 seconds
         this.playPowerUpSound('speed-boost');
-        this.triggerHapticFeedback('heavy'); // Power-up collected feedback
+        // this.triggerHapticFeedback('heavy'); // Power-up collected feedback - DISABLED
         break;
         
       case 'health':
         this.player.health = Math.min(this.player.health + 1, this.player.maxHealth);
         this.addScorePopup(this.player.x + this.player.width/2, this.player.y, '+1 HEALTH', '#ff6666');
-        this.triggerHapticFeedback('heavy'); // Health restored feedback
+        // this.triggerHapticFeedback('heavy'); // Health restored feedback - DISABLED
         this.playPowerUpSound('health');
         break;
         
@@ -1168,7 +1168,7 @@ class ElectricCrustPizzaGame {
         this.score += 100;
         this.addScorePopup(this.player.x + this.player.width/2, this.player.y, 100, '#ffdd00');
         this.playPowerUpSound('bonus');
-        this.triggerHapticFeedback('heavy'); // Score bonus feedback
+        // this.triggerHapticFeedback('heavy'); // Score bonus feedback - DISABLED
         break;
     }
   }
@@ -1188,8 +1188,8 @@ class ElectricCrustPizzaGame {
     // Add some sparks
     this.createSparks(x, y, 0, 8);
     
-    // Add haptic feedback for explosions
-    this.triggerHapticFeedback('heavy');
+    // Add haptic feedback for explosions - DISABLED
+    // this.triggerHapticFeedback('heavy');
     
     // Add screen shake effect
     this.screenShake = 3;
