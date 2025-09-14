@@ -1806,9 +1806,10 @@ class ElectricCrustPizzaGame {
     this.levelUpEffect = {
       scale: 0.5,
       alpha: 1,
-      life: 120,
+      life: 300, // ~5 seconds at 60fps (like other bonuses)
       color: '#00ff88'
     };
+    console.log('🎉 LEVEL UP: Starting enemy-free celebration period (5 seconds)');
   }
 
   // Haptic feedback for mobile
@@ -2370,11 +2371,12 @@ class ElectricCrustPizzaGame {
     
     this.ctx.restore();
     
-    effect.scale += 0.01;
-    effect.alpha -= 0.008;
+    effect.scale += 0.005; // Slower scale growth for longer effect
+    effect.alpha -= 0.003; // Slower fade for 5-second duration
     effect.life--;
     
     if (effect.life <= 0 || effect.alpha <= 0) {
+      console.log('🎉 LEVEL UP: Celebration period ended, enemies will resume spawning');
       this.levelUpEffect = null;
     }
   }
