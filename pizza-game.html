@@ -490,6 +490,7 @@ layout: none
                 padding: 10px !important;
                 overflow: visible !important;
                 max-width: 500px !important;
+                position: relative !important;
             }
             
             /* Add space below for scrolling */
@@ -511,31 +512,46 @@ layout: none
                 background: #000 !important;
             }
             
-            /* Mobile controls positioning for landscape */
+            /* Mobile controls positioning for landscape - right below canvas */
             #mobileControls {
-                position: fixed !important;
-                bottom: 10px !important;
+                position: relative !important;
+                bottom: auto !important;
                 left: 0 !important;
                 right: 0 !important;
                 z-index: 1000 !important;
                 pointer-events: none !important;
-                height: 80px !important;
+                height: 70px !important;
+                margin-top: 10px !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 0 20px !important;
+            }
+            
+            .game-wrapper {
+                position: relative !important;
             }
             
             #virtualJoystick {
-                position: absolute !important;
-                bottom: 10px !important;
-                left: 15px !important;
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
+                width: 70px !important;
+                height: 70px !important;
+                margin: 0 !important;
             }
             
             #fireButton {
-                position: absolute !important;
-                bottom: 10px !important;
-                right: 15px !important;
+                position: relative !important;
+                bottom: auto !important;
+                right: auto !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
+                width: 55px !important;
+                height: 55px !important;
+                margin: 0 !important;
             }
         }
         
