@@ -401,7 +401,7 @@ layout: none
             }
         }
         
-        /* Portrait mode - keep high scores hidden */
+        /* Portrait mode - optimized for phone aspect ratio */
         @media (max-width: 768px) and (orientation: portrait) {
             .game-container {
                 min-height: calc(100vh - 100px);
@@ -409,8 +409,10 @@ layout: none
             }
             
             #gameCanvas {
-                max-height: 350px;
+                max-height: 220px;
                 max-width: calc(100vw - 20px);
+                width: auto;
+                height: auto;
             }
         }
         
@@ -502,10 +504,10 @@ layout: none
             }
             
             #gameCanvas {
-                height: 250px !important;
-                width: calc(100vw - 30px) !important;
-                max-width: 400px !important;
-                max-height: 250px !important;
+                height: 180px !important;
+                width: calc(100vw - 20px) !important;
+                max-width: 320px !important;
+                max-height: 180px !important;
                 margin: 5px auto !important;
                 display: block !important;
                 border: 2px solid #ffdd00 !important;
@@ -726,10 +728,10 @@ layout: none
             </div>
             
             <div class="game-wrapper">
-                <canvas id="gameCanvas" width="900" height="600"></canvas>
+                <canvas id="gameCanvas" width="800" height="450"></canvas>
                 
                 <!-- MOBILE TOUCH CONTROLS -->
-                <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; max-width:900px; height:600px; pointer-events:none; z-index:10;">
+                <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; max-width:800px; height:450px; pointer-events:none; z-index:10;">
                     <!-- Virtual Joystick -->
                     <div id="virtualJoystick" style="position:absolute; bottom:20px; left:20px; width:120px; height:120px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none; pointer-events:auto;">
                         <div id="joystickKnob" style="position:absolute; width:45px; height:45px; background:rgba(0,255,136,0.8); border:2px solid rgba(0,255,136,1); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 3px 10px rgba(0,0,0,0.4);"></div>
@@ -787,9 +789,9 @@ class ElectricCrustPizzaGame {
       return;
     }
     
-    // Set canvas dimensions explicitly
-    this.canvas.width = 900;
-    this.canvas.height = 600;
+    // Set canvas dimensions explicitly for mobile-friendly 16:9 aspect ratio
+    this.canvas.width = 800;
+    this.canvas.height = 450;
     
     console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
     
