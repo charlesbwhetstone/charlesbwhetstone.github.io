@@ -255,41 +255,73 @@ layout: none
         }
 
         @media (max-width: 768px) {
+            body {
+                overflow: hidden;
+            }
+            
             .game-title {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .game-subtitle {
-                font-size: 16px;
+                font-size: 14px;
             }
             
-            .game-container {
+            .game-header {
                 padding: 10px;
             }
             
+            .game-container {
+                padding: 5px;
+                flex-direction: column;
+                height: calc(100vh - 120px);
+                overflow: hidden;
+            }
+            
+            .game-main {
+                order: 1;
+                flex: 1;
+                min-height: 0;
+            }
+            
             .high-score-sidebar {
-                padding: 15px;
+                order: 2;
+                padding: 10px;
+                max-height: 200px;
+                overflow-y: auto;
             }
             
             .high-score-entry {
-                font-size: 14px;
-                padding: 6px 10px;
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            
+            .game-wrapper {
+                padding: 5px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             #gameCanvas {
                 max-width: 100%;
+                max-height: 100%;
+                width: auto;
                 height: auto;
+                object-fit: contain;
             }
             
             .navigation {
                 position: relative;
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
             
             /* Mobile touch controls improvements */
             #mobileControls {
                 pointer-events: none !important;
+                display: block !important;
             }
             
             #virtualJoystick, #fireButton, #autoFireButton {
@@ -305,6 +337,148 @@ layout: none
             }
         }
         
+        /* Portrait mode specific adjustments */
+        @media (max-width: 768px) and (orientation: portrait) {
+            .game-container {
+                height: calc(100vh - 100px);
+            }
+            
+            #gameCanvas {
+                max-height: 60vh;
+            }
+            
+            .high-score-sidebar {
+                max-height: 150px;
+            }
+        }
+        
+        /* Landscape mode specific adjustments */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .game-header {
+                padding: 5px;
+            }
+            
+            .game-title {
+                font-size: 20px;
+            }
+            
+            .game-subtitle {
+                font-size: 12px;
+            }
+            
+            .game-container {
+                height: calc(100vh - 80px);
+                flex-direction: row;
+            }
+            
+            .game-main {
+                flex: 2;
+            }
+            
+            .high-score-sidebar {
+                flex: 1;
+                max-width: 200px;
+                order: 2;
+            }
+            
+            #gameCanvas {
+                max-height: calc(100vh - 120px);
+                max-width: 100%;
+            }
+        }
+        
+        /* Mobile Portrait Mode Optimizations */
+        @media (max-width: 480px) and (orientation: portrait) {
+            .game-wrapper {
+                padding: 5px;
+            }
+            
+            #gameCanvas {
+                width: 100%;
+                max-width: 100vw;
+                height: auto;
+                max-height: 50vh;
+            }
+            
+            .game-container {
+                padding: 5px;
+                gap: 10px;
+            }
+            
+            .high-score-sidebar {
+                padding: 10px;
+                font-size: 12px;
+            }
+            
+            .high-score-entry {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            
+            .instructions {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            
+            .instructions h3 {
+                font-size: 16px;
+            }
+            
+            .instructions p {
+                font-size: 12px;
+            }
+        }
+        
+        /* Mobile Landscape Mode Optimizations */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                overflow-y: auto;
+            }
+            
+            .game-header {
+                padding: 10px;
+            }
+            
+            .game-title {
+                font-size: 24px;
+            }
+            
+            .game-subtitle {
+                font-size: 14px;
+            }
+            
+            .game-container {
+                flex-direction: row;
+                padding: 5px;
+                gap: 10px;
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+            
+            .game-main {
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .high-score-sidebar {
+                width: 250px;
+                max-height: 400px;
+                overflow-y: auto;
+                order: 2;
+            }
+            
+            #gameCanvas {
+                max-width: 100%;
+                max-height: 350px;
+                width: auto;
+                height: auto;
+            }
+            
+            .game-wrapper {
+                padding: 5px;
+            }
+        }
+        
         @media (max-width: 480px) {
             .game-controls {
                 flex-wrap: wrap;
@@ -314,6 +488,11 @@ layout: none
             .game-btn {
                 padding: 10px 15px;
                 font-size: 14px;
+            }
+            
+            /* Ensure mobile controls always show on small screens */
+            #mobileControls {
+                display: block !important;
             }
         }
     </style>
@@ -461,6 +640,9 @@ class ElectricCrustPizzaGame {
     // Initialize screen shake
     this.screenShake = 0;
     
+    // Track user interaction for haptic feedback
+    this.userHasInteracted = false;
+    
     this.startGame();
   }
   
@@ -530,13 +712,22 @@ class ElectricCrustPizzaGame {
     console.log('Starting Electric Crust Pizza Delivery game...');
     this.resumeAudio(); // Enable audio on user interaction
     this.startBackgroundMusic(); // Start ambient music
+    this.userHasInteracted = true; // Enable haptic feedback
     this.gameRunning = true;
     this.gameLoop();
   }
   
   update() {
-    if (this.paused || this.showGameOverScreen || this.showInitialEntry) {
-      // Game is paused, over, or entering initials - no updates
+    if (this.paused || this.showGameOverScreen) {
+      // Game is paused or over - no updates except for initial entry
+      if (this.showInitialEntry) {
+        this.handleInitialEntryTouch(); // Allow touch controls for initial entry
+      }
+      return;
+    }
+    
+    if (this.showInitialEntry) {
+      this.handleInitialEntryTouch(); // Handle touch input for initials
       return;
     }
     
@@ -648,8 +839,8 @@ class ElectricCrustPizzaGame {
   }
   
   spawnEnemy() {
-    // Don't spawn enemies during power-up modes (bonus runs)
-    if (this.activePowerUps.has('speed-boost') || this.activePowerUps.has('rapid-fire') || this.activePowerUps.has('multi-shot')) {
+    // Don't spawn enemies only during speed-boost power-up (super fast mode)
+    if (this.activePowerUps.has('speed-boost')) {
       return;
     }
     
@@ -1129,6 +1320,50 @@ class ElectricCrustPizzaGame {
     }
   }
   
+  // Handle touch input for initial entry
+  handleInitialEntryTouch() {
+    if (!this.showInitialEntry) return;
+    
+    const allowedKeys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    
+    // Map touch controls to initial entry controls
+    if (this.keys['ArrowLeft'] && this.initialEntry.currentChar > 0) {
+      this.initialEntry.currentChar--;
+      this.keys['ArrowLeft'] = false; // Prevent repeat
+    }
+    if (this.keys['ArrowRight'] && this.initialEntry.currentChar < 2) {
+      this.initialEntry.currentChar++;
+      this.keys['ArrowRight'] = false; // Prevent repeat
+    }
+    if (this.keys['ArrowUp']) {
+      // Cycle character up
+      const currentChar = this.initialEntry.initials[this.initialEntry.currentChar];
+      const currentIndex = allowedKeys.indexOf(currentChar);
+      const newIndex = (currentIndex + 1) % allowedKeys.length;
+      this.initialEntry.initials = this.initialEntry.initials.substring(0, this.initialEntry.currentChar) + 
+                                  allowedKeys[newIndex] + 
+                                  this.initialEntry.initials.substring(this.initialEntry.currentChar + 1);
+      this.keys['ArrowUp'] = false; // Prevent repeat
+    }
+    if (this.keys['ArrowDown']) {
+      // Cycle character down
+      const currentChar = this.initialEntry.initials[this.initialEntry.currentChar];
+      const currentIndex = allowedKeys.indexOf(currentChar);
+      const newIndex = (currentIndex - 1 + allowedKeys.length) % allowedKeys.length;
+      this.initialEntry.initials = this.initialEntry.initials.substring(0, this.initialEntry.currentChar) + 
+                                  allowedKeys[newIndex] + 
+                                  this.initialEntry.initials.substring(this.initialEntry.currentChar + 1);
+      this.keys['ArrowDown'] = false; // Prevent repeat
+    }
+    if (this.keys['Space']) {
+      // Submit initials
+      this.addHighScore(this.initialEntry.initials, this.score);
+      this.showInitialEntry = false;
+      this.showGameOverScreen = true;
+      this.keys['Space'] = false; // Prevent repeat
+    }
+  }
+  
   togglePause() {
     if (!this.showGameOverScreen) {
       this.paused = !this.paused;
@@ -1264,10 +1499,10 @@ class ElectricCrustPizzaGame {
     });
     this.applyPowerUpEffect(type);
     
-    // Clear existing enemies for bonus run during major power-ups
-    if (type === 'speed-boost' || type === 'rapid-fire' || type === 'multi-shot') {
+    // Clear existing enemies only for speed-boost (super fast mode)
+    if (type === 'speed-boost') {
       this.enemies = [];
-      this.addSoundEffect(this.canvas.width/2, this.canvas.height/3, 'BONUS RUN!', '#ffdd00');
+      this.addSoundEffect(this.canvas.width/2, this.canvas.height/3, 'SUPER FAST MODE!', '#ffdd00');
     }
   }
   
@@ -1337,6 +1572,9 @@ class ElectricCrustPizzaGame {
   triggerHapticFeedback(type = 'light') {
     if (!navigator.vibrate) return;
     
+    // Check if user has interacted with the page (prevents Chrome warnings)
+    if (!this.userHasInteracted) return;
+    
     const patterns = {
       light: 10,
       medium: 30,
@@ -1344,7 +1582,11 @@ class ElectricCrustPizzaGame {
     };
     
     const pattern = patterns[type] || patterns.light;
-    navigator.vibrate(pattern);
+    try {
+      navigator.vibrate(pattern);
+    } catch (e) {
+      // Silently fail if vibrate is blocked
+    }
   }
 
   // Touch controls setup
@@ -1809,19 +2051,17 @@ class ElectricCrustPizzaGame {
       powerUpX += 110;
       
       // Check if in bonus mode
-      const inBonusMode = this.activePowerUps.has('speed-boost') || 
-                         this.activePowerUps.has('rapid-fire') || 
-                         this.activePowerUps.has('multi-shot');
+      const inBonusMode = this.activePowerUps.has('speed-boost');
       
       if (inBonusMode) {
         this.ctx.font = 'bold 16px Arial';
         this.ctx.fillStyle = '#ffdd00';
-        this.ctx.fillText('🌟 BONUS RUN - NO ENEMIES! 🌟', 20, 195);
+        this.ctx.fillText('🚀 SUPER FAST MODE - NO ENEMIES! 🚀', 20, 195);
       }
       
       for (const [powerType, data] of this.activePowerUps.entries()) {
         const timeLeft = Math.ceil(data.remaining);
-        this.ctx.fillStyle = inBonusMode && (powerType === 'speed-boost' || powerType === 'rapid-fire' || powerType === 'multi-shot') ? '#ffdd00' : '#00ddff';
+        this.ctx.fillStyle = powerType === 'speed-boost' ? '#ffdd00' : '#00ddff';
         this.ctx.font = 'bold 14px Arial';
         this.ctx.fillText(`${powerType}: ${timeLeft}s`, powerUpX, powerUpY);
         powerUpX += 150;
@@ -1973,7 +2213,12 @@ class ElectricCrustPizzaGame {
     this.ctx.font = 'bold 18px Arial';
     this.ctx.fillStyle = '#ecf0f1';
     this.ctx.textAlign = 'center';
-    this.ctx.fillText('↑↓ Change Letter  •  ←→ Move Cursor  •  ENTER Submit', centerX, centerY + 120);
+    
+    if (this.isMobileDevice) {
+      this.ctx.fillText('Use Joystick to Navigate  •  Fire Button to Submit', centerX, centerY + 120);
+    } else {
+      this.ctx.fillText('↑↓ Change Letter  •  ←→ Move Cursor  •  ENTER Submit', centerX, centerY + 120);
+    }
     
     this.ctx.textAlign = 'left';
   }
