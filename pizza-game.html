@@ -380,10 +380,10 @@ layout: none
             }
             
             #autoFireButton {
-                bottom: 130px !important;
+                bottom: 170px !important;
                 right: 20px !important;
-                width: 70px !important;
-                height: 70px !important;
+                width: 60px !important;
+                height: 60px !important;
                 background: rgba(255,221,0,0.7) !important;
                 border: 3px solid rgba(255,221,0,0.9) !important;
                 border-radius: 50% !important;
@@ -535,27 +535,27 @@ layout: none
             }
             
             #virtualJoystick {
-                position: relative !important;
-                bottom: auto !important;
-                left: auto !important;
+                position: absolute !important;
+                bottom: 80px !important;
+                left: 20px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: 60px !important;
-                height: 60px !important;
+                width: 80px !important;
+                height: 80px !important;
                 margin: 0 !important;
-                opacity: 0.8 !important;
+                opacity: 0.9 !important;
             }
             
             #fireButton {
-                position: relative !important;
-                bottom: auto !important;
-                right: auto !important;
+                position: absolute !important;
+                bottom: 80px !important;
+                right: 20px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: 50px !important;
-                height: 50px !important;
+                width: 70px !important;
+                height: 70px !important;
                 margin: 0 !important;
-                opacity: 0.8 !important;
+                opacity: 0.9 !important;
             }
         }
         
@@ -733,13 +733,13 @@ layout: none
                 <!-- MOBILE TOUCH CONTROLS -->
                 <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; max-width:800px; height:450px; pointer-events:none; z-index:10;">
                     <!-- Virtual Joystick -->
-                    <div id="virtualJoystick" style="position:absolute; bottom:20px; left:20px; width:120px; height:120px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none; pointer-events:auto;">
+                    <div id="virtualJoystick" style="position:absolute; bottom:80px; left:20px; width:120px; height:120px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none; pointer-events:auto;">
                         <div id="joystickKnob" style="position:absolute; width:45px; height:45px; background:rgba(0,255,136,0.8); border:2px solid rgba(0,255,136,1); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 3px 10px rgba(0,0,0,0.4);"></div>
                     </div>
                     
-                    <div id="fireButton" style="position:absolute; bottom:20px; right:20px; width:90px; height:90px; background:rgba(255,0,0,0.6); border:3px solid rgba(255,0,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:16px; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">FIRE</div>
+                    <div id="fireButton" style="position:absolute; bottom:80px; right:20px; width:90px; height:90px; background:rgba(255,0,0,0.6); border:3px solid rgba(255,0,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:16px; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">FIRE</div>
                     
-                    <div id="autoFireButton" style="position:absolute; bottom:130px; right:20px; width:70px; height:70px; background:rgba(255,221,0,0.6); border:3px solid rgba(255,221,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:bold; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">AUTO</div>
+                    <div id="autoFireButton" style="position:absolute; bottom:190px; right:20px; width:70px; height:70px; background:rgba(255,221,0,0.6); border:3px solid rgba(255,221,0,0.8); border-radius:50%; z-index:11; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:bold; touch-action:none; user-select:none; box-shadow:0 3px 10px rgba(0,0,0,0.4); transition:all 0.1s; pointer-events:auto;">AUTO</div>
                 </div>
             </div>
         </div>
