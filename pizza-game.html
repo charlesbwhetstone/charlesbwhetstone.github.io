@@ -850,13 +850,20 @@ class ElectricCrustPizzaGame {
     // High Score System
     this.showInitialEntry = false;
     this.initialEntry = { initials: '', currentChar: 0 };
-    this.highScores = []; // Will be loaded asynchronously
+    this.highScores = [
+      { initials: 'CWH', score: 15000, date: '2025-09-14' },
+      { initials: 'AAA', score: 12500, date: '2025-09-14' },
+      { initials: 'BBB', score: 10000, date: '2025-09-14' }
+    ]; // Default scores, will be replaced when loading completes
     this.pendingHighScore = null; // Store high score that needs to be added to repo
     
-    // Load high scores asynchronously
+    // Load high scores asynchronously and replace defaults
     this.loadHighScores().then(scores => {
       this.highScores = scores;
       this.updateHighScoreDisplay();
+      console.log('📚 High scores loaded and updated');
+    }).catch(error => {
+      console.warn('📚 Failed to load high scores, using defaults:', error);
     });
     
     // Score popup effects system
@@ -1625,6 +1632,12 @@ class ElectricCrustPizzaGame {
   }
   
   isHighScore(score) {
+    // If high scores haven't loaded yet, treat as high score to be safe
+    if (!this.highScores || this.highScores.length === 0) {
+      console.log(`🔍 isHighScore check: No scores loaded yet, treating as high score`);
+      return true;
+    }
+    
     const lowestScore = this.highScores[this.highScores.length - 1].score;
     const hasLessThan10 = this.highScores.length < 10;
     const beatsLowest = score > lowestScore;
