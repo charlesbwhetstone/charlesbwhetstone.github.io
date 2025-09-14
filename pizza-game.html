@@ -866,6 +866,9 @@ class ElectricCrustPizzaGame {
     this.speed = 2;
     this.lastLevelUpAt = 0; // Track last enemy count when level up occurred
     this.completedMilestones = new Set(); // Track which level-up milestones have been reached
+    
+    // Debug mode for collision visualization (toggle with 'D' key)
+    this.debugMode = false;
     this.lightspeedMode = false; // Track lightspeed travel mode
     
     // High Score System
@@ -970,9 +973,17 @@ class ElectricCrustPizzaGame {
         return;
       }
       
+      // Toggle debug mode with 'D' key
+      if (e.code === 'KeyD' && !this.showInitialEntry && !this.showGameOverScreen) {
+        this.debugMode = !this.debugMode;
+        console.log('Debug mode:', this.debugMode ? 'ON' : 'OFF');
+        e.preventDefault();
+        return;
+      }
+      
       this.keys[e.code] = true;
       // Prevent default behavior for game control keys
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)) {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'KeyW', 'KeyA', 'KeyS'].includes(e.code)) {
         e.preventDefault();
       }
     });
@@ -1353,7 +1364,7 @@ class ElectricCrustPizzaGame {
     
     // Player vs Enemies
     this.enemies.forEach((enemy, index) => {
-      if (this.detectCollision(this.player, enemy, "loose")) {
+      if (this.detectCollision(this.player, enemy, "precise")) {
         // Shield protects player from damage
         if (this.activePowerUps.has('shield')) {
           this.enemies.splice(index, 1);
@@ -1398,11 +1409,12 @@ class ElectricCrustPizzaGame {
   }
   
   checkCollision(rect1, rect2, margin = 0) {
-    const buffer = margin;
-    return !(rect1.x + rect1.width - buffer < rect2.x + buffer ||
-             rect2.x + rect2.width - buffer < rect1.x + buffer ||
-             rect1.y + rect1.height - buffer < rect2.y + buffer ||
-             rect2.y + rect2.height - buffer < rect1.y + buffer);
+    // Positive margin = stricter collision (smaller collision box)
+    // Negative margin = looser collision (larger collision box)
+    return !(rect1.x + margin >= rect2.x + rect2.width - margin ||
+             rect2.x + margin >= rect1.x + rect1.width - margin ||
+             rect1.y + margin >= rect2.y + rect2.height - margin ||
+             rect2.y + margin >= rect1.y + rect1.height - margin);
   }
 
   checkCircularCollision(obj1, obj2) {
@@ -1424,9 +1436,11 @@ class ElectricCrustPizzaGame {
       case "circle":
         return this.checkCircularCollision(objA, objB);
       case "loose": 
-        return this.checkCollision(objA, objB, -5);
+        return this.checkCollision(objA, objB, -5); // 5px more generous
       case "tight":
-        return this.checkCollision(objA, objB, 5);
+        return this.checkCollision(objA, objB, 8); // 8px stricter for precise hits
+      case "precise":
+        return this.checkCollision(objA, objB, 20); // 20px stricter for very precise hits
       default:
         return this.checkCollision(objA, objB);
     }
@@ -3052,6 +3066,11 @@ ${JSON.stringify(data, null, 2)}
       this.drawPauseScreen();
     }
     
+    // Debug collision visualization (toggle with 'D' key)
+    if (this.debugMode) {
+      this.drawCollisionBoxes();
+    }
+    
     this.ctx.restore();
   }
   
@@ -3270,6 +3289,75 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.fillText(effect.text, effect.x, effect.y);
     });
     this.ctx.globalAlpha = 1;
+  }
+  
+  drawCollisionBoxes() {
+    // Debug mode: Draw collision boxes for all objects
+    this.ctx.save();
+    this.ctx.lineWidth = 2;
+    
+    // Player collision box (green) - with precise collision detection margins
+    this.ctx.strokeStyle = '#00ff00';
+    const playerMargin = 20; // Same margin as enemies for precise detection
+    this.ctx.strokeRect(
+      this.player.x + playerMargin, 
+      this.player.y + playerMargin, 
+      this.player.width - (playerMargin * 2), 
+      this.player.height - (playerMargin * 2)
+    );
+    
+    // Show original player boundary with dashed line
+    this.ctx.setLineDash([5, 5]);
+    this.ctx.strokeStyle = '#66ff66';
+    this.ctx.strokeRect(this.player.x, this.player.y, this.player.width, this.player.height);
+    this.ctx.setLineDash([]);
+    this.ctx.strokeStyle = '#00ff00';
+    
+    // Enemy collision boxes (red) - with precise collision detection margins
+    this.ctx.strokeStyle = '#ff0000';
+    this.enemies.forEach(enemy => {
+      // Show the actual collision box used for precise detection (20px stricter)
+      const margin = 20; // This shrinks the collision box significantly
+      this.ctx.strokeRect(
+        enemy.x + margin, 
+        enemy.y + margin, 
+        enemy.width - (margin * 2), 
+        enemy.height - (margin * 2)
+      );
+      
+      // Show original object boundary with dashed line
+      this.ctx.setLineDash([5, 5]);
+      this.ctx.strokeStyle = '#ff6666';
+      this.ctx.strokeRect(enemy.x, enemy.y, enemy.width, enemy.height);
+      this.ctx.setLineDash([]);
+      this.ctx.strokeStyle = '#ff0000';
+    });
+    
+    // Pizza collision boxes (orange)
+    this.ctx.strokeStyle = '#ffa500';
+    this.pizzas.forEach(pizza => {
+      this.ctx.strokeRect(pizza.x, pizza.y, pizza.width, pizza.height);
+    });
+    
+    // Power-up collision boxes (yellow)
+    this.ctx.strokeStyle = '#ffff00';
+    this.powerups.forEach(powerup => {
+      this.ctx.strokeRect(powerup.x, powerup.y, powerup.width, powerup.height);
+    });
+    
+    // Bullet collision boxes (cyan)
+    this.ctx.strokeStyle = '#00ffff';
+    this.bullets.forEach(bullet => {
+      this.ctx.strokeRect(bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+    
+    // Debug info text
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.font = 'bold 14px Arial';
+    this.ctx.fillText('DEBUG MODE (Press D to toggle)', 10, this.canvas.height - 30);
+    this.ctx.fillText('Green=Player, Red=Enemies (solid=collision 20px tight, dashed=visual)', 10, this.canvas.height - 10);
+    
+    this.ctx.restore();
   }
   
   drawUI() {
