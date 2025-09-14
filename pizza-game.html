@@ -826,6 +826,7 @@ class ElectricCrustPizzaGame {
     this.level = 1;
     this.speed = 2;
     this.lastLevelUpAt = 0; // Track last enemy count when level up occurred
+    this.completedMilestones = new Set(); // Track which level-up milestones have been reached
     
     // High Score System
     this.showInitialEntry = false;
@@ -1052,13 +1053,18 @@ class ElectricCrustPizzaGame {
     
     // Level progression - only level up once per 10-enemy milestone
     const currentMilestone = Math.floor(this.enemiesDestroyed / 10) * 10;
-    const shouldLevelUp = this.enemiesDestroyed > 0 && 
-                         this.enemiesDestroyed % 10 === 0 && 
-                         this.enemiesDestroyed > this.lastLevelUpAt;
+    const isAtMilestone = this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0;
+    const hasNotCompletedThisMilestone = !this.completedMilestones.has(currentMilestone);
     
-    if (shouldLevelUp) {
-      console.log(`✅ TRIGGERING LEVEL UP: enemiesDestroyed=${this.enemiesDestroyed}, lastLevelUpAt=${this.lastLevelUpAt}`);
-      this.lastLevelUpAt = this.enemiesDestroyed; // Track this level-up
+    // Debug logging for level-up tracking
+    if (isAtMilestone) {
+      console.log(`🔍 LEVEL CHECK: enemiesDestroyed=${this.enemiesDestroyed}, milestone=${currentMilestone}, completed=${this.completedMilestones.has(currentMilestone)}`);
+    }
+    
+    if (isAtMilestone && hasNotCompletedThisMilestone) {
+      console.log(`✅ TRIGGERING LEVEL UP: milestone=${currentMilestone}, enemiesDestroyed=${this.enemiesDestroyed}`);
+      this.completedMilestones.add(currentMilestone); // Mark this milestone as completed
+      console.log(`📝 MARKED milestone ${currentMilestone} as completed. Completed milestones:`, Array.from(this.completedMilestones));
       this.levelUp();
     }
   }
@@ -1491,6 +1497,7 @@ class ElectricCrustPizzaGame {
     this.speed = 2;
     this.enemiesDestroyed = 0;
     this.lastLevelUpAt = 0; // Reset level-up tracker
+    this.completedMilestones.clear(); // Reset completed milestones
     this.player.health = this.player.maxHealth;
     this.player.speed = 5;
     this.player.x = 80;
