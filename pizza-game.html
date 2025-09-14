@@ -294,6 +294,9 @@ layout: none
                 flex-wrap: wrap;
                 padding: 8px;
                 gap: 8px;
+                justify-content: center;
+                overflow: visible;
+                min-height: 50px;
             }
             
             .game-btn {
@@ -691,6 +694,22 @@ layout: none
             }
         }
         
+        /* Ensure game controls are visible on very small screens */
+        @media (max-height: 600px) {
+            .game-controls {
+                padding: 5px !important;
+                gap: 5px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+            
+            .game-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
+                min-width: auto !important;
+            }
+        }
+        
         @media (max-width: 480px) {
             .game-controls {
                 flex-wrap: wrap;
@@ -1030,8 +1049,8 @@ class ElectricCrustPizzaGame {
     // Check collisions
     this.checkCollisions();
     
-    // Level progression
-    if (this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0) {
+    // Level progression - only level up once per milestone
+    if (this.enemiesDestroyed > 0 && this.enemiesDestroyed % 10 === 0 && !this.activePowerUps.has('level-celebration')) {
       this.levelUp();
     }
   }
