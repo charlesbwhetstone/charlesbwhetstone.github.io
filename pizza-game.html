@@ -1063,7 +1063,7 @@ class ElectricCrustPizzaGame {
     }
     
     // Don't spawn enemies during level-up celebration
-    if (this.levelUpEffect) {
+    if (this.activePowerUps.has('level-celebration')) {
       console.log('🎉 LEVEL UP: No enemies spawning during level-up celebration!');
       return;
     }
@@ -1372,6 +1372,9 @@ class ElectricCrustPizzaGame {
     // Clear all enemies during level-up celebration (like bonus mode)
     this.enemies = [];
     console.log('🎉 LEVEL UP: Clearing enemies for celebration!');
+    
+    // Use the same power-up system for consistent timing
+    this.activatePowerUp('level-celebration', 7.0); // 7 seconds like other power-ups
     
     this.addSoundEffect(this.canvas.width/2, this.canvas.height/2, 'LEVEL UP!', '#00ff00');
     this.addLevelUpEffect();
@@ -1767,6 +1770,9 @@ class ElectricCrustPizzaGame {
       case 'speed-boost':
         this.player.speed = Math.max(this.player.speed - 3, 5);
         break;
+      case 'level-celebration':
+        console.log('🎉 LEVEL UP: Celebration period ended, enemies will resume spawning');
+        break;
     }
   }
 
@@ -1806,10 +1812,10 @@ class ElectricCrustPizzaGame {
     this.levelUpEffect = {
       scale: 0.5,
       alpha: 1,
-      life: 300, // ~5 seconds at 60fps (like other bonuses)
+      life: 180, // Visual effect for ~3 seconds
       color: '#00ff88'
     };
-    console.log('🎉 LEVEL UP: Starting enemy-free celebration period (5 seconds)');
+    console.log('🎉 LEVEL UP: Starting enemy-free celebration period (7 seconds)');
   }
 
   // Haptic feedback for mobile
@@ -2371,12 +2377,11 @@ class ElectricCrustPizzaGame {
     
     this.ctx.restore();
     
-    effect.scale += 0.005; // Slower scale growth for longer effect
-    effect.alpha -= 0.003; // Slower fade for 5-second duration
+    effect.scale += 0.003; // Slower scale growth for visual effect
+    effect.alpha -= 0.005; // Fade over ~3 seconds
     effect.life--;
     
     if (effect.life <= 0 || effect.alpha <= 0) {
-      console.log('🎉 LEVEL UP: Celebration period ended, enemies will resume spawning');
       this.levelUpEffect = null;
     }
   }
