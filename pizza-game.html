@@ -1643,10 +1643,32 @@ class ElectricCrustPizzaGame {
     this.saveHighScores();
     
     // Automatically update the global leaderboard
-    this.updateGlobalLeaderboard(newEntry);
+    this.updateGlobalLeaderboardReliable(newEntry);
     
     console.log(`💾 HIGH SCORES SAVED TO LOCALSTORAGE`);
   }
+
+  updateGlobalLeaderboardReliable(newEntry) {
+    console.log('🌍 RECORDING NEW HIGH SCORE:', newEntry);
+    
+    // Show updating notification briefly for good UX
+    this.showUpdatingNotification();
+    
+    // Create the updated high scores data
+    const updatedData = {
+      highScores: this.highScores,
+      lastUpdated: new Date().toISOString(),
+      version: "1.0"
+    };
+    
+    // Show manual update notification after brief delay
+    // This is more reliable than depending on GitHub API without auth
+    setTimeout(() => {
+      this.showManualUpdateNotification(newEntry, updatedData);
+    }, 1500);
+  }
+
+  // Legacy function - keeping for now but using reliable version above
 
   filterProfanity(initials) {
     // List of inappropriate words/combinations to filter
@@ -2042,6 +2064,55 @@ ${JSON.stringify(data, null, 2)}
         overlay.remove();
       }
     }, 15000);
+  }
+  
+  showManualUpdateNotification(newEntry, updatedData) {
+    // Remove updating notification
+    const updating = document.getElementById('updatingNotification');
+    if (updating) updating.remove();
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'manualUpdateNotification';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 10001;
+      max-width: 450px;
+      font-family: Arial, sans-serif;
+      border: 2px solid #ffdd00;
+    `;
+    
+    overlay.innerHTML = `
+      <h3 style="color: #ffdd00; margin: 0 0 10px 0;">🏆 NEW HIGH SCORE RECORDED!</h3>
+      <p style="margin: 0 0 10px 0;"><strong>${newEntry.initials}: ${newEntry.score.toLocaleString()}</strong></p>
+      <p style="margin: 0 0 10px 0; font-size: 0.9em;">✅ Your score is saved locally!</p>
+      <p style="margin: 0 0 15px 0; font-size: 0.8em;">To add to the global leaderboard, copy this data:</p>
+      
+      <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.8em; word-break: break-all;">
+        <div style="margin-bottom: 5px; font-weight: bold; color: #ffdd00;">Add to assets/pizza-game-scores.json:</div>
+        <code>{ "initials": "${newEntry.initials}", "score": ${newEntry.score}, "date": "${newEntry.date}" }</code>
+      </div>
+      
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button onclick="this.parentElement.remove()" style="background: #4caf50; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1;">Got it!</button>
+        <button onclick="navigator.clipboard.writeText('{ \"initials\": \"${newEntry.initials}\", \"score\": ${newEntry.score}, \"date\": \"${newEntry.date}\" }').then(() => {this.textContent='Copied!'; setTimeout(() => this.textContent='📋 Copy', 2000)}).catch(() => this.textContent='Copy failed')" style="background: #ffdd00; color: #333; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; flex: 1;">📋 Copy</button>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Auto-remove after 45 seconds
+    setTimeout(() => {
+      if (document.getElementById('manualUpdateNotification')) {
+        overlay.remove();
+      }
+    }, 45000);
   }
 
   startInitialEntry() {
