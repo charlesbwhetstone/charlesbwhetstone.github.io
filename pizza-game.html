@@ -3197,62 +3197,15 @@ ${JSON.stringify(data, null, 2)}
   
   drawBullets() {
     this.bullets.forEach(bullet => {
-      this.ctx.save();
-      this.ctx.translate(bullet.x + bullet.width/2, bullet.y + bullet.height/2);
-      
-      // Create laser energy blast effect
-      const time = Date.now() * 0.01;
-      const pulse = Math.sin(time * 3 + bullet.x * 0.1) * 0.3 + 1; // Pulsing effect
-      
-      // Outer glow
-      this.ctx.shadowColor = '#00ffff';
-      this.ctx.shadowBlur = 15 * pulse;
-      this.ctx.globalAlpha = 0.8;
-      
-      // Main laser core (bright cyan)
-      this.ctx.fillStyle = '#00ffff';
-      this.ctx.beginPath();
-      this.ctx.ellipse(0, 0, bullet.width/2, bullet.height/2, 0, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      // Inner bright core (white hot center)
-      this.ctx.fillStyle = '#ffffff';
-      this.ctx.globalAlpha = 0.9;
-      this.ctx.beginPath();
-      this.ctx.ellipse(0, 0, bullet.width/3, bullet.height/3, 0, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      // Energy trail streaks
-      this.ctx.globalAlpha = 0.6;
-      this.ctx.strokeStyle = '#00cccc';
-      this.ctx.lineWidth = 2;
-      this.ctx.lineCap = 'round';
-      
-      // Create dynamic trail lines
-      for (let i = 0; i < 3; i++) {
-        const offset = Math.sin(time * 2 + i) * 3;
-        this.ctx.beginPath();
-        this.ctx.moveTo(-bullet.width/2 - 8, offset);
-        this.ctx.lineTo(-bullet.width/2 - 15, offset * 1.5);
-        this.ctx.stroke();
-      }
-      
-      // Electric spark effect
-      this.ctx.globalAlpha = 0.7;
-      this.ctx.fillStyle = '#88ffff';
-      for (let i = 0; i < 4; i++) {
-        const sparkAngle = (time * 5 + i * Math.PI/2) % (Math.PI * 2);
-        const sparkDist = bullet.width/2 + 2;
-        const sparkX = Math.cos(sparkAngle) * sparkDist;
-        const sparkY = Math.sin(sparkAngle) * sparkDist;
-        this.ctx.beginPath();
-        this.ctx.arc(sparkX, sparkY, 1, 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-      
-      this.ctx.shadowBlur = 0;
-      this.ctx.globalAlpha = 1;
-      this.ctx.restore();
+      // Lightweight laser rendering to keep frame rate steady
+      const coreX = bullet.x + bullet.width * 0.25;
+      const coreWidth = bullet.width * 0.5;
+
+      this.ctx.fillStyle = 'rgba(0, 255, 255, 0.6)';
+      this.ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      this.ctx.fillRect(coreX, bullet.y + bullet.height * 0.2, coreWidth, bullet.height * 0.6);
     });
   }
   
@@ -3320,37 +3273,23 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.fillStyle = '#cc3333';
       this.ctx.shadowBlur = 0;
       
-      // Traditional pepperoni distribution across the whole pizza
+      const pepperoniRadius = Math.max(3, radius * 0.08);
+      // Reduced pepperoni count while keeping a pizza-like layout
       const pepperoniSpots = [
-        // Center area
         [0, 0],
-        // Inner ring
-        [-radius * 0.25, -radius * 0.25],
-        [radius * 0.25, -radius * 0.25],
-        [radius * 0.3, 0],
-        [radius * 0.25, radius * 0.25],
-        [-radius * 0.25, radius * 0.25],
-        [-radius * 0.3, 0],
-        // Outer ring
-        [-radius * 0.5, -radius * 0.4],
-        [0, -radius * 0.55],
-        [radius * 0.5, -radius * 0.4],
-        [radius * 0.6, 0],
-        [radius * 0.5, radius * 0.4],
-        [0, radius * 0.55],
-        [-radius * 0.5, radius * 0.4],
-        [-radius * 0.6, 0],
-        // Additional scattered pieces
-        [radius * 0.15, -radius * 0.45],
-        [-radius * 0.15, radius * 0.45],
-        [radius * 0.45, radius * 0.15],
-        [-radius * 0.45, -radius * 0.15]
+        [radius * 0.35, 0],
+        [-radius * 0.35, 0],
+        [0, -radius * 0.4],
+        [0, radius * 0.4],
+        [radius * 0.28, -radius * 0.28],
+        [-radius * 0.28, radius * 0.28],
+        [radius * 0.3, radius * 0.25],
+        [-radius * 0.3, -radius * 0.25]
       ];
-      
-      // Draw simple pepperoni circles
-      pepperoniSpots.forEach(pos => {
+
+      pepperoniSpots.forEach(([x, y]) => {
         this.ctx.beginPath();
-        this.ctx.arc(pos[0], pos[1], 4, 0, Math.PI * 2);
+        this.ctx.arc(x, y, pepperoniRadius, 0, Math.PI * 2);
         this.ctx.fill();
       });
       
