@@ -1210,12 +1210,46 @@ class ElectricCrustPizzaGame {
   }
   
   spawnPizza() {
+    // Generate random pepperoni positions for this pizza
+    const pepperoniCount = 6 + Math.floor(Math.random() * 4); // 6-9 pepperoni
+    const pepperoniPositions = [];
+    const radius = 30; // Pizza radius
+    const pepperoniRadius = 3; // Pepperoni radius
+    const minDistanceFromEdge = 8; // Minimum distance from pizza edge
+    
+    for (let i = 0; i < pepperoniCount; i++) {
+      let attempts = 0;
+      let position;
+      
+      // Try to find a good position that's not too close to edges or other pepperoni
+      do {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * (radius - minDistanceFromEdge - pepperoniRadius);
+        position = {
+          x: Math.cos(angle) * distance,
+          y: Math.sin(angle) * distance
+        };
+        attempts++;
+      } while (attempts < 10 && this.isPepperoniTooClose(position, pepperoniPositions, pepperoniRadius * 2));
+      
+      pepperoniPositions.push(position);
+    }
+    
     this.pizzas.push({
       x: this.canvas.width,
       y: Math.random() * (this.canvas.height - 60) + 30,
       width: 60,
       height: 60,
-      rotation: 0
+      rotation: 0,
+      pepperoniPositions: pepperoniPositions
+    });
+  }
+  
+  isPepperoniTooClose(newPos, existingPositions, minDistance) {
+    return existingPositions.some(pos => {
+      const dx = newPos.x - pos.x;
+      const dy = newPos.y - pos.y;
+      return Math.sqrt(dx * dx + dy * dy) < minDistance;
     });
   }
   
@@ -3225,6 +3259,7 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.translate(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
       this.ctx.rotate(pizza.rotation);
       
+      // Pizza base (crust)
       this.ctx.fillStyle = '#ffa500';
       this.ctx.shadowColor = '#ff8c00';
       this.ctx.shadowBlur = 8;
@@ -3232,11 +3267,30 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.arc(0, 0, pizza.width/2, 0, Math.PI * 2);
       this.ctx.fill();
       
-      this.ctx.fillStyle = '#ff0000';
-      this.ctx.fillRect(-8, -8, 4, 4);
-      this.ctx.fillRect(8, 8, 4, 4);
-      
+      // Reset shadow for pepperoni
       this.ctx.shadowBlur = 0;
+      
+      // Draw pepperoni with consistent size and red color
+      this.ctx.fillStyle = '#cc0000'; // Darker red for better visibility
+      if (pizza.pepperoniPositions) {
+        pizza.pepperoniPositions.forEach(pos => {
+          this.ctx.beginPath();
+          this.ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
+          this.ctx.fill();
+          
+          // Add small highlight for more realistic look
+          this.ctx.fillStyle = '#ff3333';
+          this.ctx.beginPath();
+          this.ctx.arc(pos.x - 1, pos.y - 1, 1, 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.fillStyle = '#cc0000';
+        });
+      } else {
+        // Fallback for existing pizzas without pepperoniPositions
+        this.ctx.fillRect(-8, -8, 4, 4);
+        this.ctx.fillRect(8, 8, 4, 4);
+      }
+      
       this.ctx.restore();
     });
   }
