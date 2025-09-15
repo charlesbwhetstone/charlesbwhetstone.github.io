@@ -3394,39 +3394,21 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.fillStyle = particle.color;
       this.ctx.shadowColor = particle.color;
       this.ctx.shadowBlur = particle.size * 2;
-      this.ctx.fillRect(particle.x - particle.size/2, particle.y - particle.size/2, particle.size, particle.size);
-      this.ctx.restore();
-    });
-  }
-  
-  drawSoundEffects() {
-    this.soundEffects.forEach(effect => {
-      this.ctx.globalAlpha = effect.alpha;
-      this.ctx.fillStyle = effect.color;
-      this.ctx.font = 'bold 16px Arial';
-      this.ctx.fillText(effect.text, effect.x, effect.y);
-    });
-    this.ctx.globalAlpha = 1;
-  }
-  
-  drawCollisionBoxes() {
-    // Debug mode: Draw collision boxes for all objects
-    this.ctx.save();
-    this.ctx.lineWidth = 2;
-    
-    // Player collision box (green) - with precise collision detection margins
-    this.ctx.strokeStyle = '#00ff00';
-    const playerMargin = 20; // Same margin as enemies for precise detection
-    this.ctx.strokeRect(
-      this.player.x + playerMargin, 
-      this.player.y + playerMargin, 
-      this.player.width - (playerMargin * 2), 
-      this.player.height - (playerMargin * 2)
-    );
-    
-    // Show original player boundary with dashed line
-    this.ctx.setLineDash([5, 5]);
-    this.ctx.strokeStyle = '#66ff66';
+          // Spread pepperonis evenly using polar coordinates
+          const pepperoniCount = 16;
+          for (let i = 0; i < pepperoniCount; i++) {
+            // Use two rings: inner and outer
+            const ring = i < pepperoniCount / 2 ? 0.5 : 0.85;
+            // Angle for each pepperoni
+            const angle = ((2 * Math.PI) / (pepperoniCount / 2)) * (i % (pepperoniCount / 2)) + (i < pepperoniCount / 2 ? 0 : Math.PI / (pepperoniCount / 2));
+            // Add a little random jitter for natural look
+            const jitter = (i % 2 === 0 ? 1 : -1) * (2 + (pizza.x + pizza.y + i) % 3);
+            const x = Math.cos(angle) * radius * ring + jitter;
+            const y = Math.sin(angle) * radius * ring + jitter;
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 4, 0, Math.PI * 2);
+            this.ctx.fill();
+          }
     this.ctx.strokeRect(this.player.x, this.player.y, this.player.width, this.player.height);
     this.ctx.setLineDash([]);
     this.ctx.strokeStyle = '#00ff00';
