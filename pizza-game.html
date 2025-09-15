@@ -3308,74 +3308,35 @@ ${JSON.stringify(data, null, 2)}
       
       const radius = pizza.width/2;
       
-      // Pizza crust (slightly larger, darker)
-      this.ctx.fillStyle = '#d4a574';
-      this.ctx.shadowColor = '#b8956a';
+      // Simple pizza base (crust + cheese in one)
+      this.ctx.fillStyle = '#ffcc66';
+      this.ctx.shadowColor = '#ff8c00';
       this.ctx.shadowBlur = 6;
       this.ctx.beginPath();
       this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
       this.ctx.fill();
       
-      // Pizza base/cheese (slightly smaller)
-      this.ctx.fillStyle = '#ffeb99';
-      this.ctx.shadowBlur = 4;
-      this.ctx.beginPath();
-      this.ctx.arc(0, 0, radius * 0.85, 0, Math.PI * 2);
-      this.ctx.fill();
-      
-      // Cheese texture (random light spots)
-      this.ctx.fillStyle = '#fff5cc';
-      this.ctx.shadowBlur = 0;
-      // Use pizza position for consistent random pattern
-      const seed = pizza.x + pizza.y;
-      for (let i = 0; i < 8; i++) {
-        const angle = (seed + i * 45) % 360;
-        const distance = (radius * 0.3) + ((seed + i * 17) % 20);
-        const x = Math.cos(angle) * distance * 0.01;
-        const y = Math.sin(angle) * distance * 0.01;
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, 2 + ((seed + i) % 3), 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-      
-      // Pepperoni slices
+      // Simple pepperoni slices (no complex calculations)
       this.ctx.fillStyle = '#cc3333';
-      this.ctx.strokeStyle = '#aa2222';
-      this.ctx.lineWidth = 1;
+      this.ctx.shadowBlur = 0;
       
-      // Create consistent pepperoni pattern based on pizza position
-      const pepperoniPositions = [
+      // Fixed pepperoni positions (no calculations based on pizza position)
+      const pepperoniSpots = [
         [-radius * 0.3, -radius * 0.2],
-        [radius * 0.2, -radius * 0.4],
-        [-radius * 0.1, radius * 0.3],
-        [radius * 0.4, radius * 0.1],
-        [-radius * 0.4, radius * 0.15],
-        [radius * 0.15, -radius * 0.1],
-        [0, -radius * 0.5]
+        [radius * 0.2, -radius * 0.3],
+        [-radius * 0.1, radius * 0.25],
+        [radius * 0.3, radius * 0.1],
+        [-radius * 0.35, radius * 0.1],
+        [radius * 0.1, -radius * 0.1],
+        [0, radius * 0.4]
       ];
       
-      pepperoniPositions.forEach((pos, index) => {
-        // Only show some pepperoni based on pizza's unique seed
-        if ((seed + index * 13) % 3 !== 0) {
-          this.ctx.beginPath();
-          this.ctx.arc(pos[0], pos[1], 4 + ((seed + index) % 2), 0, Math.PI * 2);
-          this.ctx.fill();
-          this.ctx.stroke();
-          
-          // Pepperoni highlights
-          this.ctx.fillStyle = '#dd4444';
-          this.ctx.beginPath();
-          this.ctx.arc(pos[0] - 1, pos[1] - 1, 1.5, 0, Math.PI * 2);
-          this.ctx.fill();
-          this.ctx.fillStyle = '#cc3333';
-        }
+      // Draw simple pepperoni circles
+      pepperoniSpots.forEach(pos => {
+        this.ctx.beginPath();
+        this.ctx.arc(pos[0], pos[1], 4, 0, Math.PI * 2);
+        this.ctx.fill();
       });
-      
-      // Pizza shine/gloss effect
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-      this.ctx.beginPath();
-      this.ctx.arc(-radius * 0.2, -radius * 0.2, radius * 0.4, 0, Math.PI * 2);
-      this.ctx.fill();
       
       this.ctx.shadowBlur = 0;
       this.ctx.restore();
