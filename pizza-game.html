@@ -14,10 +14,10 @@ layout: none
     <script>
       // GitHub API configuration for automatic leaderboard updates
       window.GITHUB_CONFIG = {
-        // IMPORTANT: To enable automatic updates, add your GitHub Personal Access Token here
-        // Get one at: https://github.com/settings/tokens (requires 'repo' scope)
-        // Leave empty for local-only mode
-        token: '', // Add your token here to enable automatic global updates
+        // IMPORTANT: To enable automatic updates, you need to add your GitHub Personal Access Token
+        // Get one at: https://github.com/settings/tokens (requires 'repo' scope for your repository)
+        // Leave empty for local-only mode, or add your token here for automatic global updates
+        token: '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', // Replace this with your actual token
         
         // Repository details (safe to keep public)
         owner: 'charlesbwhetstone',
@@ -763,6 +763,58 @@ layout: none
             /* Ensure mobile controls always show on small screens */
             #mobileControls {
                 display: block !important;
+            }
+        }
+        
+        /* iPad and larger tablet specific adjustments */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #virtualJoystick {
+                bottom: 40px !important;
+                left: 30px !important;
+                width: 100px !important;
+                height: 100px !important;
+            }
+            
+            #fireButton {
+                bottom: 40px !important;
+                right: 30px !important;
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 14px !important;
+            }
+            
+            #autoFireButton {
+                bottom: 140px !important;
+                right: 30px !important;
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 10px !important;
+            }
+        }
+        
+        /* Large iPad Pro and similar devices */
+        @media (min-width: 1025px) and (max-width: 1366px) {
+            #virtualJoystick {
+                bottom: 60px !important;
+                left: 50px !important;
+                width: 110px !important;
+                height: 110px !important;
+            }
+            
+            #fireButton {
+                bottom: 60px !important;
+                right: 50px !important;
+                width: 85px !important;
+                height: 85px !important;
+                font-size: 15px !important;
+            }
+            
+            #autoFireButton {
+                bottom: 160px !important;
+                right: 50px !important;
+                width: 65px !important;
+                height: 65px !important;
+                font-size: 11px !important;
             }
         }
     </style>
@@ -3148,29 +3200,58 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.save();
       this.ctx.translate(bullet.x + bullet.width/2, bullet.y + bullet.height/2);
       
-      const rotation = (Date.now() * 0.01 + bullet.x * 0.1) % (Math.PI * 2);
-      this.ctx.rotate(rotation);
+      // Create laser energy blast effect
+      const time = Date.now() * 0.01;
+      const pulse = Math.sin(time * 3 + bullet.x * 0.1) * 0.3 + 1; // Pulsing effect
       
-      const radius = Math.max(bullet.width, bullet.height) / 2;
+      // Outer glow
+      this.ctx.shadowColor = '#00ffff';
+      this.ctx.shadowBlur = 15 * pulse;
+      this.ctx.globalAlpha = 0.8;
       
-      // Pizza crust
-      this.ctx.fillStyle = '#d2691e';
+      // Main laser core (bright cyan)
+      this.ctx.fillStyle = '#00ffff';
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      this.ctx.ellipse(0, 0, bullet.width/2, bullet.height/2, 0, 0, Math.PI * 2);
       this.ctx.fill();
       
-      // Cheese
-      this.ctx.fillStyle = '#fff8dc';
+      // Inner bright core (white hot center)
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.globalAlpha = 0.9;
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, radius * 0.85, 0, Math.PI * 2);
+      this.ctx.ellipse(0, 0, bullet.width/3, bullet.height/3, 0, 0, Math.PI * 2);
       this.ctx.fill();
       
-      // Pepperoni
-      this.ctx.fillStyle = '#cc0000';
-      this.ctx.beginPath();
-      this.ctx.arc(0, 0, radius * 0.15, 0, Math.PI * 2);
-      this.ctx.fill();
+      // Energy trail streaks
+      this.ctx.globalAlpha = 0.6;
+      this.ctx.strokeStyle = '#00cccc';
+      this.ctx.lineWidth = 2;
+      this.ctx.lineCap = 'round';
       
+      // Create dynamic trail lines
+      for (let i = 0; i < 3; i++) {
+        const offset = Math.sin(time * 2 + i) * 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(-bullet.width/2 - 8, offset);
+        this.ctx.lineTo(-bullet.width/2 - 15, offset * 1.5);
+        this.ctx.stroke();
+      }
+      
+      // Electric spark effect
+      this.ctx.globalAlpha = 0.7;
+      this.ctx.fillStyle = '#88ffff';
+      for (let i = 0; i < 4; i++) {
+        const sparkAngle = (time * 5 + i * Math.PI/2) % (Math.PI * 2);
+        const sparkDist = bullet.width/2 + 2;
+        const sparkX = Math.cos(sparkAngle) * sparkDist;
+        const sparkY = Math.sin(sparkAngle) * sparkDist;
+        this.ctx.beginPath();
+        this.ctx.arc(sparkX, sparkY, 1, 0, Math.PI * 2);
+        this.ctx.fill();
+      }
+      
+      this.ctx.shadowBlur = 0;
+      this.ctx.globalAlpha = 1;
       this.ctx.restore();
     });
   }
@@ -3225,16 +3306,76 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.translate(pizza.x + pizza.width/2, pizza.y + pizza.height/2);
       this.ctx.rotate(pizza.rotation);
       
-      this.ctx.fillStyle = '#ffa500';
-      this.ctx.shadowColor = '#ff8c00';
-      this.ctx.shadowBlur = 8;
+      const radius = pizza.width/2;
+      
+      // Pizza crust (slightly larger, darker)
+      this.ctx.fillStyle = '#d4a574';
+      this.ctx.shadowColor = '#b8956a';
+      this.ctx.shadowBlur = 6;
       this.ctx.beginPath();
-      this.ctx.arc(0, 0, pizza.width/2, 0, Math.PI * 2);
+      this.ctx.arc(0, 0, radius, 0, Math.PI * 2);
       this.ctx.fill();
       
-      this.ctx.fillStyle = '#ff0000';
-      this.ctx.fillRect(-8, -8, 4, 4);
-      this.ctx.fillRect(8, 8, 4, 4);
+      // Pizza base/cheese (slightly smaller)
+      this.ctx.fillStyle = '#ffeb99';
+      this.ctx.shadowBlur = 4;
+      this.ctx.beginPath();
+      this.ctx.arc(0, 0, radius * 0.85, 0, Math.PI * 2);
+      this.ctx.fill();
+      
+      // Cheese texture (random light spots)
+      this.ctx.fillStyle = '#fff5cc';
+      this.ctx.shadowBlur = 0;
+      // Use pizza position for consistent random pattern
+      const seed = pizza.x + pizza.y;
+      for (let i = 0; i < 8; i++) {
+        const angle = (seed + i * 45) % 360;
+        const distance = (radius * 0.3) + ((seed + i * 17) % 20);
+        const x = Math.cos(angle) * distance * 0.01;
+        const y = Math.sin(angle) * distance * 0.01;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, 2 + ((seed + i) % 3), 0, Math.PI * 2);
+        this.ctx.fill();
+      }
+      
+      // Pepperoni slices
+      this.ctx.fillStyle = '#cc3333';
+      this.ctx.strokeStyle = '#aa2222';
+      this.ctx.lineWidth = 1;
+      
+      // Create consistent pepperoni pattern based on pizza position
+      const pepperoniPositions = [
+        [-radius * 0.3, -radius * 0.2],
+        [radius * 0.2, -radius * 0.4],
+        [-radius * 0.1, radius * 0.3],
+        [radius * 0.4, radius * 0.1],
+        [-radius * 0.4, radius * 0.15],
+        [radius * 0.15, -radius * 0.1],
+        [0, -radius * 0.5]
+      ];
+      
+      pepperoniPositions.forEach((pos, index) => {
+        // Only show some pepperoni based on pizza's unique seed
+        if ((seed + index * 13) % 3 !== 0) {
+          this.ctx.beginPath();
+          this.ctx.arc(pos[0], pos[1], 4 + ((seed + index) % 2), 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.stroke();
+          
+          // Pepperoni highlights
+          this.ctx.fillStyle = '#dd4444';
+          this.ctx.beginPath();
+          this.ctx.arc(pos[0] - 1, pos[1] - 1, 1.5, 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.fillStyle = '#cc3333';
+        }
+      });
+      
+      // Pizza shine/gloss effect
+      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+      this.ctx.beginPath();
+      this.ctx.arc(-radius * 0.2, -radius * 0.2, radius * 0.4, 0, Math.PI * 2);
+      this.ctx.fill();
       
       this.ctx.shadowBlur = 0;
       this.ctx.restore();
