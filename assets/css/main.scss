@@ -1,2 +1,34 @@
 ---
 ---
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+/* Custom CSS for Charles Whetstone Portfolio */
+
+/* Basic mobile responsiveness */
+@media (max-width: 768px) {
+  .site-title {
+    font-size: 1.5em !important;
+    font-weight: bold;
+  }
+  
+  .page-content {
+    padding: 1em 0.5em;
+  }
+}
+
+/* Projects page styling */
+.projects-grid .project-item {
+  margin-bottom: 2em;
+  
+  h3 {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+  }
+  
+  .project-excerpt {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+}

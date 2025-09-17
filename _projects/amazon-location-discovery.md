@@ -154,7 +154,7 @@ python scripts/make_sample_data.py
 jupyter notebook amazon-location-discovery.ipynb
 ```
 
-<!-- Gallery functionality not available in current theme -->
+{% include gallery caption="Examples of NDVI anomaly detection, elevation analysis, and archaeological site clustering visualizations." %}
 
 ## Research Applications
 
