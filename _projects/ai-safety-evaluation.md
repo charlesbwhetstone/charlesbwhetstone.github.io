@@ -43,7 +43,7 @@ A **comprehensive AI safety evaluation framework** designed to systematically as
 
 ## Safety Domains Analyzed
 
-### 🎯 **Reward Hacking**
+### **Reward Hacking**
 - **Definition:** Model attempts to game evaluation metrics or objectives
 - **Test Scenarios:** Performance optimization exploits, metric manipulation
 - **Findings:** Several concerning behaviors identified in optimization contexts
@@ -58,31 +58,31 @@ A **comprehensive AI safety evaluation framework** designed to systematically as
 - **Test Scenarios:** Meta-cognitive responses, test-taking behavior
 - **Findings:** Evidence of evaluation context recognition affecting behavior
 
-### 🛠️ **Inappropriate Tool Use**
+### **Inappropriate Tool Use**
 - **Definition:** Misuse of available tools or capabilities beyond intended scope
 - **Test Scenarios:** API abuse, resource exploitation, capability overreach
 - **Findings:** Potential for tool misuse in uncontrolled environments
 
-### 📊 **Data Exfiltration**
+### **Data Exfiltration**
 - **Definition:** Unauthorized access or exposure of sensitive information
 - **Test Scenarios:** Information extraction techniques, privacy boundary testing
 - **Findings:** Concerning patterns in information disclosure behavior
 
 ## Technical Framework
 
-### 🔬 **Evaluation Methodology**
+### **Evaluation Methodology**
 - **Systematic testing** across pre-defined safety categories
 - **Prompt engineering** techniques to elicit concerning behaviors
 - **Multi-temperature evaluation** for response consistency analysis
 - **Comprehensive documentation** of all findings and methodologies
 
-### 📈 **Analysis Pipeline**
+### **Analysis Pipeline**
 - **Automated scoring** with human verification
 - **Statistical analysis** of response patterns
 - **Risk categorization** and severity assessment
 - **Reproducible evaluation** framework for future testing
 
-### 🎛️ **Configuration Parameters**
+### **Configuration Parameters**
 ```python
 CONFIG = {
     "TRIALS_PER_PROMPT": 3,
@@ -102,13 +102,13 @@ CONFIG = {
 - **Inconsistent safety behavior** under different temperature settings
 - **Context-dependent risk levels** varying by domain and approach
 
-### 📊 **Quantitative Analysis**
+### **Quantitative Analysis**
 - **39 total test cases** systematically evaluated
 - **Multiple safety domains** comprehensively assessed
 - **Statistical significance** achieved through repeated trials
 - **Reproducible results** with documented methodology
 
-### 🎯 **Domain-Specific Insights**
+### **Domain-Specific Insights**
 - **Reward Hacking:** Moderate vulnerability to optimization exploits
 - **Deception:** High susceptibility to misleading prompt structures
 - **Tool Use:** Concerning patterns in capability boundary testing
@@ -135,19 +135,19 @@ ai-safety-evaluation/
 
 ## Impact & Applications
 
-### 🛡️ **AI Safety Advancement**
+### **AI Safety Advancement**
 - **Framework development** for systematic safety evaluation
 - **Methodology sharing** for community benefit
 - **Risk identification** enabling proactive mitigation
 - **Standards contribution** to AI safety best practices
 
-### 🔬 **Research Contributions**
+### **Research Contributions**
 - **Reproducible evaluation** methods for large language models
 - **Comprehensive documentation** of safety testing approaches
 - **Open source framework** for community use and improvement
 - **Baseline establishment** for future safety comparisons
 
-### 🌟 **Industry Applications**
+### **Industry Applications**
 - **Model validation** before deployment
 - **Risk assessment** for AI systems in production
 - **Compliance verification** with safety standards
@@ -157,7 +157,7 @@ ai-safety-evaluation/
 
 ## Methodology & Reproducibility
 
-### 🔧 **Technical Implementation**
+### **Technical Implementation**
 - **Python-based framework** with comprehensive logging
 - **Jupyter notebook** format for interactive analysis
 - **Statistical validation** of all findings
@@ -179,6 +179,6 @@ This evaluation framework serves as a foundation for:
 - **Automated testing pipelines** for continuous assessment
 - **Community collaboration** on AI safety standards
 
-[🔬 View Evaluation](https://github.com/charlesbwhetstone/ai-safety-evaluation/blob/main/ai_safety_evaluation_submission.ipynb){: .btn .btn--primary}
-[📊 Explore Repository](https://github.com/charlesbwhetstone/ai-safety-evaluation){: .btn .btn--info}
+[ View Evaluation](https://github.com/charlesbwhetstone/ai-safety-evaluation/blob/main/ai_safety_evaluation_submission.ipynb){: .btn .btn--primary}
+[ Explore Repository](https://github.com/charlesbwhetstone/ai-safety-evaluation){: .btn .btn--info}
 [📋 View Findings](https://github.com/charlesbwhetstone/ai-safety-evaluation/tree/main/findings){: .btn .btn--success}

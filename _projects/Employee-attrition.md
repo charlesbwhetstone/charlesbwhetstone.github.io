@@ -47,22 +47,22 @@ The goal was to build a predictive model that could identify employees at risk o
 
 ## Key Features
 
-### 🔬 **CRISP-DM Methodology**
+### **CRISP-DM Methodology**
 - Structured approach from business understanding through deployment
 - Reproducible workflow with clear documentation
 - Business-focused insights and recommendations
 
-### 📊 **Comprehensive Analysis**
+### **Comprehensive Analysis**
 - Exploratory data analysis revealing key attrition drivers
 - Feature engineering and selection
 - Statistical modeling with multiple algorithms
 
-### 🚀 **Production-Ready Deployment**
+### **Production-Ready Deployment**
 - Automated CI/CD pipeline with GitHub Actions
 - Live report generation and hosting
 - Reproducible R environment with renv
 
-### 🎯 **Business Impact**
+### **Business Impact**
 - Identification of high-risk employee segments
 - Actionable retention strategies
 - Cost reduction through proactive intervention
@@ -100,6 +100,6 @@ The project successfully delivered:
 
 This project demonstrates the inspiration behind the **Electric Crust Pizza Delivery Game**, showcasing how data science insights can inform creative business solutions.
 
-[📊 View Live Report](https://charlesbwhetstone.github.io/Employee-Attrition/report.html){: .btn .btn--primary}
+[ View Live Report](https://charlesbwhetstone.github.io/Employee-Attrition/report.html){: .btn .btn--primary}
 [🔗 GitHub Repository](https://github.com/charlesbwhetstone/Employee-Attrition){: .btn .btn--info}
-[📈 Open in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/electric-crust-case-study-employee-attrition/edit/run/189223159){: .btn .btn--success}
+[ Open in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/electric-crust-case-study-employee-attrition/edit/run/189223159){: .btn .btn--success}

@@ -1,6 +1,6 @@
 ---
 layout: home
-title: "Charles Whetstone - Data Enthusiast and Curious Human"
+title: "Curious Human"
 excerpt: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. The truth is out there, afterall!"
 header:
   overlay_color: "#000"
@@ -43,7 +43,7 @@ feature_row:
 
 {% include feature_row %}
 
-## Latest Blog Posts 📝
+## Latest Blog Posts
 
 <div class="recent-posts">
 {% for post in site.posts limit:2 %}
@@ -58,16 +58,16 @@ feature_row:
 
 <p><a href="/blog/" class="btn btn--info">View All Blog Posts →</a></p>
 
-## Featured Project: Electric Crust Pizza Delivery ⚡
+## Featured Project: Electric Crust Pizza Delivery
 
 Check out my electrifying pizza delivery game! Navigate through exciting challenges while collecting delicious pizzas that need to be delivered to a far away place. 
 
 Built with HTML5 Canvas and pure JavaScript, this game showcases interactive development skills and creative problem-solving.
 
-**[🍕 Play Electric Crust Pizza Delivery ⚡](/pizza-game/)**
+**[Play Electric Crust Pizza Delivery](/pizza-game/)**
 
 ## Recent Updates
 
-Stay tuned for new projects and articles as I continue to explore planet Earth! 🌍
+Stay tuned for new projects and articles as I continue to explore planet Earth!
 
 <!-- Fresh homepage recreation: Sep 13 2025 -->

@@ -10,11 +10,11 @@ header:
 
 <div class="fullscreen-game-container">
   <div class="game-header">
-    <h1>🍕 Pizza Delivery Adventure</h1>
+    <h1>Pizza Delivery Adventure</h1>
     <div class="game-controls">
-      <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">⏸️ Pause</button>
-      <button onclick="restartGame()" class="game-btn">🔄 Restart</button>
-      <button onclick="toggleFullscreen()" class="game-btn">🖥️ Fullscreen</button>
+      <button onclick="toggleGamePause()" class="game-btn" id="pauseBtn">Pause</button>
+      <button onclick="restartGame()" class="game-btn">Restart</button>
+      <button onclick="toggleFullscreen()" class="game-btn">Fullscreen</button>
       <a href="/" class="game-btn">← Back to Portfolio</a>
     </div>
   </div>
@@ -25,7 +25,7 @@ header:
       <h3>How to Play:</h3>
       <p><strong>↑↓ Arrow Keys:</strong> Move your delivery bike up and down</p>
       <p><strong>SPACE:</strong> Boost speed (use wisely!)</p>
-      <p><strong>Goal:</strong> Collect pizzas (🍕) while avoiding obstacles (🚧)</p>
+      <p><strong>Goal:</strong> Collect pizzas while avoiding obstacles</p>
       <p><strong>Scoring:</strong> Each pizza = 10 points. Speed boost increases challenge!</p>
     </div>
   </div>
@@ -142,7 +142,7 @@ class PizzaGame {
       // Check pizza collection
       if (this.checkCollision(this.player, pizza)) {
         this.score += 10;
-        this.createParticles(pizza.x, pizza.y, '🍕', 'gold');
+        this.createParticles(pizza.x, pizza.y, 'P', 'gold');
         return false;
       }
       
@@ -208,13 +208,13 @@ class PizzaGame {
     // Draw obstacles
     this.ctx.font = '35px Arial';
     this.obstacles.forEach(obstacle => {
-      this.ctx.fillText('🚧', obstacle.x, obstacle.y + 30);
+      this.ctx.fillText('X', obstacle.x, obstacle.y + 30);
     });
     
     // Draw pizzas
     this.ctx.font = '25px Arial';
     this.pizzas.forEach(pizza => {
-      this.ctx.fillText('🍕', pizza.x, pizza.y + 25);
+      this.ctx.fillText('P', pizza.x, pizza.y + 25);
     });
     
     // Draw powerups

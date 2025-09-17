@@ -11,7 +11,7 @@ I regularly write about data science, machine learning, and technology trends.
 
 ## Featured Project
 
-Check out my [⚡ Electric Crust Pizza Delivery game](/pizza-game/) - a creative showcase of interactive development skills combining HTML5 Canvas, JavaScript, and engaging gameplay mechanics!
+Check out my [Electric Crust Pizza Delivery game](/pizza-game/) - a creative showcase of interactive development skills combining HTML5 Canvas, JavaScript, and engaging gameplay mechanics!
 
 ---
 

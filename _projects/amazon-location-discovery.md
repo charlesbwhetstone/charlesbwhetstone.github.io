@@ -38,7 +38,7 @@ A **comprehensive geospatial analysis workflow** that combines multiple open-acc
 
 ## Scientific Approach
 
-### 🛰️ **Multi-Source Data Integration**
+### **Multi-Source Data Integration**
 - **Landsat imagery** for NDVI anomaly detection
 - **SRTM elevation data** for topographical analysis
 - **MODIS land cover** for vegetation classification
@@ -50,7 +50,7 @@ A **comprehensive geospatial analysis workflow** that combines multiple open-acc
 - **DBSCAN clustering** for site aggregation and pattern recognition
 - **Multi-parameter correlation** for enhanced accuracy
 
-### 📊 **Reproducible Workflow**
+### **Reproducible Workflow**
 - **End-to-end automation** from data acquisition to results
 - **Open-access datasets** ensuring reproducibility
 - **Documented methodology** for scientific validation
@@ -58,7 +58,7 @@ A **comprehensive geospatial analysis workflow** that combines multiple open-acc
 
 ## Key Features
 
-### 🌍 **Comprehensive Geospatial Analysis**
+### **Comprehensive Geospatial Analysis**
 - **Vegetation anomaly detection** using normalized difference vegetation index
 - **Terrain analysis** incorporating elevation, slope, and aspect
 - **Land cover classification** for environmental context
@@ -70,7 +70,7 @@ A **comprehensive geospatial analysis workflow** that combines multiple open-acc
 - **Statistical validation** of detected anomalies
 - **Parameter optimization** for regional adaptation
 
-### 📈 **Scientific Methodology**
+### **Scientific Methodology**
 - **Literature mining** integration for known site validation
 - **Statistical significance** testing for all findings
 - **Peer-reviewable methods** with complete documentation
@@ -107,7 +107,7 @@ amazon-location-discovery/
 
 ## Scientific Contributions
 
-### 🔬 **Methodological Innovation**
+### **Methodological Innovation**
 - **Open-access approach** democratizing archaeological research
 - **Automated detection** reducing manual survey costs
 - **Multi-parameter analysis** improving detection accuracy
@@ -119,7 +119,7 @@ amazon-location-discovery/
 - **Research acceleration** with systematic methodologies
 - **Community engagement** through accessible tools
 
-### 📊 **Data Science Advancement**
+### **Data Science Advancement**
 - **Geospatial ML** applications for cultural heritage
 - **Remote sensing** techniques for archaeological purposes
 - **Big data approaches** to historical landscape analysis
@@ -127,14 +127,14 @@ amazon-location-discovery/
 
 ## Getting Started
 
-### 🚀 **Quick Start (Kaggle)**
+### **Quick Start (Kaggle)**
 1. **Open in Kaggle** using the badge above
 2. **Enable GPU acceleration** (optional, for faster processing)
 3. **Run all cells** sequentially
 4. **Explore results** with interactive visualizations
 5. **Customize parameters** for different regions
 
-### 💻 **Local Development**
+### **Local Development**
 ```bash
 # Clone the repository
 git clone https://github.com/charlesbwhetstone/amazon-location-discovery.git
@@ -158,19 +158,19 @@ jupyter notebook amazon-location-discovery.ipynb
 
 ## Research Applications
 
-### 🏛️ **Archaeological Research**
+### **Archaeological Research**
 - **Systematic surveys** of large geographical areas
 - **Predictive modeling** for archaeological site locations
 - **Cultural landscape** analysis and interpretation
 - **Heritage site** monitoring and protection
 
-### 🌍 **Environmental Science**
+### **Environmental Science**
 - **Land use change** detection and analysis
 - **Deforestation monitoring** in sensitive regions
 - **Biodiversity assessment** using remote sensing
 - **Climate impact** studies on archaeological sites
 
-### 🎓 **Educational Impact**
+### **Educational Impact**
 - **STEM education** through real-world applications
 - **Research methodology** training for students
 - **Interdisciplinary collaboration** between archaeology and data science
@@ -178,13 +178,13 @@ jupyter notebook amazon-location-discovery.ipynb
 
 ## Future Development
 
-### 🔮 **Planned Enhancements**
+### **Planned Enhancements**
 - **Deep learning integration** for pattern recognition
 - **Temporal analysis** using multi-year satellite data
 - **Ground truth validation** with field survey integration
 - **Real-time monitoring** systems for site protection
 
-### 🤝 **Collaboration Opportunities**
+### **Collaboration Opportunities**
 - **Archaeological institutions** for method validation
 - **Conservation organizations** for site protection
 - **Educational institutions** for research training
@@ -198,6 +198,6 @@ This project demonstrates how **data science can serve archaeology** and cultura
 - **Reproducible** following open science best practices
 - **Impactful** for real-world archaeological research and conservation
 
-[🛰️ Explore in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/amazon-location-discovery){: .btn .btn--primary}
-[📊 View Repository](https://github.com/charlesbwhetstone/amazon-location-discovery){: .btn .btn--info}
-[🔬 Read Documentation](https://github.com/charlesbwhetstone/amazon-location-discovery/blob/main/README.md){: .btn .btn--success}
+[ Explore in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/amazon-location-discovery){: .btn .btn--primary}
+[ View Repository](https://github.com/charlesbwhetstone/amazon-location-discovery){: .btn .btn--info}
+[ Read Documentation](https://github.com/charlesbwhetstone/amazon-location-discovery/blob/main/README.md){: .btn .btn--success}

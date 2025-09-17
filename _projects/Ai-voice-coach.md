@@ -38,36 +38,36 @@ An innovative **privacy-first journaling assistant** that transforms how people 
 
 ## Core Innovation
 
-### 🔐 **Privacy-First Design**
+### **Privacy-First Design**
 - **100% on-device processing** - no data ever leaves your device
 - **Offline-first architecture** - works without internet connectivity
 - **Zero cloud dependency** - complete user data sovereignty
 
-### 🎙️ **Advanced Speech Processing**
+### **Advanced Speech Processing**
 - **Multiple STT backends**: Whisper, Faster-Whisper, and Vosk
 - **Automatic device optimization**: GPU acceleration when available, CPU fallback
 - **Real-time transcription** with high accuracy across different accents and languages
 
-### 🧠 **Intelligent Analysis**
+### **Intelligent Analysis**
 - **Gemma 3n integration** via Unsloth for personalized coaching
 - **Emotion-aware journaling** with multimodal input support
 - **Contextual feedback** tailored to individual communication patterns
 
 ## Key Features
 
-### 🌟 **Multimodal Input Support**
+### **Multimodal Input Support**
 - **Voice recordings** with advanced speech-to-text
 - **Text entries** for traditional journaling
 - **Optional image integration** for visual context
 - **Flexible workflow** accommodating different user preferences
 
-### 🎯 **Personalized Coaching**
+### **Personalized Coaching**
 - **AI-powered insights** using state-of-the-art language models
 - **Emotional intelligence** with sentiment and tone analysis
 - **Actionable feedback** for personal development
 - **Adaptive responses** that learn from user interactions
 
-### 🔧 **Technical Excellence**
+### **Technical Excellence**
 - **Modular architecture** for easy feature extension
 - **Robust error handling** and graceful degradation
 - **Cross-platform compatibility** with automatic optimization
@@ -149,6 +149,6 @@ print("Analysis:", results)
 
 Released under **CC0 1.0 Universal (Public Domain Dedication)** as required by the competition, allowing unrestricted use, modification, and distribution.
 
-[🚀 Try in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/ai-voice-coach-with-multimodal-journaling){: .btn .btn--primary}
+[ Try in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/ai-voice-coach-with-multimodal-journaling){: .btn .btn--primary}
 [📱 View Repository](https://github.com/charlesbwhetstone/ai-voice-coach){: .btn .btn--info}
 [🏆 Competition Details](https://www.kaggle.com/competitions/gemma-3n-impact-challenge){: .btn .btn--success}

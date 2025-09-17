@@ -11,10 +11,10 @@ Here's a showcase of my data science and development projects. Each project demo
 
 ## Featured Creative Project
 
-### ⚡ Electric Crust Pizza Delivery Game 🍕
+### Electric Crust Pizza Delivery Game
 An electrifying interactive pizza delivery game built with HTML5 Canvas and JavaScript. Features power-ups, dynamic gameplay, and engaging visual effects.
 
-**[🎮 Play Electric Crust Pizza Game](/pizza-game/)**
+**[Play Electric Crust Pizza Game](/pizza-game/)**
 
 ---
 
