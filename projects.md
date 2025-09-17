@@ -5,6 +5,7 @@ layout: collection
 collection: projects
 entries_layout: grid
 classes: wide
+author_profile: true
 ---
 
 Here's a showcase of my data science and development projects. Each project demonstrates different aspects of data analysis, machine learning, and practical problem-solving.

@@ -13,12 +13,19 @@ minimal_mistakes_skin: "dark"
 # Site Author
 author:
   name: "Charles Whetstone"
-  bio: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. The truth is out there, afterall!"
+  bio: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. *'Your scientists were so preoccupied with whether or not they could, they didn't stop to think if they should.'* - Jurassic Park"
   location: "United States"
+  email: "charlesbwhetstone@icloud.com"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/charlesbwhetstone"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/charlesbwhetstone"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:charlesbwhetstone@icloud.com"
 
 # Build settings
 markdown: kramdown
