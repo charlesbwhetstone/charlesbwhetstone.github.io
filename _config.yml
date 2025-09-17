@@ -47,6 +47,12 @@ tag_archive:
   type: liquid
   path: /tags/
 
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:name/
+
 # Defaults
 defaults:
   - scope:
@@ -58,3 +64,12 @@ defaults:
       read_time: true
       share: true
       related: true
+  - scope:
+      path: "_projects"
+      type: projects
+    values:
+      layout: single
+      author_profile: true
+      share: true
+      sidebar:
+        nav: "projects"
