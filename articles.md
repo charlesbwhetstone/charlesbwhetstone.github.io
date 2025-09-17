@@ -5,13 +5,6 @@ layout: single
 author_profile: true
 ---
 
----
-permalink: /articles/
-title: "Technical Articles"
-layout: single
-author_profile: true
----
-
 # Latest Articles & Insights
 
 I regularly write about data science, machine learning, and technology trends on [Medium](https://groundcontrolcharles.medium.com/).
