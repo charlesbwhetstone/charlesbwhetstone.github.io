@@ -131,7 +131,7 @@ results = analyze_with_gemma(text)
 print("Analysis:", results)
 ```
 
-{% include gallery caption="Screenshots showing the voice transcription interface, emotion analysis, and multimodal input capabilities." %}
+<!-- Gallery functionality not available in current theme -->
 
 ## Impact & Applications
 

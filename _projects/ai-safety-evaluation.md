@@ -153,7 +153,7 @@ ai-safety-evaluation/
 - **Compliance verification** with safety standards
 - **Continuous monitoring** framework for deployed models
 
-{% include gallery caption="Visualization of safety evaluation results, risk analysis dashboards, and findings categorization." %}
+<!-- Gallery functionality not available in current theme -->
 
 ## Methodology & Reproducibility
 

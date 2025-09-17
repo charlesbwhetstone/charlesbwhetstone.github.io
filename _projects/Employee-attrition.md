@@ -94,7 +94,7 @@ The project successfully delivered:
 - **Feature importance** revealing key drivers of attrition
 - **Cost savings** through reduced turnover and recruitment costs
 
-{% include gallery caption="Project visualization gallery showing data exploration and model results." %}
+<!-- Gallery functionality not available in current theme -->
 
 ## Learn More
 
