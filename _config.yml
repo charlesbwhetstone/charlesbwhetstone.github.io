@@ -3,10 +3,9 @@ title: "Home"
 description: "Forensic Engineer and Curious Human"
 url: "https://charlesbwhetstone.github.io"
 baseurl: ""
-locale: "en-US"
 repository: "charlesbwhetstone/charlesbwhetstone.github.io"
 
-# Theme Configuration
+# Theme Configuration  
 remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "dark"
 
@@ -14,67 +13,15 @@ minimal_mistakes_skin: "dark"
 author:
   name: "Charles Whetstone"
   bio: "Curious Human"
-  location: "United States"
-  email: "charlesbwhetstone@icloud.com"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/charlesbwhetstone"
-    - label: "LinkedIn"
-      icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/charlesbwhetstone"
 
 # Build settings
 markdown: kramdown
-highlighter: rouge
-permalink: /:categories/:title/
-paginate: 5
-paginate_path: /blog/page:num/
-future: false
-
-# Plugins
 plugins:
+  - jekyll-include-cache
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-gist
   - jekyll-feed
-  - jekyll-include-cache
-  - jekyll-remote-theme
-
-# Search
-search: true
-
-# Archives
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
-
-# Collections
-collections:
-  projects:
-    output: true
-    permalink: /:collection/:name/
-
-# Defaults
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      share: true
-      related: true
-  - scope:
-      path: "_projects"
-      type: projects
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      sidebar:
-        nav: "projects"
