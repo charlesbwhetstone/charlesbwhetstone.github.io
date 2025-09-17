@@ -1,12 +1,8 @@
 source "https://rubygems.org"
 
-# Use Jekyll directly instead of github-pages gem to avoid theme conflicts
-gem "jekyll", "~> 3.9.0"
+# Use github-pages gem for GitHub Pages compatibility
+gem "github-pages", group: :jekyll_plugins
 gem "jekyll-include-cache", group: :jekyll_plugins
-gem "jekyll-paginate", group: :jekyll_plugins
-gem "jekyll-sitemap", group: :jekyll_plugins
-gem "jekyll-gist", group: :jekyll_plugins
-gem "jekyll-feed", group: :jekyll_plugins
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
