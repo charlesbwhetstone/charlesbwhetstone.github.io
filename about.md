@@ -3,7 +3,21 @@ permalink: /about/
 title: "About Me"
 layout: single
 author_profile: true
+classes: wide
 ---
+
+<div class="about-two-column">
+  <div class="profile-column">
+    <div class="profile-photo-placeholder">
+      Profile Photo Coming Soon
+    </div>
+  </div>
+  <div class="content-column">
+    <div class="video-embed">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
 
 I'm a Forensic Engineer with an expertise in eDiscovery. In my work life, I enjoy transforming complex data into actionable insights that span across the ever evolving landscape of machine learning, predictive analytics, and analysis. I'm quite fascinated with the use of Artificial Intelligence and it can enhance my professional and personal life. 
 

@@ -1,11 +1,13 @@
 main:
   - title: "About"
     url: /about/
-  - title: "Projects"
+  - title: "Data Projects"
     url: /projects/
+  - title: "Music and Beyond"
+    url: /music/
   - title: "Blog"
     url: /blog/
-  - title: "Electric Crust Game ⚡"
+  - title: "Electric Crust Game"
     url: /pizza-game/
   - title: "Articles"
     url: /articles/

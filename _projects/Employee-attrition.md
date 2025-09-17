@@ -101,5 +101,5 @@ The project successfully delivered:
 This project demonstrates the inspiration behind the **Electric Crust Pizza Delivery Game**, showcasing how data science insights can inform creative business solutions.
 
 [ View Live Report](https://charlesbwhetstone.github.io/Employee-Attrition/report.html){: .btn .btn--primary}
-[🔗 GitHub Repository](https://github.com/charlesbwhetstone/Employee-Attrition){: .btn .btn--info}
+[GitHub Repository](https://github.com/charlesbwhetstone/Employee-Attrition){: .btn .btn--info}
 [ Open in Kaggle](https://www.kaggle.com/code/charlesbwhetstone/electric-crust-case-study-employee-attrition/edit/run/189223159){: .btn .btn--success}
