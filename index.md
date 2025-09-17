@@ -1,7 +1,7 @@
 ---
 layout: home
 title: "The Truth Is Out There"
-excerpt: "Forensic Engineer and forever a curious human who loves to gain insights from the blob of data as we know it and passionate about building meaningful connections while discovering the unknown. The truth is out there, afterall!"
+excerpt: "Welcome to my site. My name is Charles Whetstone, and I'm a Forensic Engineer with a background in eDiscovery. This website is a collection of my musings on various topics from data science to music and vinyl finds to random curiosities that catch my attention. Join me as I explore the unknown and share insights from this blob of data we call life."
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
@@ -42,10 +42,6 @@ feature_row:
 ---
 
 {% include feature_row %}
-
-## Welcome
-
-Welcome to my site. My name is Charles Whetstone, and I'm a Forensic Engineer with a background in eDiscovery. This website is a somewhat organized collection of data that represents my interests and musings—from data science to music to glimpses of my family life.
 
 ## Latest Blog Posts
 
