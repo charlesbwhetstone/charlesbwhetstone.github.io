@@ -64,7 +64,7 @@ Occasionally I'll write about data science, machine learning, and technology tre
 
 <div class="articles-grid">
   <div class="article-card">
-    <div class="article-image"></div>
+    <img src="/assets/images/article-spotify.jpg" alt="Spotify Odyssey" class="article-image">
     <div class="article-content">
       <h3 class="article-title">
         <a href="https://groundcontrolcharles.medium.com/spotify-odyssey-69362a837ed4" target="_blank">
@@ -79,7 +79,7 @@ Occasionally I'll write about data science, machine learning, and technology tre
   </div>
 
   <div class="article-card">
-    <div class="article-image"></div>
+    <img src="/assets/images/article-bias.jpg" alt="AI Bias in eDiscovery" class="article-image">
     <div class="article-content">
       <h3 class="article-title">
         <a href="https://groundcontrolcharles.medium.com/mitigating-artificial-intelligence-bias-in-ediscovery-4038ddd2b313" target="_blank">
