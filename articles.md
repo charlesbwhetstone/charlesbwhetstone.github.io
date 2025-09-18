@@ -60,7 +60,7 @@ author_profile: true
 }
 </style>
 
-I regularly write about data science, machine learning, and technology trends on [Medium](https://groundcontrolcharles.medium.com/).
+Occasionally I'll write about data science, machine learning, and technology trends on [Medium](https://groundcontrolcharles.medium.com/).
 
 <div class="articles-grid">
   <div class="article-card">
