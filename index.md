@@ -29,11 +29,11 @@ navigation_sections:
     alt: "Music and Beyond"
     title: "Music and Beyond"
     url: "/music/"
-  - image_path: /assets/images/index-electriccrust.JPG
+  - image_path: /assets/images/index-electriccrust.jpg
     alt: "Electric Crust Pizza Game"
     title: "Electric Crust Pizza Game"
     url: "/pizza-game/"
-  - image_path: /assets/images/index-blog.JPG
+  - image_path: /assets/images/index-articles.jpg
     alt: "Articles"
     title: "Articles"
     url: "/articles/"
