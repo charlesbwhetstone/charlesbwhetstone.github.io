@@ -58,7 +58,7 @@ In my human life, I love spending time with my amazing family, collecting record
     </div>
     <div class="creative-content">
       <h4><a href="https://swampcityrecs.com/" target="_blank">Swamp City Records</a></h4>
-      <p>Personal record label - I really need to push out some music, eh?</p>
+      <p>I really need to push out some music, eh?</p>
     </div>
   </div>
   
