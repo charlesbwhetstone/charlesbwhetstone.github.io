@@ -31,18 +31,75 @@ In my human life, I love spending time with my amazing family, collecting record
 
 ## Creative Projects
 
-- ![Medium Articles](/assets/images/creative-medium.jpg){: .creative-icon} [Medium Articles](https://groundcontrolcharles.medium.com)
-- ![The Boom Bang](/assets/images/creative-boombang.jpg){: .creative-icon} [Creating Music - The Boom Bang](https://www.theboombangisdead.com)
-- ![Swamp City Records](/assets/images/creative-swampcity.jpg){: .creative-icon} [Personal Record Label - Swamp City Records](https://swampcityrecs.com/) - I really need to push out some music, eh?
-- ![Photography](/assets/images/creative-photography.jpg){: .creative-icon} Taking pictures of random things
+<div class="creative-projects-grid">
+  <div class="creative-card">
+    <a href="https://groundcontrolcharles.medium.com" target="_blank">
+      <img src="/assets/images/creative-medium.jpg" alt="Medium Articles">
+      <h4>Medium Articles</h4>
+    </a>
+  </div>
+  <div class="creative-card">
+    <a href="https://www.theboombangisdead.com" target="_blank">
+      <img src="/assets/images/creative-boombang.JPG" alt="The Boom Bang">
+      <h4>Creating Music - The Boom Bang</h4>
+    </a>
+  </div>
+  <div class="creative-card">
+    <a href="https://swampcityrecs.com/" target="_blank">
+      <img src="/assets/images/creative-swampcity.jpg" alt="Swamp City Records">
+      <h4>Personal Record Label - Swamp City Records</h4>
+      <p>I really need to push out some music, eh?</p>
+    </a>
+  </div>
+  <div class="creative-card">
+    <img src="/assets/images/creative-photography.jpg" alt="Photography">
+    <h4>Taking pictures of random things</h4>
+  </div>
+</div>
 
 <style>
-.creative-icon {
-  width: 32px;
-  height: 32px;
+.creative-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.creative-card {
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+  background: #2a2a2a;
+  padding: 1rem;
+}
+.creative-card:hover {
+  transform: translateY(-5px);
+}
+.creative-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
   border-radius: 4px;
-  margin-right: 8px;
-  vertical-align: middle;
+  margin-bottom: 0.5rem;
+}
+.creative-card h4 {
+  margin: 0.5rem 0;
+  color: #fff;
+  font-size: 1rem;
+}
+.creative-card p {
+  margin: 0.5rem 0 0 0;
+  color: #ccc;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.creative-card a {
+  text-decoration: none;
+  color: inherit;
+}
+.creative-card a:hover h4 {
+  color: #7c4dff;
 }
 </style>
 
