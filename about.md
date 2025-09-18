@@ -31,75 +31,111 @@ In my human life, I love spending time with my amazing family, collecting record
 
 ## Creative Projects
 
-<div class="creative-projects-grid">
-  <div class="creative-card">
-    <a href="https://groundcontrolcharles.medium.com" target="_blank">
+<div class="creative-showcase">
+  <div class="creative-item">
+    <div class="creative-image-container">
       <img src="/assets/images/creative-medium.jpg" alt="Medium Articles">
-      <h4>Medium Articles</h4>
-    </a>
+    </div>
+    <div class="creative-content">
+      <h4><a href="https://groundcontrolcharles.medium.com" target="_blank">Medium Articles</a></h4>
+      <p>Writing about data science, machine learning, and technology trends</p>
+    </div>
   </div>
-  <div class="creative-card">
-    <a href="https://www.theboombangisdead.com" target="_blank">
-      <img src="/assets/images/creative-boombang.JPG" alt="The Boom Bang">
-      <h4>Creating Music - The Boom Bang</h4>
-    </a>
+  
+  <div class="creative-item">
+    <div class="creative-image-container">
+      <img src="/assets/images/creative-boombang.jpg" alt="The Boom Bang">
+    </div>
+    <div class="creative-content">
+      <h4><a href="https://www.theboombangisdead.com" target="_blank">The Boom Bang</a></h4>
+      <p>Creating music and collaborative projects</p>
+    </div>
   </div>
-  <div class="creative-card">
-    <a href="https://swampcityrecs.com/" target="_blank">
+  
+  <div class="creative-item">
+    <div class="creative-image-container">
       <img src="/assets/images/creative-swampcity.jpg" alt="Swamp City Records">
-      <h4>Personal Record Label - Swamp City Records</h4>
-      <p>I really need to push out some music, eh?</p>
-    </a>
+    </div>
+    <div class="creative-content">
+      <h4><a href="https://swampcityrecs.com/" target="_blank">Swamp City Records</a></h4>
+      <p>Personal record label - I really need to push out some music, eh?</p>
+    </div>
   </div>
-  <div class="creative-card">
-    <img src="/assets/images/creative-photography.jpg" alt="Photography">
-    <h4>Taking pictures of random things</h4>
+  
+  <div class="creative-item">
+    <div class="creative-image-container">
+      <img src="/assets/images/creative-photography.jpg" alt="Photography">
+    </div>
+    <div class="creative-content">
+      <h4>Photography</h4>
+      <p>Taking pictures of random things</p>
+    </div>
   </div>
 </div>
 
 <style>
-.creative-projects-grid {
+.creative-showcase {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
   margin: 2rem 0;
 }
-.creative-card {
-  text-align: center;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease;
+
+.creative-item {
   background: #2a2a2a;
-  padding: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
 }
-.creative-card:hover {
-  transform: translateY(-5px);
+
+.creative-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.6);
 }
-.creative-card img {
+
+.creative-image-container {
   width: 100%;
-  height: 120px;
+  height: 180px;
+  overflow: hidden;
+}
+
+.creative-image-container img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
 }
-.creative-card h4 {
-  margin: 0.5rem 0;
+
+.creative-item:hover .creative-image-container img {
+  transform: scale(1.05);
+}
+
+.creative-content {
+  padding: 1.5rem;
+}
+
+.creative-content h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
   color: #fff;
-  font-size: 1rem;
 }
-.creative-card p {
-  margin: 0.5rem 0 0 0;
-  color: #ccc;
-  font-size: 0.9rem;
-  font-style: italic;
-}
-.creative-card a {
+
+.creative-content h4 a {
+  color: #fff;
   text-decoration: none;
-  color: inherit;
+  transition: color 0.3s ease;
 }
-.creative-card a:hover h4 {
+
+.creative-content h4 a:hover {
   color: #7c4dff;
+}
+
+.creative-content p {
+  margin: 0;
+  color: #ccc;
+  line-height: 1.4;
+  font-size: 0.95rem;
 }
 </style>
 
