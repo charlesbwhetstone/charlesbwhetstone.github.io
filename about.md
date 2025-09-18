@@ -31,10 +31,20 @@ In my human life, I love spending time with my amazing family, collecting record
 
 ## Creative Projects
 
-- [Medium Articles](https://groundcontrolcharles.medium.com)
-- [Creating Music - The Boom Bang](https://www.theboombangisdead.com)
-- [Personal Record Label - Swamp City Records](https://swampcityrecs.com/) - I really need to push out some music, eh?
-- Taking pictures of random things
+- ![Medium Articles](/assets/images/creative-medium.jpg){: .creative-icon} [Medium Articles](https://groundcontrolcharles.medium.com)
+- ![The Boom Bang](/assets/images/creative-boombang.jpg){: .creative-icon} [Creating Music - The Boom Bang](https://www.theboombangisdead.com)
+- ![Swamp City Records](/assets/images/creative-swampcity.jpg){: .creative-icon} [Personal Record Label - Swamp City Records](https://swampcityrecs.com/) - I really need to push out some music, eh?
+- ![Photography](/assets/images/creative-photography.jpg){: .creative-icon} Taking pictures of random things
+
+<style>
+.creative-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+</style>
 
 Another hobby I've recently picked up is creating interactive experiences such as building out an endless runner arcade game for this website. This game is inspired by an attrition related case study for a fictional company called Electric Crust, which can be seen in my Projects page. 
 
