@@ -96,7 +96,7 @@ In my human life, I love spending time with my amazing family, collecting record
 
 .creative-image-container {
   width: 100%;
-  height: 180px;
+  height: 250px;
   overflow: hidden;
 }
 
