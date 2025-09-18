@@ -12,11 +12,27 @@ minimal_mistakes_skin: "dark"
 # Site Author
 author:
   name: "Charles Whetstone"
-  bio: "Curious Human"
+  avatar: "/assets/images/Profile.jpeg"
+  bio: "Music loving, tattooed curious human, who likes cool things."
   links:
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/charlesbwhetstone"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/charlesbwhetstone"
+    - label: "Kaggle"
+      icon: "fab fa-fw fa-kaggle"
+      url: "https://www.kaggle.com/charlesbwhetstone"
+    - label: "Medium"
+      icon: "fab fa-fw fa-medium"
+      url: "https://groundcontrolcharles.medium.com"
+    - label: "The Boom Bang"
+      icon: "fas fa-fw fa-music"
+      url: "https://theboombangisdead.com"
+    - label: "RSS Feed"
+      icon: "fas fa-fw fa-rss-square"
+      url: "/feed.xml"
 
 # Build settings
 markdown: kramdown
@@ -25,3 +41,41 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-feed
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: single
+      author_profile: true
+      share: true
+
+# Footer Configuration
+footer:
+  links:
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://linkedin.com/in/charlesbwhetstone"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/charlesbwhetstone"
+    - label: "Kaggle"
+      icon: "fab fa-fw fa-kaggle"
+      url: "https://www.kaggle.com/charlesbwhetstone"
+    - label: "Medium"
+      icon: "fab fa-fw fa-medium"
+      url: "https://groundcontrolcharles.medium.com"
+    - label: "The Boom Bang"
+      icon: "fas fa-fw fa-music"
+      url: "https://theboombangisdead.com"
+    - label: "RSS Feed"
+      icon: "fas fa-fw fa-rss-square"
+      url: "/feed.xml"

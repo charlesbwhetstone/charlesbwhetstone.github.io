@@ -1,61 +1,84 @@
 ---
 layout: splash
-title: "The Truth Is Out There"
-excerpt: "Welcome to my site. My name is Charles Whetstone, and I'm a Forensic Engineer with a background in eDiscovery."
+title: "hello world"
+excerpt: "Welcome to my site. My name is Charles Whetstone, but you can call me Viper. I'm a Forensic Engineer with a background in eDiscovery."
 header:
   overlay_color: "#000"
-  overlay_filter: "0.5"
+  overlay_filter: "0.8"
+  overlay_image: /assets/images/index-header.jpg
   actions:
     - label: "Get to Know Me"
       url: "/about/"
       btn_class: "btn--primary"
-    - label: "Electric Crust Pizza Game"
-      url: "/pizza-game/"
-      btn_class: "btn--info"
 intro: 
-  - excerpt: "Welcome to my site. My name is Charles Whetstone, and I'm a Forensic Engineer with a background in eDiscovery. This website is a collection of my musings on various topics from data science to music and vinyl finds to random curiosities that catch my attention. Join me as I explore the unknown and share insights from this blob of data we call life."
-feature_row:
-  - title: "About Me"
-    excerpt: "My digital ramblings, passions, hobbies, and what makes me a curious individual."
+  - excerpt: "Welcome to my site. My name is Charles Whetstone, but you can call me Viper. I'm a Forensic Engineer with a background in eDiscovery."
+navigation_sections:
+  - image_path: /assets/images/index-aboutme.JPG
+    alt: "About Me"
+    title: "About Me"
     url: "/about/"
-    btn_label: "Learn More"
-    btn_class: "btn--primary"
-  - title: "Data Projects"
-    excerpt: "Explore my data science and analytics projects including AI safety evaluation, voice coaching systems, and more."
+  - image_path: /assets/images/index-blog.JPG
+    alt: "Blog"
+    title: "Blog"
+    url: "/blog/"
+  - image_path: /assets/images/index-dataprojects.JPG
+    alt: "Data Projects"
+    title: "Data Projects"
     url: "/projects/"
-    btn_label: "View Projects"
-    btn_class: "btn--primary"
-  - title: "Music & Beyond"
-    excerpt: "Discover my musical interests, vinyl finds, and creative adventures beyond the data world."
+  - image_path: /assets/images/index-musicandbeyond.JPG
+    alt: "Music and Beyond"
+    title: "Music and Beyond"
     url: "/music/"
-    btn_label: "Explore"
-    btn_class: "btn--info"
-  - title: "Electric Crust Pizza Game"
-    excerpt: "Try my electrifying pizza delivery game! A fun creative project showcasing interactive development."
-    url: "/pizza-game/"
-    btn_label: "Play Game"
-    btn_class: "btn--success"
+  - image_path: /assets/images/index-electriccrust.JPG
+    alt: "Articles"
+    title: "Articles"
+    url: "/articles/"
 ---
+
+<style>
+.intro .archive__item-excerpt {
+  text-align: left !important;
+}
+.navigation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+.nav-card {
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+.nav-card:hover {
+  transform: translateY(-5px);
+}
+.nav-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.nav-card h3 {
+  margin: 1rem 0;
+  color: #fff;
+}
+.nav-card a {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
 
 {% include feature_row id="intro" type="center" %}
 
-{% include feature_row %}
-
-## Welcome to My Digital Universe
-
-This website is a collection of my explorations across data science, music, technology, and the random curiosities that catch my attention. Join me as I navigate through this blob of data we call life!
-
-### Latest from the Blog
-
-<div class="recent-posts">
-{% for post in site.posts limit:2 %}
-  <div class="post-preview">
-    <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-    <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
-    <p>{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
-    <a href="{{ post.url | relative_url }}" class="btn btn--primary">Read More</a>
+<div class="navigation-grid">
+{% for item in page.navigation_sections %}
+  <div class="nav-card">
+    <a href="{{ item.url | relative_url }}">
+      <img src="{{ item.image_path | relative_url }}" alt="{{ item.alt }}">
+      <h3>{{ item.title }}</h3>
+    </a>
   </div>
 {% endfor %}
 </div>
-
-<p><a href="/blog/" class="btn btn--info">View All Blog Posts →</a></p>
