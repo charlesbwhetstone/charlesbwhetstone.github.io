@@ -30,6 +30,10 @@ navigation_sections:
     title: "Music and Beyond"
     url: "/music/"
   - image_path: /assets/images/index-electriccrust.JPG
+    alt: "Electric Crust Pizza Game"
+    title: "Electric Crust Pizza Game"
+    url: "/pizza-game/"
+  - image_path: /assets/images/index-blog.JPG
     alt: "Articles"
     title: "Articles"
     url: "/articles/"

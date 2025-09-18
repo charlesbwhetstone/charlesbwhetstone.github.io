@@ -1,0 +1,24 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+/* Custom CSS to lighten navigation image overlays */
+.feature__item .archive__item-teaser::before {
+  opacity: 0.2 !important; /* Reduced from default ~0.5 to lighter 0.2 */
+}
+
+/* Ensure header/splash images are not affected */
+.page__hero .archive__item-teaser::before,
+.page__hero-image::before {
+  opacity: 0.8 !important; /* Keep header overlay as is */
+}
+
+/* Optional: Adjust hover effect for navigation images */
+.feature__item .archive__item-teaser:hover::before {
+  opacity: 0.1 !important; /* Even lighter on hover for better interaction */
+}
