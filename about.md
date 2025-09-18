@@ -32,8 +32,9 @@ In my human life, I love spending time with my amazing family, collecting record
 ## Creative Projects
 
 - Medium Articles www.groundcontrolcharles.medium.com
-- Creating Music (https://www.theboombangisdead.com) -- this needs to be a URL Creating music with my buds
-- Photography and Videography
+- Creating Music (https://www.theboombangisdead.com) The Boom Bang
+- Personal Record Label - I really need to push out some music, eh? https://swampcityrecs.com/
+- Taking pictures of random things
 
 Another hobby I've recently picked up is creating interactive experiences such as building out an endless runner arcade game for this website. This game is inspired by an attrition related case study for a fictional company called Electric Crust, which can be seen in my Projects page. 
 
