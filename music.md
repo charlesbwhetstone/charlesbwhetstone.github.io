@@ -4,8 +4,9 @@ title: "Music and Beyond"
 layout: single
 author_profile: true
 header:
-  overlay_color: "#000"
+  overlay_image: /assets/images/creative-boombang.JPG
   overlay_filter: "0.5"
+  caption: "The Boom Bang - Making noise since forever"
 ---
 
 # Music and Beyond
