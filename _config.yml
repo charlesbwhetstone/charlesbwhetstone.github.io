@@ -76,6 +76,3 @@ footer:
     - label: "The Boom Bang"
       icon: "fas fa-fw fa-music"
       url: "https://theboombangisdead.com"
-    - label: "RSS Feed"
-      icon: "fas fa-fw fa-rss-square"
-      url: "/feed.xml"
