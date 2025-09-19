@@ -1,6 +1,7 @@
 ---
 permalink: /music/
 title: "Music and Beyond"
+excerpt: "My musical misadventures and other curiosities"
 layout: single
 author_profile: true
 header:
@@ -19,8 +20,6 @@ header:
 </style>
 
 # Music and Beyond
-
-*My musical misadventures and other curiosities*
 
 Welcome to my musical world and creative endeavors beyond data science.
 
