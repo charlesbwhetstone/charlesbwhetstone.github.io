@@ -96,8 +96,9 @@ In my human life, I love spending time with my amazing family, collecting record
 
 .creative-image-container {
   width: 100%;
-  height: 250px;
+  height: 168px; /* 5:3 ratio based on 280px min width = 168px height */
   overflow: hidden;
+  position: relative;
 }
 
 .creative-image-container img {
@@ -105,6 +106,7 @@ In my human life, I love spending time with my amazing family, collecting record
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  display: block;
 }
 
 .creative-item:hover .creative-image-container img {
