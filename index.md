@@ -1,6 +1,6 @@
 ---
 layout: splash
-title: "hello world"
+title: "hello world."
 excerpt: "Welcome to my site. My name is Charles Whetstone, but you can call me Viper. I'm a Forensic Engineer with a background in eDiscovery."
 header:
   overlay_color: "#000"
