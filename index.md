@@ -10,8 +10,11 @@ header:
     - label: "Get to Know Me"
       url: "/about/"
       btn_class: "btn--primary"
+    - label: "Electric Crust Pizza Game"
+      url: "/pizza-game/"
+      btn_class: "btn--info"
 intro: 
-  - excerpt: "Welcome to my site. My name is Charles Whetstone, but you can call me Viper. I'm a Forensic Engineer with a background in eDiscovery."
+  - excerpt: "When some wild-eyed, eight-foot-tall maniac grabs your neck, taps the back of your favorite head up against the barroom wall, and he looks you crooked in the eye and he asks you if ya paid your dues, you just stare that big sucker right back in the eye, and you remember what ol' Jack Burton always says at a time like that: 'Have ya paid your dues, Jack?' 'Yessir, the check is in the mail.' - Jack Burton, Big Trouble in Little China"
 navigation_sections:
   - image_path: /assets/images/index-aboutme.JPG
     alt: "About Me"
