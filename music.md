@@ -5,11 +5,22 @@ layout: single
 author_profile: true
 header:
   overlay_image: /assets/images/creative-boombang.JPG
-  overlay_filter: "0.5"
+  overlay_filter: "0.8"
   caption: "The Boom Bang - Making noise since forever"
 ---
 
+<style>
+.page__hero {
+  min-height: 60vh !important;
+}
+.page__hero .page__title {
+  font-size: 3rem !important;
+}
+</style>
+
 # Music and Beyond
+
+*My musical misadventures and other curiosities*
 
 Welcome to my musical world and creative endeavors beyond data science.
 
