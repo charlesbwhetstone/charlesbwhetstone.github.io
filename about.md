@@ -44,7 +44,7 @@ In my human life, I love spending time with my amazing family, collecting record
   
   <div class="creative-item">
     <div class="creative-image-container">
-      <img src="/assets/images/creative-boombang.jpg" alt="The Boom Bang">
+      <img src="/assets/images/creative-boombang.JPG" alt="The Boom Bang">
     </div>
     <div class="creative-content">
       <h4><a href="https://www.theboombangisdead.com" target="_blank">The Boom Bang</a></h4>
