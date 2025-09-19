@@ -6,7 +6,7 @@ author_profile: true
 classes: wide
 ---
 
-# Latest Updates & Thoughts
+# Latest Blog Posts & Updates
 
 Here I share updates on projects, thoughts on technology, life experiences, and whatever else comes to mind. Think of it as a more casual space compared to my technical articles.
 
