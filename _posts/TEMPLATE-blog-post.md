@@ -11,6 +11,8 @@ related: true
 excerpt: "A brief summary of what this post is about - this appears in previews and social media shares."
 ---
 
+![Eureka Landscape Header](/assets/images/blog-eureka-landscapeheader.JPG)
+
 ## Introduction
 
 Start with a brief hook or introduction to what you'll be discussing in this post. This could be:
@@ -18,9 +20,8 @@ Start with a brief hook or introduction to what you'll be discussing in this pos
 - Context about what you've been working on
 - A personal anecdote that ties into the main topic
 
-<!-- Example: Add an image inline -->
-![Alt text for accessibility](/assets/images/your-inline-image.jpg)
-*Optional caption for the image*
+<img src="/assets/images/blog-eurekaus.JPG" alt="Eureka US" style="width: 60%; height: auto; display: block; margin: 20px auto;">
+*Caption for your Eureka US image*
 
 ## Main Content Section 1
 
