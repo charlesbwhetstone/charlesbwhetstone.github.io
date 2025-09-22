@@ -3324,27 +3324,13 @@ ${JSON.stringify(data, null, 2)}
       const pepperoniSpots = [
         // Center area
         [0, 0],
-        // Inner ring
-        [-radius * 0.25, -radius * 0.25],
+        // Inner ring - key positions only
         [radius * 0.25, -radius * 0.25],
         [radius * 0.3, 0],
-        [radius * 0.25, radius * 0.25],
         [-radius * 0.25, radius * 0.25],
-        [-radius * 0.3, 0],
-        // Outer ring
-        [-radius * 0.5, -radius * 0.4],
+        // Outer ring - select positions for balance
         [0, -radius * 0.55],
-        [radius * 0.5, -radius * 0.4],
-        [radius * 0.6, 0],
-        [radius * 0.5, radius * 0.4],
-        [0, radius * 0.55],
-        [-radius * 0.5, radius * 0.4],
-        [-radius * 0.6, 0],
-        // Additional scattered pieces
-        [radius * 0.15, -radius * 0.45],
-        [-radius * 0.15, radius * 0.45],
-        [radius * 0.45, radius * 0.15],
-        [-radius * 0.45, -radius * 0.15]
+        [radius * 0.5, radius * 0.4]
       ];
       
       // Draw simple pepperoni circles
