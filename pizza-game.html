@@ -3324,7 +3324,7 @@ ${JSON.stringify(data, null, 2)}
       const pepperoniSpots = [
         // Center area - slightly off-center
         [radius * 0.05, -radius * 0.08],
-        // Scattered inner area
+        // Scattered inner area - better distributed
         [-radius * 0.2, -radius * 0.15],
         [radius * 0.18, -radius * 0.28],
         [radius * 0.35, -radius * 0.05],
@@ -3332,6 +3332,9 @@ ${JSON.stringify(data, null, 2)}
         [-radius * 0.15, radius * 0.25],
         [-radius * 0.38, radius * 0.12],
         [-radius * 0.28, -radius * 0.35],
+        // Fill in sparse areas for better coverage
+        [radius * 0.42, radius * 0.15],
+        [-radius * 0.08, -radius * 0.42],
         // Outer scattered positions
         [-radius * 0.45, -radius * 0.52],
         [radius * 0.12, -radius * 0.48],
