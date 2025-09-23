@@ -3320,29 +3320,30 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.fillStyle = '#cc3333';
       this.ctx.shadowBlur = 0;
       
-      // Natural pepperoni distribution - more random and organic like real pizza
+      // Natural pepperoni distribution - well-spaced and evenly distributed
       const pepperoniSpots = [
-        // Center area - slightly off-center
-        [radius * 0.05, -radius * 0.08],
-        // Scattered inner area - better distributed
-        [-radius * 0.2, -radius * 0.15],
-        [radius * 0.18, -radius * 0.28],
-        [radius * 0.35, -radius * 0.05],
-        [radius * 0.22, radius * 0.32],
-        [-radius * 0.15, radius * 0.25],
-        [-radius * 0.38, radius * 0.12],
-        [-radius * 0.28, -radius * 0.35],
-        // Fill in sparse areas for better coverage
-        [radius * 0.42, radius * 0.15],
-        [-radius * 0.08, -radius * 0.42],
-        // Outer scattered positions
-        [-radius * 0.45, -radius * 0.52],
-        [radius * 0.12, -radius * 0.48],
-        [radius * 0.58, -radius * 0.25],
-        [radius * 0.52, radius * 0.38],
-        [radius * 0.15, radius * 0.55],
-        [-radius * 0.32, radius * 0.48],
-        [-radius * 0.55, radius * 0.22]
+        // Center-ish area (slightly off center)
+        [radius * 0.08, radius * 0.12],
+        // Inner zone - well spaced
+        [-radius * 0.18, -radius * 0.32],
+        [radius * 0.35, -radius * 0.18],
+        [radius * 0.28, radius * 0.38],
+        [-radius * 0.32, radius * 0.22],
+        [-radius * 0.42, -radius * 0.08],
+        // Mid zone - filling gaps
+        [radius * 0.08, -radius * 0.52],
+        [radius * 0.55, radius * 0.08],
+        [-radius * 0.08, radius * 0.48],
+        [-radius * 0.58, -radius * 0.35],
+        // Outer zone - edge coverage
+        [radius * 0.45, -radius * 0.42],
+        [radius * 0.25, radius * 0.62],
+        [-radius * 0.22, -radius * 0.58],
+        [-radius * 0.48, radius * 0.45],
+        [radius * 0.62, -radius * 0.15],
+        // Final scattered pieces for full coverage
+        [-radius * 0.65, radius * 0.05],
+        [radius * 0.12, -radius * 0.28]
       ];
       
       // Draw simple pepperoni circles
