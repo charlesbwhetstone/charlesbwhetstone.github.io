@@ -3320,26 +3320,26 @@ ${JSON.stringify(data, null, 2)}
       this.ctx.fillStyle = '#cc3333';
       this.ctx.shadowBlur = 0;
       
-      // Traditional pepperoni distribution across the whole pizza
+      // Natural pepperoni distribution - more random and organic like real pizza
       const pepperoniSpots = [
-        // Center area
-        [0, 0],
-        // Inner ring - complete coverage
-        [-radius * 0.25, -radius * 0.25],
-        [radius * 0.25, -radius * 0.25],
-        [radius * 0.3, 0],
-        [radius * 0.25, radius * 0.25],
-        [-radius * 0.25, radius * 0.25],
-        [-radius * 0.3, 0],
-        // Outer ring - expanded for fuller coverage
-        [-radius * 0.5, -radius * 0.4],
-        [0, -radius * 0.55],
-        [radius * 0.5, -radius * 0.4],
-        [radius * 0.6, 0],
-        [radius * 0.5, radius * 0.4],
-        [0, radius * 0.55],
-        [-radius * 0.5, radius * 0.4],
-        [-radius * 0.6, 0]
+        // Center area - slightly off-center
+        [radius * 0.05, -radius * 0.08],
+        // Scattered inner area
+        [-radius * 0.2, -radius * 0.15],
+        [radius * 0.18, -radius * 0.28],
+        [radius * 0.35, -radius * 0.05],
+        [radius * 0.22, radius * 0.32],
+        [-radius * 0.15, radius * 0.25],
+        [-radius * 0.38, radius * 0.12],
+        [-radius * 0.28, -radius * 0.35],
+        // Outer scattered positions
+        [-radius * 0.45, -radius * 0.52],
+        [radius * 0.12, -radius * 0.48],
+        [radius * 0.58, -radius * 0.25],
+        [radius * 0.52, radius * 0.38],
+        [radius * 0.15, radius * 0.55],
+        [-radius * 0.32, radius * 0.48],
+        [-radius * 0.55, radius * 0.22]
       ];
       
       // Draw simple pepperoni circles
