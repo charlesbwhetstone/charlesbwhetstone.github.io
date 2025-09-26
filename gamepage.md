@@ -411,15 +411,15 @@ function toggleFullscreen() {
   text-align: center;
 }
 
-#gameCanvas {
-  border: 3px solid rgba(255,255,255,0.3);
-  border-radius: 15px;
-  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 20px auto;
-}
+  #gameCanvas {
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+  }
 
 .game-instructions {
   background: rgba(0,0,0,0.3);
@@ -462,6 +462,8 @@ function toggleFullscreen() {
   #gameCanvas {
     width: 100%;
     max-width: 100%;
+    min-height: 200px;
+    height: auto;
   }
 }
 </style>

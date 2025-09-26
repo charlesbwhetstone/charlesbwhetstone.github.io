@@ -522,30 +522,28 @@ layout: none
             }
             
             #gameCanvas {
-                height: 180px !important;
+                height: calc(100vh - 120px) !important;
                 width: calc(100vw - 20px) !important;
-                max-width: 320px !important;
-                max-height: 180px !important;
+                max-width: calc(100vw - 20px) !important;
+                max-height: calc(100vh - 120px) !important;
+                min-height: 280px !important;
                 margin: 5px auto !important;
                 display: block !important;
                 border: 2px solid #ffdd00 !important;
                 background: #000 !important;
             }
             
-            /* Mobile controls positioning for landscape - overlay on canvas area */
+            /* Mobile controls positioning for landscape - scale with canvas */
             #mobileControls {
                 position: absolute !important;
-                bottom: 5px !important;
+                top: 0 !important;
                 left: 0 !important;
-                right: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
                 z-index: 1000 !important;
                 pointer-events: none !important;
-                height: 50px !important;
-                margin-top: 0 !important;
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                padding: 0 10px !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             
             .game-wrapper {
@@ -554,26 +552,45 @@ layout: none
             
             #virtualJoystick {
                 position: absolute !important;
-                bottom: 80px !important;
-                left: 20px !important;
+                bottom: 10px !important;
+                left: 10px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: 80px !important;
-                height: 80px !important;
+                width: min(12vw, 80px) !important;
+                height: min(12vw, 80px) !important;
                 margin: 0 !important;
                 opacity: 0.9 !important;
             }
             
+            #joystickKnob {
+                width: 40% !important;
+                height: 40% !important;
+            }
+            
             #fireButton {
                 position: absolute !important;
-                bottom: 80px !important;
-                right: 20px !important;
+                bottom: 10px !important;
+                right: 10px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: 70px !important;
-                height: 70px !important;
+                width: min(10vw, 70px) !important;
+                height: min(10vw, 70px) !important;
                 margin: 0 !important;
                 opacity: 0.9 !important;
+                font-size: min(3vw, 14px) !important;
+            }
+            
+            #autoFireButton {
+                position: absolute !important;
+                bottom: calc(min(10vw, 70px) + 20px) !important;
+                right: 10px !important;
+                pointer-events: auto !important;
+                z-index: 1001 !important;
+                width: min(8vw, 60px) !important;
+                height: min(8vw, 60px) !important;
+                margin: 0 !important;
+                opacity: 0.9 !important;
+                font-size: min(2.5vw, 12px) !important;
             }
         }
         
@@ -897,13 +914,24 @@ class ElectricCrustPizzaGame {
     }
     
     // Set canvas dimensions explicitly for mobile-friendly 16:9 aspect ratio
-    this.canvas.width = 800;
-    this.canvas.height = 450;
+    this.resizeCanvas();
     
     console.log(`Canvas initialized: ${this.canvas.width}x${this.canvas.height}`);
     
     // Initialize Audio System
     this.initAudioSystem();
+    
+    // Add window resize listener
+    window.addEventListener('resize', () => this.handleResize());
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => this.handleResize(), 100); // Delay to ensure orientation change is complete
+    });
+    
+    // Add window resize listener
+    window.addEventListener('resize', () => this.handleResize());
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => this.handleResize(), 100); // Delay to ensure orientation change is complete
+    });
     
     // Game state
     this.gameRunning = false;
@@ -2896,6 +2924,110 @@ ${JSON.stringify(data, null, 2)}
     }
   }
 
+  // Canvas resizing methods
+  resizeCanvas() {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isMobile = window.innerWidth <= 896;
+    
+    if (isMobile && isLandscape) {
+      // Mobile landscape mode - use most of the screen
+      const availableWidth = window.innerWidth - 20;
+      const availableHeight = window.innerHeight - 120;
+      
+      // Maintain aspect ratio but use available space
+      const aspectRatio = 16/9;
+      let canvasWidth = availableWidth;
+      let canvasHeight = canvasWidth / aspectRatio;
+      
+      if (canvasHeight > availableHeight) {
+        canvasHeight = availableHeight;
+        canvasWidth = canvasHeight * aspectRatio;
+      }
+      
+      this.canvas.width = Math.min(canvasWidth, availableWidth);
+      this.canvas.height = Math.min(canvasHeight, availableHeight);
+    } else if (isMobile) {
+      // Mobile portrait mode
+      this.canvas.width = Math.min(window.innerWidth - 20, 400);
+      this.canvas.height = Math.min(window.innerHeight - 200, 300);
+    } else {
+      // Desktop mode
+      this.canvas.width = 800;
+      this.canvas.height = 450;
+    }
+    
+    console.log(`📐 Canvas resized to: ${this.canvas.width}x${this.canvas.height}`);
+  }
+  
+  handleResize() {
+    console.log('📱 Handling resize/orientation change...');
+    this.resizeCanvas();
+    
+    // Update mobile controls container to match new canvas size
+    const mobileControls = document.getElementById('mobileControls');
+    if (mobileControls) {
+      mobileControls.style.maxWidth = this.canvas.width + 'px';
+      mobileControls.style.height = this.canvas.height + 'px';
+    }
+    
+    // Trigger a repaint
+    if (this.gameRunning) {
+      this.draw();
+    }
+  }
+  
+  // Canvas resizing methods
+  resizeCanvas() {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isMobile = window.innerWidth <= 896;
+    
+    if (isMobile && isLandscape) {
+      // Mobile landscape mode - use most of the screen
+      const availableWidth = window.innerWidth - 20;
+      const availableHeight = window.innerHeight - 120;
+      
+      // Maintain aspect ratio but use available space
+      const aspectRatio = 16/9;
+      let canvasWidth = availableWidth;
+      let canvasHeight = canvasWidth / aspectRatio;
+      
+      if (canvasHeight > availableHeight) {
+        canvasHeight = availableHeight;
+        canvasWidth = canvasHeight * aspectRatio;
+      }
+      
+      this.canvas.width = Math.min(canvasWidth, availableWidth);
+      this.canvas.height = Math.min(canvasHeight, availableHeight);
+    } else if (isMobile) {
+      // Mobile portrait mode
+      this.canvas.width = Math.min(window.innerWidth - 20, 400);
+      this.canvas.height = Math.min(window.innerHeight - 200, 300);
+    } else {
+      // Desktop mode
+      this.canvas.width = 800;
+      this.canvas.height = 450;
+    }
+    
+    console.log(`📐 Canvas resized to: ${this.canvas.width}x${this.canvas.height}`);
+  }
+  
+  handleResize() {
+    console.log('📱 Handling resize/orientation change...');
+    this.resizeCanvas();
+    
+    // Update mobile controls container to match new canvas size
+    const mobileControls = document.getElementById('mobileControls');
+    if (mobileControls) {
+      mobileControls.style.maxWidth = this.canvas.width + 'px';
+      mobileControls.style.height = this.canvas.height + 'px';
+    }
+    
+    // Trigger a repaint
+    if (this.gameRunning) {
+      this.draw();
+    }
+  }
+  
   // Touch controls setup
   setupTouchControls() {
     const isMobile = ('ontouchstart' in window) || 
@@ -2913,6 +3045,8 @@ ${JSON.stringify(data, null, 2)}
         mobileControls.style.display = 'block';
         mobileControls.style.visibility = 'visible';
         mobileControls.style.opacity = '1';
+        mobileControls.style.maxWidth = this.canvas.width + 'px';
+        mobileControls.style.height = this.canvas.height + 'px';
         console.log('Mobile controls enabled');
         this.initTouchControls();
       } else {
