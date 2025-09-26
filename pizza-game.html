@@ -372,8 +372,8 @@ layout: none
             #virtualJoystick {
                 bottom: 20px !important;
                 left: 20px !important;
-                width: 120px !important;
-                height: 120px !important;
+                width: 80px !important;
+                height: 80px !important;
                 background: rgba(255,255,255,0.2) !important;
                 border: 3px solid rgba(255,255,255,0.5) !important;
                 border-radius: 50% !important;
@@ -383,8 +383,8 @@ layout: none
             #fireButton {
                 bottom: 20px !important;
                 right: 20px !important;
-                width: 90px !important;
-                height: 90px !important;
+                width: 70px !important;
+                height: 70px !important;
                 background: rgba(255,0,0,0.7) !important;
                 border: 3px solid rgba(255,0,0,0.9) !important;
                 border-radius: 50% !important;
@@ -394,14 +394,14 @@ layout: none
                 justify-content: center !important;
                 color: white !important;
                 font-weight: bold !important;
-                font-size: 16px !important;
+                font-size: 14px !important;
             }
             
             #autoFireButton {
-                bottom: 170px !important;
+                bottom: 105px !important;
                 right: 20px !important;
-                width: 60px !important;
-                height: 60px !important;
+                width: 50px !important;
+                height: 50px !important;
                 background: rgba(255,221,0,0.7) !important;
                 border: 3px solid rgba(255,221,0,0.9) !important;
                 border-radius: 50% !important;
@@ -410,7 +410,7 @@ layout: none
                 align-items: center !important;
                 justify-content: center !important;
                 color: white !important;
-                font-size: 12px !important;
+                font-size: 10px !important;
                 font-weight: bold !important;
             }
             
@@ -556,15 +556,18 @@ layout: none
                 left: 10px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: min(12vw, 80px) !important;
-                height: min(12vw, 80px) !important;
+                width: 60px !important;
+                height: 60px !important;
                 margin: 0 !important;
                 opacity: 0.9 !important;
+                background: rgba(255,255,255,0.2) !important;
+                border: 2px solid rgba(255,255,255,0.5) !important;
+                border-radius: 50% !important;
             }
             
             #joystickKnob {
-                width: 40% !important;
-                height: 40% !important;
+                width: 35% !important;
+                height: 35% !important;
             }
             
             #fireButton {
@@ -573,24 +576,40 @@ layout: none
                 right: 10px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: min(10vw, 70px) !important;
-                height: min(10vw, 70px) !important;
+                width: 50px !important;
+                height: 50px !important;
                 margin: 0 !important;
                 opacity: 0.9 !important;
-                font-size: min(3vw, 14px) !important;
+                font-size: 10px !important;
+                background: rgba(255,0,0,0.7) !important;
+                border: 2px solid rgba(255,0,0,0.9) !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-weight: bold !important;
             }
             
             #autoFireButton {
                 position: absolute !important;
-                bottom: calc(min(10vw, 70px) + 20px) !important;
+                bottom: 75px !important;
                 right: 10px !important;
                 pointer-events: auto !important;
                 z-index: 1001 !important;
-                width: min(8vw, 60px) !important;
-                height: min(8vw, 60px) !important;
+                width: 40px !important;
+                height: 40px !important;
                 margin: 0 !important;
                 opacity: 0.9 !important;
-                font-size: min(2.5vw, 12px) !important;
+                font-size: 8px !important;
+                background: rgba(255,221,0,0.7) !important;
+                border: 2px solid rgba(255,221,0,0.9) !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-weight: bold !important;
             }
         }
         
@@ -855,7 +874,7 @@ layout: none
                 <canvas id="gameCanvas" width="800" height="450"></canvas>
                 
                 <!-- MOBILE TOUCH CONTROLS -->
-                <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; max-width:800px; height:450px; pointer-events:none; z-index:10;">
+                <div id="mobileControls" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10;">
                     <!-- Virtual Joystick -->
                     <div id="virtualJoystick" style="position:absolute; bottom:80px; left:20px; width:120px; height:120px; background:rgba(255,255,255,0.15); border:3px solid rgba(255,255,255,0.4); border-radius:50%; z-index:11; touch-action:none; user-select:none; pointer-events:auto;">
                         <div id="joystickKnob" style="position:absolute; width:45px; height:45px; background:rgba(0,255,136,0.8); border:2px solid rgba(0,255,136,1); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); transition:all 0.1s; box-shadow:0 3px 10px rgba(0,0,0,0.4);"></div>
@@ -924,7 +943,7 @@ class ElectricCrustPizzaGame {
     // Add window resize listener
     window.addEventListener('resize', () => this.handleResize());
     window.addEventListener('orientationchange', () => {
-      setTimeout(() => this.handleResize(), 100); // Delay to ensure orientation change is complete
+      setTimeout(() => this.handleResize(), 200); // Increased delay to ensure orientation change is complete
     });
     
     // Add window resize listener
@@ -2964,11 +2983,7 @@ ${JSON.stringify(data, null, 2)}
     this.resizeCanvas();
     
     // Update mobile controls container to match new canvas size
-    const mobileControls = document.getElementById('mobileControls');
-    if (mobileControls) {
-      mobileControls.style.maxWidth = this.canvas.width + 'px';
-      mobileControls.style.height = this.canvas.height + 'px';
-    }
+    this.updateMobileControlsContainer();
     
     // Trigger a repaint
     if (this.gameRunning) {
@@ -2976,8 +2991,18 @@ ${JSON.stringify(data, null, 2)}
     }
   }
   
-  // Canvas resizing methods
-  resizeCanvas() {
+  updateMobileControlsContainer() {
+    const mobileControls = document.getElementById('mobileControls');
+    if (mobileControls && this.canvas) {
+      mobileControls.style.width = this.canvas.width + 'px';
+      mobileControls.style.height = this.canvas.height + 'px';
+      mobileControls.style.maxWidth = this.canvas.width + 'px';
+      console.log(`🎮 Updated mobile controls container: ${this.canvas.width}x${this.canvas.height}`);
+    }
+  }
+  
+  // Touch controls setup
+  setupTouchControls() {
     const isLandscape = window.innerWidth > window.innerHeight;
     const isMobile = window.innerWidth <= 896;
     
@@ -3016,11 +3041,7 @@ ${JSON.stringify(data, null, 2)}
     this.resizeCanvas();
     
     // Update mobile controls container to match new canvas size
-    const mobileControls = document.getElementById('mobileControls');
-    if (mobileControls) {
-      mobileControls.style.maxWidth = this.canvas.width + 'px';
-      mobileControls.style.height = this.canvas.height + 'px';
-    }
+    this.updateMobileControlsContainer();
     
     // Trigger a repaint
     if (this.gameRunning) {
@@ -3045,8 +3066,10 @@ ${JSON.stringify(data, null, 2)}
         mobileControls.style.display = 'block';
         mobileControls.style.visibility = 'visible';
         mobileControls.style.opacity = '1';
-        mobileControls.style.maxWidth = this.canvas.width + 'px';
-        mobileControls.style.height = this.canvas.height + 'px';
+        
+        // Sync container size with actual canvas dimensions
+        this.updateMobileControlsContainer();
+        
         console.log('Mobile controls enabled');
         this.initTouchControls();
       } else {
