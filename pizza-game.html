@@ -537,9 +537,11 @@ layout: none
             #mobileControls {
                 position: absolute !important;
                 top: 0 !important;
-                left: 0 !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
                 width: 100% !important;
                 height: 100% !important;
+                max-width: calc(100vh * 16/9) !important;
                 z-index: 1000 !important;
                 pointer-events: none !important;
                 margin: 0 !important;
@@ -548,6 +550,9 @@ layout: none
             
             .game-wrapper {
                 position: relative !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
             }
             
             #virtualJoystick {
@@ -999,7 +1004,7 @@ class ElectricCrustPizzaGame {
     // Player (rocket ship)
     this.player = {
       x: 80,
-      y: 300,
+      y: this.canvas.height / 2,
       width: 100,
       height: 100,
       health: 3,
@@ -1675,7 +1680,7 @@ class ElectricCrustPizzaGame {
     this.player.health = this.player.maxHealth;
     this.player.speed = 5;
     this.player.x = 80;
-    this.player.y = 300;
+    this.player.y = this.canvas.height / 2;
     
     // Clear all arrays
     this.bullets = [];
@@ -2982,6 +2987,16 @@ ${JSON.stringify(data, null, 2)}
     console.log('📱 Handling resize/orientation change...');
     this.resizeCanvas();
     
+    // Adjust player position if it's outside the new canvas bounds
+    if (this.player) {
+      this.player.y = Math.min(this.player.y, this.canvas.height - this.player.height);
+      this.player.x = Math.min(this.player.x, this.canvas.width - this.player.width);
+      // If player y is too high for new canvas, center it
+      if (this.player.y > this.canvas.height - this.player.height) {
+        this.player.y = this.canvas.height / 2;
+      }
+    }
+    
     // Update mobile controls container to match new canvas size
     this.updateMobileControlsContainer();
     
@@ -2994,10 +3009,27 @@ ${JSON.stringify(data, null, 2)}
   updateMobileControlsContainer() {
     const mobileControls = document.getElementById('mobileControls');
     if (mobileControls && this.canvas) {
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const isMobile = window.innerWidth <= 896;
+      
       mobileControls.style.width = this.canvas.width + 'px';
       mobileControls.style.height = this.canvas.height + 'px';
-      mobileControls.style.maxWidth = this.canvas.width + 'px';
-      console.log(`🎮 Updated mobile controls container: ${this.canvas.width}x${this.canvas.height}`);
+      
+      if (isMobile && isLandscape) {
+        // In mobile landscape, center the controls over the canvas
+        mobileControls.style.maxWidth = this.canvas.width + 'px';
+        mobileControls.style.position = 'absolute';
+        mobileControls.style.top = '0px';
+        mobileControls.style.left = '50%';
+        mobileControls.style.transform = 'translateX(-50%)';
+      } else {
+        // Portrait or desktop mode
+        mobileControls.style.maxWidth = this.canvas.width + 'px';
+        mobileControls.style.left = '0px';
+        mobileControls.style.transform = 'none';
+      }
+      
+      console.log(`🎮 Updated mobile controls container: ${this.canvas.width}x${this.canvas.height}, landscape: ${isLandscape}`);
     }
   }
   
@@ -3034,19 +3066,6 @@ ${JSON.stringify(data, null, 2)}
     }
     
     console.log(`📐 Canvas resized to: ${this.canvas.width}x${this.canvas.height}`);
-  }
-  
-  handleResize() {
-    console.log('📱 Handling resize/orientation change...');
-    this.resizeCanvas();
-    
-    // Update mobile controls container to match new canvas size
-    this.updateMobileControlsContainer();
-    
-    // Trigger a repaint
-    if (this.gameRunning) {
-      this.draw();
-    }
   }
   
   // Touch controls setup
