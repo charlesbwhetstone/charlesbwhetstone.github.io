@@ -810,27 +810,45 @@ layout: none
         
         /* iPad and larger tablet specific adjustments */
         @media (min-width: 769px) and (max-width: 1024px) {
+            #mobileControls {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                transform: none !important;
+            }
+            
             #virtualJoystick {
-                bottom: 40px !important;
-                left: 30px !important;
-                width: 100px !important;
-                height: 100px !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                width: 90px !important;
+                height: 90px !important;
+                opacity: 0.7 !important;
+                background: rgba(255,255,255,0.15) !important;
+                border: 2px solid rgba(255,255,255,0.4) !important;
             }
             
             #fireButton {
-                bottom: 40px !important;
-                right: 30px !important;
-                width: 80px !important;
-                height: 80px !important;
-                font-size: 14px !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 70px !important;
+                height: 70px !important;
+                font-size: 12px !important;
+                opacity: 0.7 !important;
+                background: rgba(255,0,0,0.6) !important;
+                border: 2px solid rgba(255,0,0,0.8) !important;
             }
             
             #autoFireButton {
-                bottom: 140px !important;
-                right: 30px !important;
-                width: 60px !important;
-                height: 60px !important;
-                font-size: 10px !important;
+                bottom: 105px !important;
+                right: 20px !important;
+                width: 55px !important;
+                height: 55px !important;
+                font-size: 9px !important;
+                opacity: 0.7 !important;
+                background: rgba(255,221,0,0.6) !important;
+                border: 2px solid rgba(255,221,0,0.8) !important;
             }
         }
         
@@ -3018,25 +3036,38 @@ ${JSON.stringify(data, null, 2)}
     if (mobileControls && this.canvas) {
       const isLandscape = window.innerWidth > window.innerHeight;
       const isMobile = window.innerWidth <= 896;
+      const isTablet = window.innerWidth >= 769 && window.innerWidth <= 1024;
       
-      mobileControls.style.width = this.canvas.width + 'px';
-      mobileControls.style.height = this.canvas.height + 'px';
-      
-      if (isMobile && isLandscape) {
-        // In mobile landscape, center the controls over the canvas
-        mobileControls.style.maxWidth = this.canvas.width + 'px';
-        mobileControls.style.position = 'absolute';
+      if (isTablet) {
+        // For tablets, use fixed positioning to cover entire screen
+        mobileControls.style.position = 'fixed';
+        mobileControls.style.width = '100vw';
+        mobileControls.style.height = '100vh';
         mobileControls.style.top = '0px';
-        mobileControls.style.left = '50%';
-        mobileControls.style.transform = 'translateX(-50%)';
-      } else {
-        // Portrait or desktop mode
-        mobileControls.style.maxWidth = this.canvas.width + 'px';
         mobileControls.style.left = '0px';
         mobileControls.style.transform = 'none';
+        mobileControls.style.maxWidth = '100vw';
+      } else {
+        // For phones, position relative to canvas
+        mobileControls.style.width = this.canvas.width + 'px';
+        mobileControls.style.height = this.canvas.height + 'px';
+        
+        if (isMobile && isLandscape) {
+          // In mobile landscape, center the controls over the canvas
+          mobileControls.style.maxWidth = this.canvas.width + 'px';
+          mobileControls.style.position = 'absolute';
+          mobileControls.style.top = '0px';
+          mobileControls.style.left = '50%';
+          mobileControls.style.transform = 'translateX(-50%)';
+        } else {
+          // Portrait or desktop mode
+          mobileControls.style.maxWidth = this.canvas.width + 'px';
+          mobileControls.style.left = '0px';
+          mobileControls.style.transform = 'none';
+        }
       }
       
-      console.log(`🎮 Updated mobile controls container: ${this.canvas.width}x${this.canvas.height}, landscape: ${isLandscape}`);
+      console.log(`🎮 Updated mobile controls container: ${this.canvas.width}x${this.canvas.height}, landscape: ${isLandscape}, tablet: ${isTablet}`);
     }
   }
   
@@ -3081,12 +3112,15 @@ ${JSON.stringify(data, null, 2)}
                     (navigator.maxTouchPoints > 0) || 
                     /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    this.isMobileDevice = isMobile;
+    // Also consider tablets as mobile for control purposes
+    const isTablet = window.innerWidth >= 769 && window.innerWidth <= 1024 && isMobile;
     
-    console.log('Mobile device detected:', isMobile);
+    this.isMobileDevice = isMobile || isTablet;
     
-    // Force show mobile controls on all mobile devices
-    if (isMobile) {
+    console.log('Mobile device detected:', isMobile, 'Tablet:', isTablet);
+    
+    // Force show mobile controls on all mobile devices and tablets
+    if (this.isMobileDevice) {
       const mobileControls = document.getElementById('mobileControls');
       if (mobileControls) {
         mobileControls.style.display = 'block';
