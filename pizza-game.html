@@ -476,7 +476,7 @@ layout: none
                 min-height: auto !important;
                 max-height: none !important;
                 overflow: visible !important;
-                padding: 10px !important;
+                padding: 5px !important;
                 margin: 0 !important;
                 box-sizing: border-box !important;
             }
@@ -507,10 +507,13 @@ layout: none
                 height: auto !important;
                 width: 100% !important;
                 margin: 0 auto !important;
-                padding: 5px !important;
+                padding: 2px !important;
                 overflow: visible !important;
-                max-width: 500px !important;
+                max-width: calc(100vw - 10px) !important;
                 position: relative !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
             }
             
             /* Add space below for scrolling */
@@ -522,11 +525,12 @@ layout: none
             }
             
             #gameCanvas {
-                height: calc(100vh - 120px) !important;
-                width: calc(100vw - 20px) !important;
-                max-width: calc(100vw - 20px) !important;
-                max-height: calc(100vh - 120px) !important;
-                min-height: 280px !important;
+                height: auto !important;
+                width: auto !important;
+                max-width: calc(100vw - 10px) !important;
+                max-height: calc(100vh - 60px) !important;
+                min-height: 270px !important;
+                min-width: 480px !important;
                 margin: 5px auto !important;
                 display: block !important;
                 border: 2px solid #ffdd00 !important;
@@ -541,7 +545,7 @@ layout: none
                 transform: translateX(-50%) !important;
                 width: 100% !important;
                 height: 100% !important;
-                max-width: calc(100vh * 16/9) !important;
+                max-width: none !important;
                 z-index: 1000 !important;
                 pointer-events: none !important;
                 margin: 0 !important;
@@ -2954,22 +2958,25 @@ ${JSON.stringify(data, null, 2)}
     const isMobile = window.innerWidth <= 896;
     
     if (isMobile && isLandscape) {
-      // Mobile landscape mode - use most of the screen
-      const availableWidth = window.innerWidth - 20;
-      const availableHeight = window.innerHeight - 120;
+      // Mobile landscape mode - use most of the screen for better gameplay
+      const availableWidth = Math.max(window.innerWidth - 20, 320);
+      const availableHeight = Math.max(window.innerHeight - 80, 180); // Reduced margin
       
-      // Maintain aspect ratio but use available space
-      const aspectRatio = 16/9;
-      let canvasWidth = availableWidth;
-      let canvasHeight = canvasWidth / aspectRatio;
+      // Use more aggressive sizing for landscape
+      this.canvas.width = Math.min(availableWidth, Math.max(availableHeight * (16/9), 480));
+      this.canvas.height = Math.min(availableHeight, Math.max(availableWidth / (16/9), 270));
       
-      if (canvasHeight > availableHeight) {
-        canvasHeight = availableHeight;
-        canvasWidth = canvasHeight * aspectRatio;
+      // Ensure minimum playable size
+      if (this.canvas.width < 480) {
+        this.canvas.width = Math.min(480, availableWidth);
+        this.canvas.height = this.canvas.width / (16/9);
       }
       
-      this.canvas.width = Math.min(canvasWidth, availableWidth);
-      this.canvas.height = Math.min(canvasHeight, availableHeight);
+      if (this.canvas.height < 270) {
+        this.canvas.height = Math.min(270, availableHeight);
+        this.canvas.width = this.canvas.height * (16/9);
+      }
+      
     } else if (isMobile) {
       // Mobile portrait mode
       this.canvas.width = Math.min(window.innerWidth - 20, 400);
