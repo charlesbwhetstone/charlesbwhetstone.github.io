@@ -810,6 +810,13 @@ layout: none
         
         /* iPad and larger tablet specific adjustments */
         @media (min-width: 769px) and (max-width: 1024px) {
+            .game-wrapper {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                padding: 0 120px !important; /* Leave space for controls */
+            }
+            
             #mobileControls {
                 position: fixed !important;
                 top: 0 !important;
@@ -817,38 +824,56 @@ layout: none
                 width: 100vw !important;
                 height: 100vh !important;
                 transform: none !important;
+                pointer-events: none !important;
             }
             
             #virtualJoystick {
-                bottom: 20px !important;
-                left: 20px !important;
-                width: 90px !important;
-                height: 90px !important;
-                opacity: 0.7 !important;
-                background: rgba(255,255,255,0.15) !important;
-                border: 2px solid rgba(255,255,255,0.4) !important;
+                position: fixed !important;
+                top: 50% !important;
+                left: 30px !important;
+                transform: translateY(-50%) !important;
+                width: 100px !important;
+                height: 100px !important;
+                opacity: 0.8 !important;
+                background: rgba(255,255,255,0.2) !important;
+                border: 3px solid rgba(255,255,255,0.5) !important;
+                pointer-events: auto !important;
+                z-index: 1001 !important;
+            }
+            
+            #joystickKnob {
+                width: 40% !important;
+                height: 40% !important;
             }
             
             #fireButton {
-                bottom: 20px !important;
-                right: 20px !important;
-                width: 70px !important;
-                height: 70px !important;
-                font-size: 12px !important;
-                opacity: 0.7 !important;
-                background: rgba(255,0,0,0.6) !important;
-                border: 2px solid rgba(255,0,0,0.8) !important;
+                position: fixed !important;
+                top: 45% !important;
+                right: 30px !important;
+                transform: translateY(-50%) !important;
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 14px !important;
+                opacity: 0.8 !important;
+                background: rgba(255,0,0,0.7) !important;
+                border: 3px solid rgba(255,0,0,0.9) !important;
+                pointer-events: auto !important;
+                z-index: 1001 !important;
             }
             
             #autoFireButton {
-                bottom: 105px !important;
-                right: 20px !important;
-                width: 55px !important;
-                height: 55px !important;
-                font-size: 9px !important;
-                opacity: 0.7 !important;
-                background: rgba(255,221,0,0.6) !important;
-                border: 2px solid rgba(255,221,0,0.8) !important;
+                position: fixed !important;
+                top: 55% !important;
+                right: 30px !important;
+                transform: translateY(-50%) !important;
+                width: 65px !important;
+                height: 65px !important;
+                font-size: 10px !important;
+                opacity: 0.8 !important;
+                background: rgba(255,221,0,0.7) !important;
+                border: 3px solid rgba(255,221,0,0.9) !important;
+                pointer-events: auto !important;
+                z-index: 1001 !important;
             }
         }
         
