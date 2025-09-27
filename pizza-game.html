@@ -1768,14 +1768,32 @@ class ElectricCrustPizzaGame {
     let localScores = [];
     
     try {
-      // Try to load from the repo JSON file first
-      const response = await fetch('/assets/pizza-game-scores.json');
-      if (response.ok) {
+      // Try to load from the repo JSON file - try multiple paths
+      let response;
+      const possiblePaths = [
+        '/assets/pizza-game-scores.json',  // Absolute path (for GitHub Pages)
+        '../assets/pizza-game-scores.json', // Relative path (for local testing)
+        './assets/pizza-game-scores.json'   // Local relative path
+      ];
+      
+      for (const path of possiblePaths) {
+        try {
+          response = await fetch(path);
+          if (response.ok) {
+            console.log(`📚 Successfully loaded scores from: ${path}`);
+            break;
+          }
+        } catch (e) {
+          console.log(`📚 Could not load from ${path}: ${e.message}`);
+        }
+      }
+      
+      if (response && response.ok) {
         const data = await response.json();
         globalScores = data.highScores || [];
         console.log(`📚 Loaded ${globalScores.length} global scores from JSON file:`, globalScores);
       } else {
-        console.log('📚 Global JSON file not found (404) - this is normal for first-time setup');
+        console.log('📚 Global JSON file not found at any path - this is normal for first-time setup');
       }
     } catch (e) {
       console.log('📚 Global JSON file not available - using local scores only:', e.message);
@@ -3090,6 +3108,57 @@ ${JSON.stringify(data, null, 2)}
         mobileControls.style.left = '0px';
         mobileControls.style.transform = 'none';
         mobileControls.style.maxWidth = '100vw';
+        
+        console.log('🎮 TABLET MODE - Applying JavaScript tablet styles');
+        
+        // Force tablet-specific control positioning via JavaScript
+        const joystick = document.querySelector('.joystick');
+        const fireButton = document.querySelector('.fire-button');
+        const autoFireButton = document.querySelector('.auto-fire-button');
+        
+        if (joystick) {
+          joystick.style.cssText += `
+            position: fixed !important;
+            left: 20px !important;
+            bottom: 20px !important;
+            z-index: 2001 !important;
+            border: 3px solid red !important;
+            background: rgba(255, 0, 0, 0.2) !important;
+          `;
+          console.log('🕹️ Joystick: Applied red border and fixed positioning');
+        }
+        
+        if (fireButton) {
+          fireButton.style.cssText += `
+            position: fixed !important;
+            right: 80px !important;
+            bottom: 20px !important;
+            z-index: 2002 !important;
+            border: 3px solid blue !important;
+            background: rgba(0, 0, 255, 0.2) !important;
+          `;
+          console.log('🔥 Fire Button: Applied blue border and fixed positioning');
+        }
+        
+        if (autoFireButton) {
+          autoFireButton.style.cssText += `
+            position: fixed !important;
+            right: 20px !important;
+            bottom: 20px !important;
+            z-index: 2003 !important;
+            border: 3px solid green !important;
+            background: rgba(0, 255, 0, 0.2) !important;
+          `;
+          console.log('⚡ Auto-fire Button: Applied green border and fixed positioning');
+        }
+        
+        // Apply container debug styling
+        mobileControls.style.cssText += `
+          border: 3px dashed yellow !important;
+          background: rgba(255, 255, 0, 0.1) !important;
+        `;
+        
+        console.log('📱 Tablet container styles applied with debug borders');
       } else {
         // For phones, position relative to canvas
         mobileControls.style.width = this.canvas.width + 'px';
