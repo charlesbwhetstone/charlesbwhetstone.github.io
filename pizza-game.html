@@ -3071,6 +3071,11 @@ ${JSON.stringify(data, null, 2)}
   
   handleResize() {
     console.log('📱 Handling resize/orientation change...');
+    console.log('📏 New screen size:', window.innerWidth, 'x', window.innerHeight);
+    
+    const isTablet = window.innerWidth >= 769 && window.innerWidth <= 1024;
+    console.log('🔍 Tablet check during resize:', isTablet, '(width between 769-1024)');
+    
     this.resizeCanvas();
     
     // Adjust player position if it's outside the new canvas bounds
@@ -3099,7 +3104,20 @@ ${JSON.stringify(data, null, 2)}
       const isMobile = window.innerWidth <= 896;
       const isTablet = window.innerWidth >= 769 && window.innerWidth <= 1024;
       
+      console.log('📱 updateMobileControlsContainer called:');
+      console.log('  📏 Screen:', window.innerWidth, 'x', window.innerHeight);
+      console.log('  📱 Mobile (≤896px):', isMobile);
+      console.log('  📱 Tablet (769-1024px):', isTablet);
+      console.log('  🔄 Landscape:', isLandscape);
+      console.log('  🎮 isMobileDevice:', this.isMobileDevice);
+      
+      // FORCE TABLET MODE FOR DEBUGGING - show controls if screen is tablet-sized
       if (isTablet) {
+        // Make controls visible for tablet-sized screens (even without touch)
+        mobileControls.style.display = 'block';
+        mobileControls.style.visibility = 'visible';
+        mobileControls.style.opacity = '1';
+        
         // For tablets, use fixed positioning to cover entire screen
         mobileControls.style.position = 'fixed';
         mobileControls.style.width = '100vw';
@@ -3229,13 +3247,15 @@ ${JSON.stringify(data, null, 2)}
     
     this.isMobileDevice = isMobile || isTablet;
     
-    console.log('🔍 Device Detection:');
-    console.log('  - Screen size:', window.innerWidth, 'x', window.innerHeight);
-    console.log('  - Mobile device detected:', isMobile);
-    console.log('  - Tablet detected:', isTablet);
-    console.log('  - Touch support:', 'ontouchstart' in window);
-    console.log('  - Max touch points:', navigator.maxTouchPoints);
-    console.log('  - User agent:', navigator.userAgent);
+    console.log('🔍 DEVICE DETECTION RESULTS:');
+    console.log('  📏 Screen size:', window.innerWidth, 'x', window.innerHeight);
+    console.log('  📱 Mobile device detected:', isMobile);
+    console.log('  📱 Tablet detected:', isTablet);
+    console.log('  👆 Touch support (ontouchstart):', 'ontouchstart' in window);
+    console.log('  👆 Max touch points:', navigator.maxTouchPoints);
+    console.log('  🌐 User agent:', navigator.userAgent);
+    console.log('  🎮 Final isMobileDevice:', this.isMobileDevice);
+    console.log('  📐 Width range check: 769 <= ' + window.innerWidth + ' <= 1024 =', (window.innerWidth >= 769 && window.innerWidth <= 1024));
     
     // Force show mobile controls on all mobile devices and tablets
     if (this.isMobileDevice) {
