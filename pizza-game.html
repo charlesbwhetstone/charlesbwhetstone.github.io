@@ -1769,16 +1769,16 @@ class ElectricCrustPizzaGame {
     
     try {
       // Try to load from the repo JSON file first
-      const response = await fetch('./assets/pizza-game-scores.json');
+      const response = await fetch('/assets/pizza-game-scores.json');
       if (response.ok) {
         const data = await response.json();
         globalScores = data.highScores || [];
         console.log(`📚 Loaded ${globalScores.length} global scores from JSON file:`, globalScores);
       } else {
-        console.warn('📚 Could not load global JSON file');
+        console.log('📚 Global JSON file not found (404) - this is normal for first-time setup');
       }
     } catch (e) {
-      console.warn('📚 Error loading global JSON file:', e);
+      console.log('📚 Global JSON file not available - using local scores only:', e.message);
     }
     
     try {
