@@ -9,6 +9,7 @@ layout: none
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ Electric Crust Pizza Delivery - Charles Whetstone</title>
+    <!-- Cache busting: v1.2.6 -->
     
     <!-- Global Scoreboard Configuration -->
     <script>
@@ -808,16 +809,16 @@ layout: none
             }
         }
         
-        /* iPad and larger tablet specific adjustments */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .game-wrapper {
+        /* iPad and larger tablet specific adjustments - Enhanced specificity */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .game-page .game-container .game-wrapper {
                 display: flex !important;
                 justify-content: center !important;
                 align-items: center !important;
                 padding: 0 120px !important; /* Leave space for controls */
             }
             
-            #mobileControls {
+            .game-page #mobileControls {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
@@ -825,9 +826,10 @@ layout: none
                 height: 100vh !important;
                 transform: none !important;
                 pointer-events: none !important;
+                z-index: 2000 !important;
             }
             
-            #virtualJoystick {
+            .game-page #mobileControls #virtualJoystick {
                 position: fixed !important;
                 top: 50% !important;
                 left: 30px !important;
@@ -837,16 +839,18 @@ layout: none
                 opacity: 0.8 !important;
                 background: rgba(255,255,255,0.2) !important;
                 border: 3px solid rgba(255,255,255,0.5) !important;
+                border-radius: 50% !important;
                 pointer-events: auto !important;
-                z-index: 1001 !important;
+                z-index: 2001 !important;
+                box-shadow: 0 0 0 3px red !important; /* Debug border */
             }
             
-            #joystickKnob {
+            .game-page #mobileControls #joystickKnob {
                 width: 40% !important;
                 height: 40% !important;
             }
             
-            #fireButton {
+            .game-page #mobileControls #fireButton {
                 position: fixed !important;
                 top: 45% !important;
                 right: 30px !important;
@@ -857,11 +861,18 @@ layout: none
                 opacity: 0.8 !important;
                 background: rgba(255,0,0,0.7) !important;
                 border: 3px solid rgba(255,0,0,0.9) !important;
+                border-radius: 50% !important;
                 pointer-events: auto !important;
-                z-index: 1001 !important;
+                z-index: 2001 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-weight: bold !important;
+                box-shadow: 0 0 0 3px blue !important; /* Debug border */
             }
             
-            #autoFireButton {
+            .game-page #mobileControls #autoFireButton {
                 position: fixed !important;
                 top: 55% !important;
                 right: 30px !important;
@@ -872,8 +883,15 @@ layout: none
                 opacity: 0.8 !important;
                 background: rgba(255,221,0,0.7) !important;
                 border: 3px solid rgba(255,221,0,0.9) !important;
+                border-radius: 50% !important;
                 pointer-events: auto !important;
-                z-index: 1001 !important;
+                z-index: 2001 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                color: white !important;
+                font-weight: bold !important;
+                box-shadow: 0 0 0 3px green !important; /* Debug border */
             }
         }
         
@@ -3142,7 +3160,13 @@ ${JSON.stringify(data, null, 2)}
     
     this.isMobileDevice = isMobile || isTablet;
     
-    console.log('Mobile device detected:', isMobile, 'Tablet:', isTablet);
+    console.log('🔍 Device Detection:');
+    console.log('  - Screen size:', window.innerWidth, 'x', window.innerHeight);
+    console.log('  - Mobile device detected:', isMobile);
+    console.log('  - Tablet detected:', isTablet);
+    console.log('  - Touch support:', 'ontouchstart' in window);
+    console.log('  - Max touch points:', navigator.maxTouchPoints);
+    console.log('  - User agent:', navigator.userAgent);
     
     // Force show mobile controls on all mobile devices and tablets
     if (this.isMobileDevice) {
@@ -3152,14 +3176,22 @@ ${JSON.stringify(data, null, 2)}
         mobileControls.style.visibility = 'visible';
         mobileControls.style.opacity = '1';
         
+        // Add debug styling for troubleshooting
+        if (isTablet) {
+          mobileControls.style.border = '2px dashed yellow';
+          console.log('🎮 TABLET MODE: Applied debug border to mobile controls');
+        }
+        
         // Sync container size with actual canvas dimensions
         this.updateMobileControlsContainer();
         
         console.log('Mobile controls enabled');
         this.initTouchControls();
       } else {
-        console.log('Mobile controls element not found');
+        console.log('❌ Mobile controls element not found');
       }
+    } else {
+      console.log('🖥️ Desktop mode - no mobile controls needed');
     }
   }
   
