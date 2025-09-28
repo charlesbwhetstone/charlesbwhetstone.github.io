@@ -810,12 +810,14 @@ layout: none
         }
         
         /* iPad and larger tablet specific adjustments - Enhanced specificity */
-        @media screen and (min-width: 769px) and (max-width: 1024px) {
+        /* Tablet Controls - Expanded Range for Better Support */
+        @media screen and (min-width: 601px) and (max-width: 1200px) and (orientation: landscape),
+               screen and (min-width: 769px) and (max-width: 1024px) {
             .game-page .game-container .game-wrapper {
                 display: flex !important;
                 justify-content: center !important;
                 align-items: center !important;
-                padding: 0 120px !important; /* Leave space for controls */
+                padding: 0 140px !important; /* Leave space for controls */
             }
             
             .game-page #mobileControls {
@@ -827,22 +829,25 @@ layout: none
                 transform: none !important;
                 pointer-events: none !important;
                 z-index: 2000 !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
             }
             
             .game-page #mobileControls #virtualJoystick {
                 position: fixed !important;
                 top: 50% !important;
-                left: 30px !important;
+                left: 20px !important;
                 transform: translateY(-50%) !important;
-                width: 100px !important;
-                height: 100px !important;
-                opacity: 0.8 !important;
-                background: rgba(255,255,255,0.2) !important;
-                border: 3px solid rgba(255,255,255,0.5) !important;
+                width: 120px !important;
+                height: 120px !important;
+                opacity: 0.9 !important;
+                background: rgba(255,255,255,0.25) !important;
+                border: 3px solid rgba(255,255,255,0.6) !important;
                 border-radius: 50% !important;
                 pointer-events: auto !important;
                 z-index: 2001 !important;
-                box-shadow: 0 0 0 3px red !important; /* Debug border */
+                box-shadow: 0 0 0 3px red, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
             }
             
             .game-page #mobileControls #joystickKnob {
@@ -852,46 +857,46 @@ layout: none
             
             .game-page #mobileControls #fireButton {
                 position: fixed !important;
-                top: 45% !important;
-                right: 30px !important;
+                top: 40% !important;
+                right: 20px !important;
                 transform: translateY(-50%) !important;
-                width: 80px !important;
-                height: 80px !important;
+                width: 90px !important;
+                height: 90px !important;
                 font-size: 14px !important;
-                opacity: 0.8 !important;
+                opacity: 0.9 !important;
                 background: rgba(255,0,0,0.7) !important;
                 border: 3px solid rgba(255,0,0,0.9) !important;
                 border-radius: 50% !important;
                 pointer-events: auto !important;
-                z-index: 2001 !important;
+                z-index: 2002 !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 color: white !important;
                 font-weight: bold !important;
-                box-shadow: 0 0 0 3px blue !important; /* Debug border */
+                box-shadow: 0 0 0 3px blue, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
             }
             
             .game-page #mobileControls #autoFireButton {
                 position: fixed !important;
-                top: 55% !important;
-                right: 30px !important;
+                top: 60% !important;
+                right: 20px !important;
                 transform: translateY(-50%) !important;
-                width: 65px !important;
-                height: 65px !important;
-                font-size: 10px !important;
-                opacity: 0.8 !important;
+                width: 75px !important;
+                height: 75px !important;
+                font-size: 11px !important;
+                opacity: 0.9 !important;
                 background: rgba(255,221,0,0.7) !important;
                 border: 3px solid rgba(255,221,0,0.9) !important;
                 border-radius: 50% !important;
                 pointer-events: auto !important;
-                z-index: 2001 !important;
+                z-index: 2003 !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 color: white !important;
                 font-weight: bold !important;
-                box-shadow: 0 0 0 3px green !important; /* Debug border */
+                box-shadow: 0 0 0 3px green, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
             }
         }
         
@@ -3102,7 +3107,8 @@ ${JSON.stringify(data, null, 2)}
     if (mobileControls && this.canvas) {
       const isLandscape = window.innerWidth > window.innerHeight;
       const isMobile = window.innerWidth <= 896;
-      const isTablet = window.innerWidth >= 769 && window.innerWidth <= 1024;
+      const isTablet = (window.innerWidth >= 601 && window.innerWidth <= 1200 && isLandscape) || 
+                       (window.innerWidth >= 769 && window.innerWidth <= 1024);
       
       console.log('📱 updateMobileControlsContainer called:');
       console.log('  📏 Screen:', window.innerWidth, 'x', window.innerHeight);
@@ -3130,9 +3136,9 @@ ${JSON.stringify(data, null, 2)}
         console.log('🎮 TABLET MODE - Applying JavaScript tablet styles');
         
         // Force tablet-specific control positioning via JavaScript
-        const joystick = document.querySelector('.joystick');
-        const fireButton = document.querySelector('.fire-button');
-        const autoFireButton = document.querySelector('.auto-fire-button');
+        const joystick = document.querySelector('#virtualJoystick');
+        const fireButton = document.querySelector('#fireButton');
+        const autoFireButton = document.querySelector('#autoFireButton');
         
         if (joystick) {
           joystick.style.cssText += `
