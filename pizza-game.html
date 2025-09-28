@@ -276,6 +276,26 @@ layout: none
                 overflow-y: auto;
             }
             
+            /* Hide high score sidebar on mobile */
+            .high-score-sidebar {
+                display: none !important;
+            }
+            
+            /* Make game container single column layout */
+            .game-container {
+                display: block !important;
+                max-width: 100vw !important;
+                padding: 10px !important;
+                gap: 0 !important;
+            }
+            
+            /* Make game main section take full width */
+            .game-main {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            
             .game-title {
                 font-size: 20px;
                 line-height: 1.2;
@@ -639,13 +659,21 @@ layout: none
             }
             
             .game-container {
-                display: flex !important;
-                flex-direction: column !important;
-                flex-wrap: nowrap !important;
+                display: block !important; /* Changed from flex to block for full width */
+                max-width: 100vw !important;
+                padding: 5px !important;
+                gap: 0 !important;
                 height: auto !important;
                 min-height: auto !important;
                 max-height: none !important;
                 overflow: visible !important;
+            }
+            
+            /* Make game main section take full width */
+            .game-main {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
             }
             
             /* AGGRESSIVE HIGH SCORE SIDEBAR HIDING */
@@ -813,11 +841,31 @@ layout: none
         /* Tablet Controls - Expanded Range for Better Support */
         @media screen and (min-width: 601px) and (max-width: 1200px) and (orientation: landscape),
                screen and (min-width: 769px) and (max-width: 1024px) {
+            
+            /* Hide high score sidebar on tablets to give game full width */
+            .high-score-sidebar {
+                display: none !important;
+            }
+            
+            /* Make game container single column layout */
+            .game-container {
+                display: block !important;
+                max-width: 100vw !important;
+                padding: 10px !important;
+            }
+            
+            /* Make game main section take full width */
+            .game-main {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            
             .game-page .game-container .game-wrapper {
                 display: flex !important;
                 justify-content: center !important;
                 align-items: center !important;
-                padding: 0 140px !important; /* Leave space for controls */
+                padding: 0 !important; /* Remove padding since sidebar is hidden */
             }
             
             .game-page #mobileControls {
@@ -3113,9 +3161,17 @@ ${JSON.stringify(data, null, 2)}
       console.log('📱 updateMobileControlsContainer called:');
       console.log('  📏 Screen:', window.innerWidth, 'x', window.innerHeight);
       console.log('  📱 Mobile (≤896px):', isMobile);
-      console.log('  📱 Tablet (769-1024px):', isTablet);
+      console.log('  📱 Tablet (601-1200px landscape OR 769-1024px):', isTablet);
       console.log('  🔄 Landscape:', isLandscape);
       console.log('  🎮 isMobileDevice:', this.isMobileDevice);
+      console.log('  🏆 High score sidebar should be hidden:', (isMobile || isTablet));
+      
+      // Hide sidebar for mobile/tablet to give game full width
+      const sidebar = document.querySelector('.high-score-sidebar');
+      if (sidebar && (isMobile || isTablet)) {
+        sidebar.style.display = 'none';
+        console.log('🚫 High score sidebar hidden for full-width game');
+      }
       
       // FORCE TABLET MODE FOR DEBUGGING - show controls if screen is tablet-sized
       if (isTablet) {
