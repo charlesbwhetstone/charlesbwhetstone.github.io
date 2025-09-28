@@ -1,5 +1,5 @@
 ---
-permalink: /pizza-game/
+permalink: /pizza-game-simple/
 title: "Pizza Delivery Adventure - Full Screen"
 layout: single
 classes: wide
