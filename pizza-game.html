@@ -9,7 +9,7 @@ layout: none
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ Electric Crust Pizza Delivery - Charles Whetstone</title>
-    <!-- Cache busting: v1.2.6 -->
+    <!-- Cache busting: v1.3.0 -->
     
     <!-- Global Scoreboard Configuration -->
     <script>
@@ -895,7 +895,7 @@ layout: none
                 border-radius: 50% !important;
                 pointer-events: auto !important;
                 z-index: 2001 !important;
-                box-shadow: 0 0 0 3px red, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
             }
             
             .game-page #mobileControls #joystickKnob {
@@ -922,7 +922,7 @@ layout: none
                 justify-content: center !important;
                 color: white !important;
                 font-weight: bold !important;
-                box-shadow: 0 0 0 3px blue, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
             }
             
             .game-page #mobileControls #autoFireButton {
@@ -944,7 +944,7 @@ layout: none
                 justify-content: center !important;
                 color: white !important;
                 font-weight: bold !important;
-                box-shadow: 0 0 0 3px green, 0 4px 15px rgba(0,0,0,0.3) !important; /* Debug border + shadow */
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
             }
         }
         
@@ -3202,10 +3202,8 @@ ${JSON.stringify(data, null, 2)}
             left: 20px !important;
             bottom: 20px !important;
             z-index: 2001 !important;
-            border: 3px solid red !important;
-            background: rgba(255, 0, 0, 0.2) !important;
           `;
-          console.log('🕹️ Joystick: Applied red border and fixed positioning');
+          console.log('🕹️ Joystick: Applied fixed positioning');
         }
         
         if (fireButton) {
@@ -3214,10 +3212,8 @@ ${JSON.stringify(data, null, 2)}
             right: 80px !important;
             bottom: 20px !important;
             z-index: 2002 !important;
-            border: 3px solid blue !important;
-            background: rgba(0, 0, 255, 0.2) !important;
           `;
-          console.log('🔥 Fire Button: Applied blue border and fixed positioning');
+          console.log('🔥 Fire Button: Applied fixed positioning');
         }
         
         if (autoFireButton) {
@@ -3226,19 +3222,11 @@ ${JSON.stringify(data, null, 2)}
             right: 20px !important;
             bottom: 20px !important;
             z-index: 2003 !important;
-            border: 3px solid green !important;
-            background: rgba(0, 255, 0, 0.2) !important;
           `;
-          console.log('⚡ Auto-fire Button: Applied green border and fixed positioning');
+          console.log('⚡ Auto-fire Button: Applied fixed positioning');
         }
         
-        // Apply container debug styling
-        mobileControls.style.cssText += `
-          border: 3px dashed yellow !important;
-          background: rgba(255, 255, 0, 0.1) !important;
-        `;
-        
-        console.log('📱 Tablet container styles applied with debug borders');
+        console.log('📱 Tablet container styles applied');
       } else {
         // For phones, position relative to canvas
         mobileControls.style.width = this.canvas.width + 'px';
@@ -3326,12 +3314,6 @@ ${JSON.stringify(data, null, 2)}
         mobileControls.style.display = 'block';
         mobileControls.style.visibility = 'visible';
         mobileControls.style.opacity = '1';
-        
-        // Add debug styling for troubleshooting
-        if (isTablet) {
-          mobileControls.style.border = '2px dashed yellow';
-          console.log('🎮 TABLET MODE: Applied debug border to mobile controls');
-        }
         
         // Sync container size with actual canvas dimensions
         this.updateMobileControlsContainer();
